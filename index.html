@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SICAC · Cuentas por Consumo</title>
+</head>
+<body>
+<title>SICAC · Cuentas por Consumo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F7F8FA;--surface:#FFFFFF;--surface-2:#F2F4F7;--surface-3:#EAECF0;--border:#E4E7EC;--border-2:#D0D5DD;
+  --ink:#101828;--ink-2:#475467;--ink-3:#98A2B3;
+  --accent:#0B5FFF;--accent-2:#0A4FD6;--accent-soft:#EBF1FF;--accent-ink:#FFFFFF;
+  --ok:#12805C;--ok-soft:#E7F6EF;--warn:#B54708;--warn-soft:#FFF4E5;--crit:#B42318;--crit-soft:#FEECEB;--vio:#5925DC;--vio-soft:#F0EBFF;
+  --side:#FBFBFC;--r1:6px;--r2:10px;--r3:14px;
+  --sh1:0 1px 2px rgba(16,24,40,.05);--sh2:0 4px 12px -2px rgba(16,24,40,.08),0 2px 4px -2px rgba(16,24,40,.04);--sh3:0 24px 48px -12px rgba(16,24,40,.25);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0C0E12;--surface:#13161B;--surface-2:#1A1E25;--surface-3:#22272F;--border:#232830;--border-2:#333A45;--ink:#F2F4F7;--ink-2:#A3ADBB;--ink-3:#667085;--accent:#4C8DFF;--accent-2:#3B7BEA;--accent-soft:#132244;--accent-ink:#0B1220;--ok:#3CCB7F;--ok-soft:#0F2A1E;--warn:#F7B155;--warn-soft:#33220C;--crit:#F97066;--crit-soft:#3A1512;--vio:#A78BFA;--vio-soft:#261C44;--side:#0F1217;--sh1:none;--sh2:none;--sh3:0 24px 48px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#0C0E12;--surface:#13161B;--surface-2:#1A1E25;--surface-3:#22272F;--border:#232830;--border-2:#333A45;--ink:#F2F4F7;--ink-2:#A3ADBB;--ink-3:#667085;--accent:#4C8DFF;--accent-2:#3B7BEA;--accent-soft:#132244;--accent-ink:#0B1220;--ok:#3CCB7F;--ok-soft:#0F2A1E;--warn:#F7B155;--warn-soft:#33220C;--crit:#F97066;--crit-soft:#3A1512;--vio:#A78BFA;--vio-soft:#261C44;--side:#0F1217;--sh1:none;--sh2:none;--sh3:0 24px 48px -12px rgba(0,0,0,.6)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text",Segoe UI,Roboto,sans-serif;font-feature-settings:"cv11","ss01","tnum";background:var(--bg);color:var(--ink);font-size:12.5px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:-.01em}
+svg.i{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* ---------- login ---------- */
+.login{min-height:100%;display:grid;grid-template-columns:1.05fr 1fr}
+@media (max-width:900px){.login{grid-template-columns:1fr}.login .brand{display:none}}
+.login .brand{background:radial-gradient(1200px 600px at 20% 0%,#1E3A8A 0%,#0B1220 55%,#0B1220 100%);color:#fff;padding:48px 56px;display:flex;flex-direction:column;justify-content:space-between}
+.login .brand .lg{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px}
+.login .brand .lg i{width:36px;height:36px;border-radius:10px;background:#fff;color:#0B1220;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:12px}
+.login .brand h2{font-size:34px;line-height:1.15;letter-spacing:-.025em;font-weight:600;margin:0 0 14px;max-width:16ch}
+.login .brand p{color:rgba(255,255,255,.7);font-size:15px;max-width:44ch;margin:0}
+.login .brand .pts{display:grid;gap:12px;margin-top:32px}
+.login .brand .pt{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:rgba(255,255,255,.85)}
+.login .brand .pt svg{stroke:#7DD3A6;margin-top:2px}
+.login .brand .ft{font-size:12px;color:rgba(255,255,255,.45)}
+.login .formwrap{display:grid;place-items:center;padding:40px 24px;background:var(--surface)}
+.login form{width:min(380px,100%)}
+.login h1{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 4px}
+.login .sub{color:var(--ink-2);margin:0 0 26px;font-size:13.5px}
+.login label{display:block;font-size:12.5px;font-weight:500;margin:14px 0 6px}
+.login input,.login select{width:100%;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-2);border-radius:8px;background:var(--surface);color:var(--ink);box-shadow:var(--sh1)}
+.login input:focus,.login select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.login .row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12.5px;color:var(--ink-2)}
+.login .btn{width:100%;justify-content:center;margin-top:18px;padding:10px}
+.login .proto{margin-top:22px;font-size:12px;color:var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:8px;line-height:1.5;display:flex;gap:8px}
+/* ---------- shell ---------- */
+.app{display:none;min-height:100%}.app.on{display:flex}
+.side{width:224px;flex:none;background:var(--side);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:10px 10px}
+.side .lg{display:flex;align-items:center;gap:10px;padding:6px 8px 14px}
+.side .lg i{width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:11px}
+.side .lg b{display:block;font-size:13.5px;letter-spacing:-.01em}.side .lg span{font-size:11.5px;color:var(--ink-3)}
+.search{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border);background:var(--surface);border-radius:8px;color:var(--ink-3);font-size:12.5px;cursor:text;margin:0 4px 10px;box-shadow:var(--sh1)}
+.search kbd{margin-left:auto;font:11px Inter;color:var(--ink-3);border:1px solid var(--border);border-radius:4px;padding:1px 5px;background:var(--surface-2)}
+.grp{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:10px 10px 3px}
+.nv{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;text-align:left;padding:5px 9px;border-radius:7px;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.nv:hover{background:var(--surface-2);color:var(--ink)}.nv.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh1);border:1px solid var(--border)}
+.nv:not(.on){border:1px solid transparent}
+.nv .cnt{margin-left:auto;font-size:11px;font-weight:600;min-width:18px;height:18px;padding:0 5px;border-radius:9px;display:grid;place-items:center;background:var(--surface-3);color:var(--ink-2)}
+.nv .cnt.warn{background:var(--warn-soft);color:var(--warn)}.nv .cnt.crit{background:var(--crit-soft);color:var(--crit)}
+.side .me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--border)}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:11.5px;flex:none}
+.side .me b{display:block;font-size:12.5px}.side .me span{font-size:11.5px;color:var(--ink-3)}
+.side .me button{margin-left:auto;border:0;background:none;color:var(--ink-3);cursor:pointer;padding:6px;border-radius:6px}.side .me button:hover{background:var(--surface-2);color:var(--ink)}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{height:40px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:12px;position:sticky;top:0;z-index:5}
+.crumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}.crumb b{color:var(--ink);font-weight:500}.crumb svg{width:14px;height:14px}
+.top .r{display:flex;align-items:center;gap:8px}
+.ib{width:34px;height:34px;border-radius:8px;border:1px solid transparent;background:none;display:grid;place-items:center;color:var(--ink-2);cursor:pointer;position:relative}
+.ib:hover{background:var(--surface-2);border-color:var(--border)}
+.ib .dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--crit);border:2px solid var(--surface)}
+.chip-proto{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--warn-soft);color:var(--warn)}
+.page{padding:16px 22px 40px;width:100%;max-width:1600px}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.ph h1{font-size:17px;font-weight:600;letter-spacing:-.02em;margin:0}
+.ph p{margin:2px 0 0;color:var(--ink-2);font-size:12.5px;max-width:90ch}
+.ph .acts{display:flex;gap:8px;flex-wrap:wrap}
+.rules{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.rule{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-2);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 7px;cursor:help}
+.rule:hover{border-color:var(--accent);color:var(--accent)}
+/* components */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;box-shadow:var(--sh1);display:flex;justify-content:space-between;gap:10px}
+.kpi .l{font-size:12px;color:var(--ink-2);font-weight:500}.kpi .v{font-size:21px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-top:3px}.kpi .s{font-size:12px;color:var(--ink-3);margin-top:4px;display:flex;gap:6px;align-items:center}
+.kpi .s.up{color:var(--ok)}.kpi .s.dn{color:var(--crit)}
+.kpi svg.sp{width:76px;height:30px;align-self:flex-end}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--sh1);margin-bottom:12px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.ch h3{margin:0;font-size:13px;font-weight:600}.ch .sub{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.cb{padding:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid32{display:grid;grid-template-columns:3fr 2fr;gap:12px}
+@media (max-width:1080px){.grid2,.grid3,.grid32{grid-template-columns:1fr}}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+.f{display:flex;flex-direction:column;gap:5px;min-width:160px}.f label{font-size:11.5px;font-weight:500;color:var(--ink-2)}
+.in{font:inherit;font-size:12.5px;padding:5px 9px;border:1px solid var(--border-2);border-radius:7px;background:var(--surface);color:var(--ink);box-shadow:var(--sh1);min-height:30px}
+.in:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.in.q{padding-left:32px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");background-repeat:no-repeat;background-size:15px;background-position:10px center}
+.btn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:7px;border:1px solid var(--border-2);background:var(--surface);color:var(--ink);cursor:pointer;box-shadow:var(--sh1);white-space:nowrap;min-height:30px}
+.btn:hover{background:var(--surface-2)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.p:hover{background:var(--accent-2)}
+.btn.g{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.ghost{border-color:transparent;box-shadow:none;background:none;color:var(--ink-2)}.btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn.sm{padding:5px 10px;font-size:12.5px;min-height:30px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.nv:focus-visible,.ib:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-size:11.5px;font-weight:500;color:var(--ink-2);padding:7px 12px;border-bottom:1px solid var(--border);background:var(--surface-2);white-space:nowrap}
+td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}tbody tr.sel{background:var(--accent-soft)}tbody tr.click{cursor:pointer}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}.faint{color:var(--ink-3)}.sm{font-size:12px}
+.st{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;padding:1px 7px 1px 6px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--ink-2);white-space:nowrap}
+.st:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink-3)}
+.st.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}.st.ok:before{background:var(--ok)}
+.st.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}.st.warn:before{background:var(--warn)}
+.st.crit{background:var(--crit-soft);border-color:transparent;color:var(--crit)}.st.crit:before{background:var(--crit)}
+.st.info{background:var(--accent-soft);border-color:transparent;color:var(--accent)}.st.info:before{background:var(--accent)}
+.st.vio{background:var(--vio-soft);border-color:transparent;color:var(--vio)}.st.vio:before{background:var(--vio)}
+.pager{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-top:1px solid var(--border);font-size:12.5px;color:var(--ink-2);flex-wrap:wrap;gap:8px}
+.pager .pg{display:flex;gap:4px}.pager .pg button{border:1px solid var(--border);background:var(--surface);min-width:28px;height:28px;border-radius:6px;font:inherit;font-size:12px;color:var(--ink-2);cursor:pointer}.pager .pg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dl{display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;font-size:13px}.dl dt{color:var(--ink-2)}.dl dd{margin:0}
+.callout{display:flex;gap:10px;padding:12px 14px;border-radius:var(--r2);font-size:13px;line-height:1.5;margin-bottom:16px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2)}
+.callout.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}.callout.info{background:var(--accent-soft);border-color:transparent;color:var(--ink)}
+.callout svg{margin-top:2px}
+.bar{display:grid;grid-template-columns:190px 1fr 80px;gap:10px;align-items:center;font-size:12px;margin-bottom:6px}
+.bar .tr{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden}.bar .fl{height:100%;background:var(--accent);border-radius:4px}
+.bar .fl.g{background:var(--ok)}.bar .fl.a{background:var(--warn)}.bar .fl.r{background:var(--crit)}.bar .fl.n{background:var(--ink-3)}
+.bar .v{text-align:right;color:var(--ink-2);font-variant-numeric:tabular-nums}
+/* stepper */
+.stepper{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative;margin:2px 0 12px}
+@media (max-width:1000px){.stepper{grid-template-columns:repeat(3,1fr)}}
+.sp{position:relative;padding:0 12px 0 0}
+.sp .dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-2);background:var(--surface);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--ink-2);position:relative;z-index:1}
+.sp:not(:last-child):after{content:"";position:absolute;top:13px;left:28px;right:0;height:2px;background:var(--border)}
+.sp.done .dot{background:var(--ok);border-color:var(--ok);color:#fff}.sp.done:after{background:var(--ok)}
+.sp.run .dot{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}.sp.ready .dot{border-color:var(--ink);color:var(--ink)}
+.sp b{display:block;font-size:12.5px;margin-top:10px}.sp span{display:block;font-size:11.5px;color:var(--ink-3)}
+.prog{height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-top:10px}.prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.log{font-family:"JetBrains Mono",monospace;font-size:11.5px;line-height:1.65;background:var(--surface-2);border:1px solid var(--border);color:var(--ink);border-radius:8px;padding:12px 14px;max-height:280px;overflow:auto}
+.log .t{color:var(--ink-3);margin-right:8px}.log .ok{color:var(--ok)}.log .w{color:var(--warn)}
+.folder{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:10px}
+.folder .fh{display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink-2);padding:8px 12px;background:var(--surface-2)}
+.folder .f{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-top:1px solid var(--border);font-size:12.5px;align-items:center}
+.folder .f .fn{font-family:"JetBrains Mono",monospace;font-size:11.5px;display:flex;gap:8px;align-items:center}.folder .f.new .fn{color:var(--accent);font-weight:600}
+.folder .empty{padding:10px 12px;color:var(--ink-3);font-size:12px;border-top:1px solid var(--border)}
+.preview{font-family:"JetBrains Mono",monospace;font-size:11px;background:#0B1220;color:#D6DEEB;border-radius:8px;padding:12px 14px;overflow:auto;white-space:pre;line-height:1.55}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:20px 1fr;gap:10px;padding-bottom:14px;position:relative;font-size:13px}
+.tl li:before{content:"";position:absolute;left:9px;top:18px;bottom:-2px;width:2px;background:var(--border)}.tl li:last-child:before{display:none}
+.tl .d{width:20px;height:20px;border-radius:50%;background:var(--ok);display:grid;place-items:center;color:#fff}.tl .d svg{width:12px;height:12px;stroke-width:2.5}
+.tl li.pend .d{background:var(--surface-3);color:var(--ink-3)}
+.tl .s{font-size:12px;color:var(--ink-2)}
+.tabs{display:flex;gap:4px;padding:6px 12px 0;border-bottom:1px solid var(--border)}
+.tabs button{border:0;background:none;font:inherit;font-size:13px;font-weight:500;color:var(--ink-2);padding:9px 10px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.empty{padding:36px 20px;text-align:center;color:var(--ink-2)}.empty svg{width:28px;height:28px;stroke:var(--ink-3);margin-bottom:8px}.empty b{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+.overlay{position:fixed;inset:0;background:rgba(16,24,40,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:20;backdrop-filter:blur(2px)}
+.overlay.on{display:flex}
+.modal{background:var(--surface);border-radius:var(--r3);width:100%;max-width:720px;max-height:92vh;overflow:auto;box-shadow:var(--sh3);border:1px solid var(--border)}
+.mh{padding:18px 22px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mh h3{margin:0;font-size:16px;font-weight:600;letter-spacing:-.01em}.mh p{margin:3px 0 0;color:var(--ink-2);font-size:13px}
+.mb{padding:18px 22px}.mf{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:var(--bg);padding:11px 14px 11px 12px;border-radius:10px;font-size:13px;display:flex;gap:10px;align-items:center;opacity:0;transform:translateY(6px);transition:all .2s;z-index:30;pointer-events:none;max-width:440px;box-shadow:var(--sh3)}
+.toast.show{opacity:1;transform:none}.toast svg{stroke:#3CCB7F}
+.tip{position:fixed;z-index:40;background:var(--ink);color:var(--bg);padding:9px 12px;border-radius:8px;font-size:12.5px;max-width:360px;display:none;line-height:1.45;box-shadow:var(--sh2)}
+.foot{margin-top:auto;padding:8px 22px;font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.donut{display:flex;align-items:center;gap:20px}.donut svg{width:112px;height:112px;flex:none}
+.legend{display:grid;gap:8px;font-size:12.5px}.legend div{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center}.legend i{width:10px;height:10px;border-radius:3px;display:block}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:820px){.app.on{flex-direction:column}.side{width:100%;height:auto;position:static}.page{padding:16px}.top{padding:0 16px}}
+
+/* ---------- identidad institucional (estilo Reporte de Aportes) ---------- */
+:root, :root[data-theme="dark"], :root:not([data-theme="light"]){--bg:#F4F7FA;--surface:#FFFFFF;--surface-2:#F3F6F9;--surface-3:#E9EEF3;--border:#E1E7ED;--border-2:#CBD4DD;--ink:#1F2A37;--ink-2:#55657A;--ink-3:#8A98AA;--accent:#1B8FD6;--accent-2:#156FA9;--accent-soft:#E6F2FB;--accent-ink:#FFFFFF;--ok:#2E9E3A;--ok-soft:#E8F6E9;--warn:#B86E00;--warn-soft:#FFF3E0;--crit:#C62828;--crit-soft:#FDECEC;--vio:#5B4BC4;--vio-soft:#EEECFA;--side:#FFFFFF;--sh1:0 1px 2px rgba(20,40,60,.05);--sh2:0 4px 12px -2px rgba(20,40,60,.08);--sh3:0 24px 48px -12px rgba(20,40,60,.25)}
+body{color-scheme:light}
+.onphd{background:linear-gradient(90deg,#1B8FD6 0%,#1B8FD6 52%,#6CC04A 100%);color:#fff;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 22px;border-radius:0 0 18px 0}
+.onphd .wm{display:flex;align-items:center;gap:12px}
+.onphd .wm b{font-size:30px;font-weight:800;letter-spacing:.5px;line-height:1}
+.onphd .wm span{font-size:10.5px;line-height:1.15;border-left:2px solid rgba(255,255,255,.85);padding-left:10px;opacity:.95}
+.onphd h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.onphd .env{font-size:11px;font-weight:600;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);padding:2px 9px;border-radius:999px;margin-left:12px;vertical-align:middle}
+.top{height:40px;background:var(--surface);border-bottom:1px solid var(--border)}
+.side .lg i{background:linear-gradient(135deg,#1B8FD6,#6CC04A);color:#fff}
+.nv.on{border-color:transparent;background:var(--accent-soft);color:var(--accent-2);box-shadow:none}
+.nv.on svg{stroke:var(--accent)}
+.kpi{border:2px dashed #BFDD8A;border-radius:12px;box-shadow:none}
+.kpi .v{color:var(--ink)}
+.card{border-radius:12px}
+.ch{background:var(--surface)}
+th{background:#F3F8FC;color:#3E5871}
+.btn.p{background:linear-gradient(90deg,#1B8FD6,#1A7FC0);border-color:#1B8FD6}
+.btn.g{background:#3CB043;border-color:#3CB043}
+.st.ok{background:#E8F6E9;color:#2E7D32}.st.ok:before{background:#3CB043}
+.chip-proto{background:#FFF3E0;color:#B86E00}
+.login .brand{background:linear-gradient(160deg,#1B8FD6 0%,#156FA9 45%,#2E9E3A 100%)}
+.login .brand .lg i{background:#fff;color:#1B8FD6}
+.login .brand .pt svg{stroke:#DFF5D0}
+.login .btn{background:linear-gradient(90deg,#1B8FD6,#1A7FC0)}
+.foot{background:var(--surface)}
+.preview{background:#1F2A37}
+</style>
+<div class="login" id="login">
+  <div class="brand">
+    <div class="lg"><i>ONP</i>SICAC · Sistema de Control de Cuentas por Consumo</div>
+    <div>
+      <h2>Control de cuentas por consumo de los afiliados al SNP</h2>
+      <p>Extrae el padrón del PUA, intercambia archivos con la SBS y mantiene el registro de cada afiliado con su EAF y su fecha de apertura.</p>
+      <div class="pts">
+        <div class="pt"><svg class="i" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Un afiliado se envía una sola vez; nada se sobrescribe.</div>
+        <div class="pt"><svg class="i" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cada depósito y cada respuesta quedan con constancia y bitácora.</div>
+        <div class="pt"><svg class="i" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Las cifras cuadran entre módulos: embudo, bandejas y reportes.</div>
+      </div>
+    </div>
+    <div class="ft">Oficina de Normalización Previsional · Entorno de prueba · sin valor oficial · datos y usuarios ficticios</div>
+  </div>
+  <div class="formwrap"><form id="loginForm">
+    <h1>Iniciar sesión</h1><p class="sub">Entorno de prueba. Elija un perfil.</p>
+    <label for="u">Usuario</label><input id="u" value="usuario.prueba01" autocomplete="username">
+    <label for="p">Contraseña</label><input id="p" type="password" value="••••••••" autocomplete="current-password">
+    <label for="rol">Perfil</label><select id="rol"><option>Especialista de Recaudación</option><option>Analista de Afiliación</option><option>Analista de Recaudación</option><option>Consulta</option></select>
+    <div class="row"><span>Acceso de prueba</span><a href="#" style="color:var(--accent);text-decoration:none">¿Olvidó su contraseña?</a></div>
+    <button class="btn p" type="submit">Ingresar</button>
+    <div class="proto"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span><b>Prototipo · sin valor oficial.</b> Datos y usuarios ficticios. Acompaña al Formato de requerimiento (Anexo N° 2, v6).</span></div>
+  </form></div>
+</div>
+
+<div class="app" id="app">
+  <aside class="side">
+    <div class="lg"><i>ONP</i><div><b>SICAC</b><span>Cuentas por consumo · SNP</span></div></div>
+    <div class="search" id="gsearch"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar…<kbd>⌘K</kbd></div>
+    <nav id="navItems"></nav>
+    <div class="me"><div class="avatar" id="avatar">UP</div><div><b id="navUser">Usuario de prueba 01</b><span id="navRol">Especialista de Recaudación</span></div><button id="logout" title="Cerrar sesión"><svg class="i" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button></div>
+  </aside>
+  <div class="main">
+    <div class="onphd"><div class="wm"><b>ONP</b><span>Oficina de<br>Normalización<br>Previsional</span></div><h2><span id="modTitle">Tablero</span><span class="env">ENTORNO DE PRUEBA</span></h2></div>
+    <div class="top"><div class="crumb" id="crumb"></div><div class="r"><span class="sm faint" id="sync"></span><button class="ib" id="bell" title="Avisos"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button><span class="sm muted" id="hoy"></span></div></div>
+    <div class="page" id="page"></div>
+    <div class="foot"><span>ONP · SICAC v0.7.2 · entorno de prueba · sesión <span id="ses">29:59</span></span><span>Datos ficticios · sin valor oficial</span></div>
+  </div>
+</div>
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<div class="tip" id="tip"></div>
+
+<script>
+// ======================= Iconos =======================
+const IC={grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',inbox:'<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',refresh:'<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',updown:'<path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>',list:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',chart:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',check:'<polyline points="20 6 9 17 4 12"/>',chev:'<polyline points="9 18 15 12 9 6"/>',x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',up:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',down:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',play:'<polygon points="5 3 19 12 5 21 5 3"/>',alert:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',ext:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'};
+const ic=(n,cls='i')=>`<svg class="${cls}" viewBox="0 0 24 24">${IC[n]}</svg>`;
+// ======================= Datos de prueba (ficticios, coherentes) =======================
+const RULES={'01':['Extracción del padrón','Extrae del PUA, a la fecha de corte, a los afiliados que cumplen las cuatro condiciones; registra a los excluidos con su motivo.'],'02':['Tipos de envío','Stock (hasta el 31/10/2026) y flujo mensual.'],'03':['Envío único','Un DNI ya aceptado por la SBS no vuelve a enviarse, salvo observación.'],'04':['Generación del archivo','Estructura de la SBS: ANSI, cabecera, 295 caracteres, orden por DNI.'],'05':['Aprobación','Un usuario autorizado aprueba antes del depósito.'],'06':['Depósito','Ruta compartida, SBSNet o SFTP; constancia, aviso, reintento y alerta.'],'07':['Recojo de la respuesta','Revisa la carpeta de respuesta y recoge el archivo de la SBS.'],'08':['Validación','Estructura, EAF en catálogo, fecha válida.'],'09':['Cruce','Conforme · Cambio de EAF · Observado · Pendiente.'],'10':['Observaciones a la SBS','Listado de observaciones y de afiliados sin cuenta.'],'11':['Registro de afiliados','Una fila por afiliado con EAF, apertura, inicio del cómputo, estado e historial.'],'12':['Inicio del cómputo','Primer día del mes siguiente a la apertura; mínimo 01/01/2027.'],'13':['Pantallas de control','Bandejas, consulta del afiliado y reportes.'],'14':['Ceses y cambios','Detección mensual; archivo anual hasta el 15 de marzo.'],'15':['Stock transitorio','Archivos al 31/01/2027 y 31/01/2028.'],'16':['Relación del MEF','Carga la relación, identifica afiliados al SNP y genera el archivo de DNI.'],'17':['EAF actualizada','Recoge la respuesta con la EAF vigente y actualiza el registro.'],'18':['Plazos','Pendiente / Dentro de plazo / Fuera de plazo y alertas.'],'19':['Parámetros','EAF, edad de cese, plazos, rutas, credenciales, correos.'],'20':['Perfiles y log','Perfiles por rol y registro de toda acción.'],'21':['Reporte de Aportes','Estado, EAF, apertura y desde cuándo cuentan las boletas.']};
+const EAF={E01:'EAF de prueba 1',E02:'EAF de prueba 2',E03:'EAF de prueba 3',E04:'EAF de prueba 4'};
+const U={esp:'Usuario de prueba 01',afi:'Usuario de prueba 02',ana:'Usuario de prueba 03',con:'Usuario de prueba 04'};
+let envios=[
+ {id:'ENV-2026-001',per:'Stock al 31/10/2026',tipo:'Stock',corte:'31/10/2026',reg:1842310,exc:214590,estado:'Respondido',gen:'03/11/2026 23:00',apr:'05/11/2026 · '+U.esp,fecha:'06/11/2026 09:12',plazo:'06/11/2026',resp:'31/01/2027'},
+ {id:'ENV-2026-002',per:'Noviembre 2026',tipo:'Flujo',corte:'30/11/2026',reg:12438,exc:1122,estado:'Respondido',gen:'30/11/2026 23:00',apr:'04/12/2026 · '+U.esp,fecha:'07/12/2026 08:40',plazo:'09/12/2026',resp:'31/01/2027'},
+ {id:'ENV-2026-003',per:'Diciembre 2026',tipo:'Flujo',corte:'31/12/2026',reg:11976,exc:1301,estado:'Respondido',gen:'31/12/2026 23:00',apr:'05/01/2027 · '+U.esp,fecha:'07/01/2027 09:05',plazo:'08/01/2027',resp:'28/02/2027'},
+ {id:'ENV-2027-001',per:'Enero 2027',tipo:'Flujo',corte:'31/01/2027',reg:13102,exc:1210,estado:'Depositado',gen:'31/01/2027 23:00',apr:'03/02/2027 · '+U.esp,fecha:'04/02/2027 10:22',plazo:'05/02/2027',resp:'31/03/2027'},
+ {id:'ENV-2027-002',per:'Febrero 2027',tipo:'Flujo',corte:'28/02/2027',reg:12655,exc:1188,estado:'Aprobado',gen:'28/02/2027 23:00',apr:'02/03/2027 · '+U.esp,fecha:'',plazo:'05/03/2027',resp:'30/04/2027'},
+ {id:'ENV-2027-003',per:'Marzo 2027',tipo:'Flujo',corte:'31/03/2027',reg:12980,exc:1240,estado:'Pendiente de extracción',gen:'',apr:'',fecha:'',plazo:'07/04/2027',resp:'31/05/2027'},
+];
+const MOTIVOS=[['Pensionista del SNP',.46],['Mayor de 65 años',.31],['Dato incompleto (corregir en el PUA)',.10],['Fallecido (RENIEC)',.09],['Beneficio previsional en el SPP',.04]];
+const excluidos=[{dni:'90000101',nom:'APELLIDO PRUEBA, AFILIADO 101',motivo:'Pensionista del SNP',det:'Pensión otorgada el 12/03/2021'},{dni:'90000102',nom:'APELLIDO PRUEBA, AFILIADO 102',motivo:'Mayor de 65 años',det:'Nacido el 04/02/1961'},{dni:'90000103',nom:'APELLIDO PRUEBA, AFILIADO 103',motivo:'Dato incompleto',det:'Sin dirección en el PUA'},{dni:'90000104',nom:'APELLIDO PRUEBA, AFILIADO 104',motivo:'Fallecido',det:'RENIEC: defunción 22/11/2026'},{dni:'90000105',nom:'APELLIDO PRUEBA, AFILIADO 105',motivo:'Dato incompleto',det:'Apellido paterno vacío'},{dni:'90000106',nom:'APELLIDO PRUEBA, AFILIADO 106',motivo:'Beneficio previsional en el SPP',det:'Informado por la SBS'},{dni:'90000107',nom:'APELLIDO PRUEBA, AFILIADO 107',motivo:'Pensionista del SNP',det:'Pensión otorgada el 08/09/2019'},{dni:'90000108',nom:'APELLIDO PRUEBA, AFILIADO 108',motivo:'Mayor de 65 años',det:'Nacido el 15/01/1962'}];
+let respuestas=[
+ {id:'RES-2027-001',arch:'RESP_SBS_202610.txt',orig:'Stock al 31/10/2026',rec:'29/01/2027 07:30',plazo:'31/01/2027',conf:1829825,camb:0,obs:2485,pend:10000,estado:'Procesado'},
+ {id:'RES-2027-002',arch:'RESP_SBS_202611.txt',orig:'Noviembre 2026',rec:'29/01/2027 07:31',plazo:'31/01/2027',conf:12338,camb:0,obs:36,pend:64,estado:'Procesado'},
+ {id:'RES-2027-003',arch:'RESP_SBS_202612.txt',orig:'Diciembre 2026',rec:'26/02/2027 07:30',plazo:'28/02/2027',conf:11893,camb:52,obs:41,pend:42,estado:'Procesado'},
+ {id:'RES-2027-004',arch:'—',orig:'Enero 2027',rec:'',plazo:'31/03/2027',conf:0,camb:0,obs:0,pend:0,estado:'En espera'},
+];
+const observaciones=[{dni:'90000201',tipo:'DNI no informado en el padrón',valor:'E03 · 20270112'},{dni:'90000202',tipo:'DNI duplicado en el archivo',valor:'2 registros'},{dni:'90000203',tipo:'EAF fuera de catálogo',valor:'XYZ'},{dni:'90000204',tipo:'Fecha de apertura inválida',valor:'20261115'},{dni:'90000205',tipo:'DNI no informado en el padrón',valor:'E01 · 20270115'}];
+const porEAF={E03:701240,E01:512380,E02:398110,E04:242326};
+let afiliados=[
+ {dni:'90000001',nom:'APELLIDO PRUEBA, AFILIADO 001',nac:'13/02/1975',afi:'01/05/2001',per:'Stock al 31/10/2026',eaf:'E03',ape:'15/12/2026',estado:'Con cuenta'},
+ {dni:'90000002',nom:'APELLIDO PRUEBA, AFILIADO 002',nac:'21/07/1984',afi:'03/03/2008',per:'Stock al 31/10/2026',eaf:'E01',ape:'10/12/2026',estado:'Con cuenta'},
+ {dni:'90000003',nom:'APELLIDO PRUEBA, AFILIADO 003',nac:'02/11/1989',afi:'15/01/2012',per:'Stock al 31/10/2026',eaf:'E02',ape:'18/12/2026',estado:'Con cuenta',hist:[['E04','18/12/2026'],['E02','03/02/2027']]},
+ {dni:'90000004',nom:'APELLIDO PRUEBA, AFILIADO 004',nac:'14/05/1998',afi:'02/11/2026',per:'Noviembre 2026',eaf:'E02',ape:'05/01/2027',estado:'Con cuenta'},
+ {dni:'90000005',nom:'APELLIDO PRUEBA, AFILIADO 005',nac:'30/09/2001',afi:'18/11/2026',per:'Noviembre 2026',eaf:'',ape:'',estado:'Pendiente'},
+ {dni:'90000006',nom:'APELLIDO PRUEBA, AFILIADO 006',nac:'08/03/1996',afi:'09/12/2026',per:'Diciembre 2026',eaf:'E03',ape:'20/01/2027',estado:'Con cuenta'},
+ {dni:'90000007',nom:'APELLIDO PRUEBA, AFILIADO 007',nac:'11/01/1993',afi:'22/12/2026',per:'Diciembre 2026',eaf:'',ape:'',estado:'Observado'},
+ {dni:'90000008',nom:'APELLIDO PRUEBA, AFILIADO 008',nac:'19/06/1962',afi:'01/04/1985',per:'Stock al 31/10/2026',eaf:'E01',ape:'12/12/2026',estado:'Cese',cese:'03 · Cumple 65 años · 19/06/2027'},
+ {dni:'90000009',nom:'APELLIDO PRUEBA, AFILIADO 009',nac:'25/12/1999',afi:'14/01/2027',per:'Enero 2027',eaf:'',ape:'',estado:'Informado a SBS'},
+ {dni:'90000010',nom:'APELLIDO PRUEBA, AFILIADO 010',nac:'03/08/1979',afi:'10/06/2003',per:'Stock al 31/10/2026',eaf:'E04',ape:'22/12/2026',estado:'Con cuenta'},
+ {dni:'90000011',nom:'APELLIDO PRUEBA, AFILIADO 011',nac:'27/02/1986',afi:'01/09/2010',per:'Stock al 31/10/2026',eaf:'E03',ape:'09/12/2026',estado:'Con cuenta'},
+ {dni:'90000012',nom:'APELLIDO PRUEBA, AFILIADO 012',nac:'12/12/1990',afi:'20/03/2015',per:'Stock al 31/10/2026',eaf:'E01',ape:'14/12/2026',estado:'Con cuenta'},
+];
+const CESES={fall:1834,pres:1210,edad:1102,otros:72,cambios:3391};
+let medio='SFTP';
+let bitacora=[['02/03/2027 11:14',U.esp,'Padrón mensual','Aprobó el padrón ENV-2027-002 (Febrero 2027)'],['26/02/2027 09:10','Sistema','Respuestas','Depositó OBS_202612.txt para la SBS (41 observaciones, 42 sin cuenta)'],['26/02/2027 07:30','Sistema','Respuestas','Recogió RESP_SBS_202612.txt · 11 986 registros · cruce conforme'],['04/02/2027 10:22','Sistema','Padrón mensual','Depositó PADRON_SNP_202701.txt en SFTP · constancia 7f3a…c91e'],['03/02/2027 16:40',U.esp,'Padrón mensual','Aprobó el padrón ENV-2027-001 (Enero 2027)'],['31/01/2027 23:00','Sistema','Padrón mensual','Extracción del PUA · corte 31/01/2027 · 13 102 cumplen · 1 210 excluidos']];
+const TOT=(()=>{const resp=respuestas.filter(r=>r.rec);const informados=envios.filter(e=>['Respondido','Depositado'].includes(e.estado)).reduce((a,e)=>a+e.reg,0);const conCuenta=resp.reduce((a,r)=>a+r.conf,0);const pend=resp.reduce((a,r)=>a+r.pend,0);const obs=resp.reduce((a,r)=>a+r.obs,0);return {informados,conCuenta,pend,obs,espera:informados-conCuenta-pend-obs,cese:CESES.fall+CESES.pres+CESES.edad+CESES.otros}})();
+const SPARK={inf:[1842310,1854748,1866724,1879826],cc:[1829825,1842163,1854056,1854056],pend:[10000,10064,10106,10106],obs:[2485,2521,2562,2562]};
+
+// ======================= Utilidades =======================
+const $=(s,el=document)=>el.querySelector(s);const $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const fmt=n=>n.toLocaleString('es-PE');const pct=(a,b)=>(a/b*100).toFixed(1).replace('.',',')+' %';
+const st=t=>{const m={'Con cuenta':'ok','Respondido':'ok','Procesado':'ok','Depositado':'info','Aprobado':'vio','Informado a SBS':'info','Pendiente':'warn','En espera':'warn','Observado':'crit','Generado':'','Cese':'','Programado':'','Pendiente de extracción':''};return `<span class="st ${m[t]||''}">${t}</span>`};
+const plazo=(ok,txt)=>ok?'<span class="st ok">Dentro de plazo</span>':`<span class="st warn">Vence ${txt}</span>`;
+const rules=(...ids)=>`<div class="rules"><span class="sm faint">Reglas</span>${ids.map(i=>`<span class="rule" data-r="${i}">RN-APC-${i}</span>`).join('')}</div>`;
+const inicioComputo=ape=>{if(!ape)return '—';const [d,m,y]=ape.split('/').map(Number);let mm=m+1,yy=y;if(mm>12){mm=1;yy++}return yy<2027?'01/01/2027':`01/${String(mm).padStart(2,'0')}/${yy}`};
+const bars=(rows,cls='')=>{const max=Math.max(...rows.map(r=>r[1]));return rows.map(([k,v,c])=>`<div class="bar"><span>${k}</span><div class="tr"><div class="fl ${c||cls}" style="width:${v/max*100}%"></div></div><span class="v">${fmt(v)}</span></div>`).join('')};
+const spark=(arr,color='var(--accent)')=>{const w=88,h=36,mn=Math.min(...arr),mx=Math.max(...arr);const pts=arr.map((v,i)=>[i/(arr.length-1)*(w-4)+2,h-4-((v-mn)/((mx-mn)||1))*(h-10)]);const d=pts.map(p=>p.join(',')).join(' ');return `<svg class="sp" viewBox="0 0 ${w} ${h}"><polyline points="${d}" fill="none" stroke="${color}" stroke-width="1.75" stroke-linejoin="round"/><circle cx="${pts.at(-1)[0]}" cy="${pts.at(-1)[1]}" r="2.5" fill="${color}"/></svg>`};
+const donut=(items)=>{const tot=items.reduce((a,x)=>a+x[1],0);const C=2*Math.PI*44;let off=0;const cols=['var(--accent)','var(--vio)','var(--ok)','var(--warn)'];return `<div class="donut"><svg viewBox="0 0 120 120">${items.map((x,i)=>{const len=x[1]/tot*C;const s=`<circle cx="60" cy="60" r="44" fill="none" stroke="${cols[i]}" stroke-width="16" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"/>`;off+=len;return s}).join('')}<text x="60" y="57" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">${fmt(tot)}</text><text x="60" y="72" text-anchor="middle" font-size="9" fill="var(--ink-2)">con cuenta</text></svg><div class="legend">${items.map((x,i)=>`<div><i style="background:${cols[i]}"></i><span>${x[0]}</span><b>${pct(x[1],tot)}</b></div>`).join('')}</div></div>`};
+const now=()=>{const d=new Date();return d.toLocaleDateString('es-PE')+' '+d.toTimeString().slice(0,5)};
+function toast(t){const e=$('#toast');e.innerHTML=ic('check')+'<span>'+t+'</span>';e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2800)}
+function modal(title,sub,body,foot){$('#modal').innerHTML=`<div class="mh"><div><h3>${title}</h3>${sub?`<p>${sub}</p>`:''}</div><button class="ib" id="mclose">${ic('x')}</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;$('#overlay').classList.add('on');$('#mclose').onclick=closeModal;bindTips($('#modal'));const c=$('#mcan');if(c)c.onclick=closeModal}
+function closeModal(){$('#overlay').classList.remove('on')}
+function pager(total,page=1,size=10){const pages=Math.max(1,Math.ceil(total/size));const from=total?(page-1)*size+1:0;const to=Math.min(total,page*size);return `<div class="pager"><span>${fmt(from)}–${fmt(to)} de ${fmt(total)}</span><div class="pg">${[...Array(Math.min(pages,5))].map((_,i)=>`<button class="${i+1===page?'on':''}">${i+1}</button>`).join('')}${pages>5?'<button>…</button>':''}</div></div>`}
+function ph(t,d,r,acts){return `<div class="ph"><div><h1>${t}</h1><p>${d}</p>${r||''}</div>${acts?`<div class="acts">${acts}</div>`:''}</div>`}
+const emptyBox=(t,s)=>`<div class="empty">${ic('inbox')}<b>${t}</b>${s}</div>`;
+const user={nombre:U.esp,rol:'Especialista de Recaudación'};const puede=(...r)=>r.includes(user.rol);
+
+// ======================= Navegación =======================
+const NAV=[['General',[['tablero','Tablero','grid']]],['Procesos',[['padron','Padrón mensual','file'],['respuestas','Respuestas de la SBS','inbox'],['anuales','Envíos anuales','cal'],['eaf','Actualización de EAF','refresh']]],['Consultas',[['afiliados','Afiliados','users'],['intercambios','Intercambios','updown'],['bitacora','Bitácora','list']]],['Análisis',[['reportes','Reportes','chart']]],['Administración',[['parametros','Parámetros','sliders'],['usuarios','Usuarios y perfiles','shield'],['reglas','Reglas del requerimiento','book']]]];
+const M={};
+
+// ======================= Tablero =======================
+M.tablero=()=>{const excTot=envios.reduce((a,e)=>a+e.exc,0),noEnv=envios.filter(e=>!['Respondido','Depositado'].includes(e.estado)).reduce((a,e)=>a+e.reg,0),env=TOT.informados,eleg=env+noEnv,pua=eleg+excTot,cc=TOT.conCuenta,act=cc-TOT.cese;
+ const F=[['Afiliados al SNP en el PUA',pua],['Cumplen las 4 condiciones',eleg],['Enviados a la SBS',env],['Con cuenta abierta',cc],['Activos (sin cese)',act]];
+ return `${ph('Tablero','Estado general del proceso al '+new Date().toLocaleDateString('es-PE')+'. Cifras acumuladas desde el primer envío.',rules('11','13','18'),`<button class="btn" data-go="reportes">${ic('chart')}Ver reportes</button><button class="btn p" data-go="padron">${ic('play')}Proceso del mes</button>`)}
+ <div class="kpis">
+  <div class="kpi"><div><div class="l">Informados a la SBS</div><div class="v">${fmt(env)}</div><div class="s up">+${fmt(13102)} en el último envío</div></div>${spark(SPARK.inf)}</div>
+  <div class="kpi"><div><div class="l">Con cuenta abierta</div><div class="v">${fmt(cc)}</div><div class="s">${pct(cc,env)} de los informados</div></div>${spark(SPARK.cc,'var(--ok)')}</div>
+  <div class="kpi"><div><div class="l">Pendientes de apertura</div><div class="v">${fmt(TOT.pend)}</div><div class="s">sin respuesta al vencer el plazo</div></div>${spark(SPARK.pend,'var(--warn)')}</div>
+  <div class="kpi"><div><div class="l">Observados por la SBS</div><div class="v">${fmt(TOT.obs)}</div><div class="s">listados enviados a la SBS</div></div>${spark(SPARK.obs,'var(--crit)')}</div>
+ </div>
+ <div class="grid32">
+  <div class="card"><div class="ch"><div><h3>Embudo de afiliados</h3><div class="sub">del PUA a la cuenta activa · corte 28/02/2027</div></div></div><div class="cb">${F.map(([k,v],i)=>`<div class="bar"><span>${k}</span><div class="tr"><div class="fl ${i===4?'g':''}" style="width:${v/pua*100}%;opacity:${.45+i*.14}"></div></div><span class="v" style="color:var(--ink);font-weight:600">${fmt(v)}</span></div>`).join('')}<div class="sm faint" style="margin-top:10px">Excluidos ${fmt(excTot)} · elegibles sin depositar ${fmt(noEnv)} · enviados sin cuenta ${fmt(env-cc)} · con cese ${fmt(TOT.cese)}</div></div></div>
+  <div class="card"><div class="ch"><h3>Con cuenta por EAF</h3></div><div class="cb">${donut(Object.entries(porEAF).map(([c,v])=>[EAF[c],v]))}</div></div>
+ </div>
+ <div class="grid2">
+  <div class="card"><div class="ch"><h3>Pendientes por rol</h3><span class="st warn">2 por vencer</span></div><div class="tw"><table><thead><tr><th>Tarea</th><th>Responsable</th><th>Vence</th><th>Estado</th></tr></thead><tbody>
+   <tr><td>Aprobar y depositar el padrón de febrero 2027 (12 655)</td><td>Recaudación</td><td>05/03/2027</td><td><span class="st warn">Por vencer</span></td></tr>
+   <tr><td>Corregir 1 240 datos incompletos en el PUA</td><td>Afiliación</td><td>30/04/2027</td><td><span class="st info">En curso</span></td></tr>
+   <tr><td>Reportar a la SBS ${fmt(TOT.pend)} pendientes > 60 días</td><td>Recaudación</td><td>31/03/2027</td><td><span class="st warn">Por vencer</span></td></tr>
+   <tr><td>Confirmar 38 posibles fallecidos con RENIEC</td><td>Afiliación</td><td>—</td><td><span class="st">Sin plazo</span></td></tr>
+   <tr><td>Extracción del padrón de marzo 2027</td><td>Sistema</td><td>31/03 23:00</td><td><span class="st">Programado</span></td></tr>
+  </tbody></table></div></div>
+  <div class="card"><div class="ch"><h3>Envíos recientes</h3><button class="btn ghost sm" data-go="padron">Ver todos ${ic('chev')}</button></div><div class="tw"><table><thead><tr><th>Periodo</th><th class="n">Enviados</th><th>Estado</th><th>Plazo</th></tr></thead><tbody>
+  ${envios.slice().reverse().map(e=>`<tr><td><b style="font-weight:500">${e.per}</b></td><td class="n">${e.estado==='Pendiente de extracción'?'—':fmt(e.reg)}</td><td>${st(e.estado)}</td><td>${e.fecha?plazo(true):plazo(false,e.plazo)}</td></tr>`).join('')}
+  </tbody></table></div></div>
+ </div>`};
+
+// ======================= Padrón mensual + proceso =======================
+const P={step:0,running:false,prog:0,log:[],evaluados:2126112,cumplen:12980,exc:1240,prev:envios.slice(0,5).reduce((a,x)=>a+x.reg,0),envio:[],resp:[],file:null,resfile:null,conf:0,camb:0,obs:0,pend:0};
+function plog(t,c=''){P.log.push([now(),t,c]);bitacora.unshift([now(),'Sistema','Padrón mensual',t]);const l=$('#plog');if(l){l.innerHTML=P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join('');l.scrollTop=l.scrollHeight}}
+function runSeq(steps,done){P.running=true;render();let i=0;const tick=()=>{if(i>=steps.length){P.running=false;done();render();return}const [ms,pc,msg,cls]=steps[i++];setTimeout(()=>{P.prog=pc;const b=$('#pbar');if(b)b.style.width=pc+'%';if(msg)plog(msg,cls);tick()},ms)};tick()}
+const STG=[['Extraer del PUA','4 condiciones · corte'],['Generar archivo','estructura SBS'],['Aprobar','Especialista'],['Depositar','carpeta de envío'],['Recibir respuesta','carpeta de respuesta'],['Actualizar registro','EAF y apertura']];
+M.padron=()=>{const sel=state.env??5;const e=envios[sel];const tab=state.ptab||'resumen';const prev=envios.slice(0,sel).reduce((a,x)=>a+x.reg,0);const excl=MOTIVOS.map(([k,p])=>[k,Math.round(e.exc*p)]);
+ const lbl=['Ejecutar extracción','Generar archivo','Aprobar','Depositar en '+medio,'Revisar carpeta de respuesta','Actualizar registro'];
+ const proc=sel===5?`<div class="card"><div class="ch"><div><h3>Proceso del periodo · Marzo 2027</h3><div class="sub">corte 31/03/2027 · depósito hasta el 07/04/2027 · medio ${medio}</div></div><div class="acts">${P.step>0?`<button class="btn ghost sm" id="preset">Reiniciar (prueba)</button>`:''}${P.step<6?`<button class="btn p" id="pgo" ${P.running||(P.step===2&&!puede('Especialista de Recaudación'))?'disabled':''}>${P.running?ic('clock')+'Procesando…':ic('play')+lbl[P.step]}</button>`:'<span class="st ok">Periodo cerrado</span>'}</div></div>
+  <div class="cb"><div class="stepper">${STG.map(([t,d],i)=>`<div class="sp ${P.step>i?'done':P.step===i?(P.running?'run':'ready'):''}"><div class="dot">${P.step>i?ic('check'):i+1}</div><b>${t}</b><span>${d}</span>${P.step===i&&P.running?`<div class="prog"><i id="pbar" style="width:${P.prog}%"></i></div>`:''}</div>`).join('')}</div>
+  ${P.step===2&&!puede('Especialista de Recaudación')?`<div class="callout warn">${ic('alert')}<span>La aprobación requiere el perfil <b>Especialista de Recaudación</b>. Inicie sesión con ese perfil para continuar.</span></div>`:''}
+  <div class="grid2"><div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Bitácora del proceso</div><div class="log" id="plog">${P.log.length?P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join(''):'<span class="faint">Sin actividad. Pulse “Ejecutar extracción” para iniciar.</span>'}</div></div>
+  <div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Carpetas · ${medio}</div>${folder('/aporte_consumo/envio/',P.envio,'Sin archivo depositado')}${folder('/aporte_consumo/respuesta/',P.resp,'La SBS aún no responde')}</div></div></div></div>`:'';
+ return `${ph('Padrón mensual','Extracción del PUA, generación del archivo, aprobación y depósito para la SBS.',rules('01','02','03','04','05','06'),`<button class="btn">${ic('down')}Exportar</button>`)}
+ <div class="card"><div class="filters"><div class="f"><label>Año</label><select class="in"><option>2027</option><option>2026</option></select></div><div class="f"><label>Tipo</label><select class="in"><option>Todos</option><option>Stock</option><option>Flujo</option></select></div><div class="f"><label>Estado</label><select class="in"><option>Todos</option><option>Pendiente de extracción</option><option>Generado</option><option>Aprobado</option><option>Depositado</option><option>Respondido</option></select></div><button class="btn">Aplicar</button><button class="btn ghost">Limpiar</button></div>
+ <div class="tw"><table><thead><tr><th>Periodo</th><th>Tipo</th><th>Corte</th><th class="n">Enviados</th><th class="n">Excluidos</th><th>Estado</th><th>Aprobación</th><th>Depósito</th><th>Plazo</th><th></th></tr></thead><tbody>
+ ${envios.map((x,i)=>`<tr class="click ${i===sel?'sel':''}" data-env="${i}"><td><b>${x.per}</b><div class="sm faint mono">${x.id}</div></td><td>${x.tipo}</td><td>${x.corte}</td><td class="n">${x.estado==='Pendiente de extracción'?'—':fmt(x.reg)}</td><td class="n muted">${x.estado==='Pendiente de extracción'?'—':fmt(x.exc)}</td><td>${st(x.estado)}</td><td class="muted sm">${x.apr||'—'}</td><td class="muted sm">${x.fecha||'—'}</td><td>${x.fecha?plazo(true):plazo(false,x.plazo)}</td><td><button class="ib" style="width:28px;height:28px">${ic('more')}</button></td></tr>`).join('')}
+ </tbody></table></div>${pager(envios.length)}</div>
+ ${proc}
+ <div class="card"><div class="tabs"><button class="${tab==='resumen'?'on':''}" data-ptab="resumen">Resumen</button><button class="${tab==='excl'?'on':''}" data-ptab="excl">Excluidos · ${fmt(e.exc)}</button><button class="${tab==='arch'?'on':''}" data-ptab="arch">Archivo</button></div>
+  <div class="cb">${tab==='excl'?`<div class="grid2"><div>${bars(excl,'n')}</div><div class="tw"><table><thead><tr><th>DNI</th><th>Afiliado</th><th>Motivo</th></tr></thead><tbody>${excluidos.map(x=>`<tr><td class="mono">${x.dni}</td><td>${x.nom}</td><td>${x.motivo}<div class="sm faint">${x.det}</div></td></tr>`).join('')}</tbody></table>${pager(e.exc)}</div></div>`
+  :tab==='arch'?`<dl class="dl"><dt>Nombre</dt><dd class="mono">PADRON_SNP_${e.corte.slice(6)}${e.corte.slice(3,5)}.txt</dd><dt>Cabecera</dt><dd class="mono">ORIGEN|DESTINO|PADRON|${e.corte.slice(6)}${e.corte.slice(3,5)}|${String(e.reg).padStart(9,'0')}</dd><dt>Detalle</dt><dd>${fmt(e.reg)} registros · 295 caracteres · orden por DNI · ANSI</dd><dt>Validación</dt><dd><span class="st ok">Conforme</span></dd></dl><div class="preview" style="margin-top:12px">ORIGEN|DESTINO|PADRON|${e.corte.slice(6)}${e.corte.slice(3,5)}|${String(e.reg).padStart(9,'0')}
+90000001APELLIDO                                PRUEBA                                  AFILIADO            001                 19750213${e.corte.slice(6)}${e.corte.slice(3,5)}01MDIRECCION DE PRUEBA 123                                        900000001                     prueba001@correo.local
+90000002APELLIDO                                PRUEBA                                  AFILIADO            002                 19840721${e.corte.slice(6)}${e.corte.slice(3,5)}03FDIRECCION DE PRUEBA 456                                        900000002                     prueba002@correo.local
+… (${fmt(e.reg-2)} registros más)</div>`
+  :`<div class="grid2"><dl class="dl"><dt>Periodo</dt><dd>${e.per} · ${e.tipo}</dd><dt>Fecha de corte</dt><dd>${e.corte}</dd><dt>Evaluados en el PUA</dt><dd>${fmt(e.reg+e.exc+prev)}</dd><dt>Ya enviados antes</dt><dd>${fmt(prev)} <span class="faint">no se repiten</span></dd><dt>Cumplen las 4 condiciones</dt><dd><b>${fmt(e.reg)}</b></dd><dt>Excluidos</dt><dd>${fmt(e.exc)}</dd></dl><dl class="dl"><dt>Extracción</dt><dd>${e.gen||'—'}</dd><dt>Aprobación</dt><dd>${e.apr||'—'}</dd><dt>Depósito</dt><dd>${e.fecha?e.fecha+' · '+medio:'—'}</dd><dt>Constancia</dt><dd class="mono">${e.fecha?'SHA-256 7f3a…c91e':'—'}</dd><dt>Plazo de depósito</dt><dd>${e.plazo}</dd><dt>Respuesta de la SBS</dt><dd>${e.estado==='Respondido'?'recibida':'hasta '+e.resp}</dd></dl></div>
+  <div class="acts" style="margin-top:16px">${e.estado==='Generado'?`<button class="btn g" id="aprEnv">${ic('check')}Aprobar</button>`:''}${e.estado==='Aprobado'?`<button class="btn p" id="depEnv">${ic('up')}Depositar en ${medio}</button>`:''}<button class="btn" data-ptab="arch">${ic('file')}Ver archivo</button><button class="btn ghost">${ic('down')}Descargar copia</button></div>`}</div></div>`};
+function folder(t,files,empty){return `<div class="folder"><div class="fh">${ic('folder')}${t}</div>${files.length?files.map(f=>`<div class="f ${f.new?'new':''}"><span class="fn">${ic('file')}${f.name}</span><span class="sm faint">${f.ts}</span></div>`).join(''):`<div class="empty" style="padding:10px 12px;text-align:left">${empty}</div>`}</div>`}
+function procGo(){const i=P.step;const e=envios[5];
+ if(i===0)runSeq([[300,10,'Conectando al PUA…'],[700,35,`Leídos ${fmt(P.evaluados)} afiliados al SNP · corte 31/03/2027`],[500,50,'Condición 1 · DNI validado con RENIEC'],[400,62,'Condición 2 · no fallecido (PUA / RENIEC)'],[400,74,'Condición 3 · sin pensión ni beneficio previsional'],[400,86,'Condición 4 · menor de 65 años'],[500,95,`Ya enviados: ${fmt(P.prev)} (no se repiten)`],[400,100,`Cumplen: ${fmt(P.cumplen)} · Excluidos: ${fmt(P.exc)} con motivo`,'ok']],()=>{P.step=1;e.estado='Generado';e.gen=now()});
+ else if(i===1)runSeq([[400,30,'Cabecera ORIGEN|DESTINO|PADRON|202703'],[600,70,`${fmt(P.cumplen)} registros de 295 caracteres · orden por DNI`],[500,100,'Validación: longitud OK · orden OK · sin duplicados · fechas OK','ok']],()=>{P.step=2;P.file='PADRON_SNP_202703.txt'});
+ else if(i===2){modal('Aprobar padrón · Marzo 2027','Al aprobar, el archivo queda habilitado para su depósito. La acción se registra en la bitácora.',`<dl class="dl"><dt>Archivo</dt><dd class="mono">${P.file}</dd><dt>Registros</dt><dd>${fmt(P.cumplen)}</dd><dt>Excluidos</dt><dd>${fmt(P.exc)}</dd><dt>Validación</dt><dd><span class="st ok">Conforme</span></dd><dt>Aprueba</dt><dd>${user.nombre} · ${user.rol}</dd></dl>`,`<button class="btn" id="mcan">Cancelar</button><button class="btn g" id="mok">${ic('check')}Aprobar</button>`);$('#mok').onclick=()=>{closeModal();P.step=3;e.estado='Aprobado';e.apr=now()+' · '+user.nombre;plog('Aprobado por '+user.nombre+' ('+user.rol+') · copia conservada','ok');toast('Padrón de marzo aprobado');render()}}
+ else if(i===3){modal('Depositar en el medio de intercambio','Se verificará el tamaño y la suma de control, se registrará la constancia y se avisará por correo.',`<div class="f" style="min-width:0"><label>Medio</label><select class="in" id="mmedio">${['SFTP','Ruta compartida','SBSNet'].map(m=>`<option ${m===medio?'selected':''}>${m}</option>`).join('')}</select></div><div class="f" style="min-width:0;margin-top:10px"><label>Ruta de envío</label><input class="in mono" value="/aporte_consumo/envio/" readonly></div><div class="f" style="min-width:0;margin-top:10px"><label>Archivo</label><input class="in mono" value="${P.file}" readonly></div>`,`<button class="btn" id="mcan">Cancelar</button><button class="btn p" id="mok">${ic('up')}Depositar</button>`);$('#mok').onclick=()=>{medio=$('#mmedio').value;closeModal();runSeq([[400,25,`Conectando a ${medio}…`],[600,60,`Transfiriendo ${P.file} a /aporte_consumo/envio/`],[500,90,'Verificando tamaño y suma de control'],[300,100,'Constancia registrada · aviso enviado por correo','ok']],()=>{P.step=4;P.envio.push({name:P.file,ts:now(),new:true});e.estado='Depositado';e.fecha=now();toast('Depositado en '+medio+' · constancia registrada')})}}
+ else if(i===4)runSeq([[500,20,'Revisando /aporte_consumo/respuesta/…'],[600,35,'Archivo encontrado: RESP_SBS_202703.txt (simulación: plazo SBS 31/05/2027)','w'],[500,55,'Copia guardada · recepción registrada'],[500,70,'Validación: longitud 19 OK · EAF en catálogo · fechas válidas'],[600,90,`Cruce con lo enviado (${fmt(P.cumplen)} DNI)`],[400,100,'12 776 conformes · 18 cambio de EAF · 39 observados · 165 pendientes','ok']],()=>{P.step=5;P.resfile='RESP_SBS_202703.txt';P.resp.push({name:P.resfile,ts:now(),new:true});Object.assign(P,{conf:12776,camb:18,obs:39,pend:165})});
+ else if(i===5)runSeq([[500,50,`Registrando EAF y apertura de ${fmt(P.conf)} afiliados · 18 cambios de EAF con historial`],[500,80,'OBS_202703.txt depositado para la SBS (39 observaciones, 165 sin cuenta)'],[400,100,'Reporte de marzo 2027 generado','ok']],()=>{P.step=6;e.estado='Respondido';respuestas.push({id:'RES-2027-005',arch:'RESP_SBS_202703.txt',orig:'Marzo 2027',rec:P.resp[0].ts,plazo:'31/05/2027',conf:P.conf,camb:P.camb,obs:P.obs,pend:P.pend,estado:'Procesado'});afiliados.unshift({dni:'90000013',nom:'APELLIDO PRUEBA, AFILIADO 013',nac:'05/04/1991',afi:'12/03/2027',per:'Marzo 2027',eaf:'E03',ape:'20/04/2027',estado:'Con cuenta'});TOT.informados+=e.reg;TOT.conCuenta+=P.conf;TOT.pend+=P.pend;TOT.obs+=P.obs;TOT.espera=TOT.informados-TOT.conCuenta-TOT.pend-TOT.obs;porEAF.E03+=P.conf;SPARK.inf.push(TOT.informados);SPARK.cc.push(TOT.conCuenta);SPARK.pend.push(TOT.pend);SPARK.obs.push(TOT.obs);toast('Periodo Marzo 2027 cerrado · registro y reporte actualizados')})}
+function procReset(){const e=envios[5];Object.assign(e,{estado:'Pendiente de extracción',gen:'',apr:'',fecha:''});if(P.step>=6){respuestas.pop();afiliados.shift();TOT.informados-=e.reg;TOT.conCuenta-=P.conf;TOT.pend-=P.pend;TOT.obs-=P.obs;TOT.espera=TOT.informados-TOT.conCuenta-TOT.pend-TOT.obs;porEAF.E03-=P.conf;['inf','cc','pend','obs'].forEach(k=>SPARK[k].pop())}Object.assign(P,{step:0,running:false,prog:0,log:[],envio:[],resp:[],file:null,resfile:null,conf:0,camb:0,obs:0,pend:0});render()}
+
+// ======================= Respuestas =======================
+M.respuestas=()=>{const sel=state.resp??2;const r=respuestas[sel];const env=envios.find(e=>e.per===r.orig)||{reg:0};return `${ph('Respuestas de la SBS','Archivos que la SBS deposita con el DNI, la EAF y la fecha de apertura. El sistema los recoge, valida y cruza con lo enviado.',rules('07','08','09','10'),`<button class="btn" id="btnRec">${ic('refresh')}Revisar carpeta ahora</button>`)}
+ <div class="card"><div class="filters"><div class="f"><label>Periodo</label><select class="in"><option>Todos</option>${envios.map(e=>`<option>${e.per}</option>`).join('')}</select></div><div class="f"><label>Estado</label><select class="in"><option>Todos</option><option>Procesado</option><option>En espera</option><option>Rechazado</option></select></div><div class="f"><label>Recepción desde</label><input class="in" placeholder="dd/mm/aaaa"></div><button class="btn">Aplicar</button><span class="sm faint" style="margin-left:auto">Carpeta revisada hoy 07:30 · ${medio}</span></div>
+ <div class="tw"><table><thead><tr><th>Archivo</th><th>Responde a</th><th>Recepción</th><th>Plazo SBS</th><th class="n">Conformes</th><th class="n">Cambio EAF</th><th class="n">Observados</th><th class="n">Pendientes</th><th>Estado</th></tr></thead><tbody>
+ ${respuestas.map((x,i)=>`<tr class="click ${i===sel?'sel':''}" data-resp="${i}"><td><span class="mono">${x.arch}</span><div class="sm faint mono">${x.id}</div></td><td>${x.orig}</td><td class="muted sm">${x.rec||'—'}</td><td>${x.rec?plazo(true):plazo(false,x.plazo)}</td><td class="n">${x.rec?fmt(x.conf):'—'}</td><td class="n">${x.rec?fmt(x.camb):'—'}</td><td class="n">${x.rec?fmt(x.obs):'—'}</td><td class="n">${x.rec?fmt(x.pend):'—'}</td><td>${st(x.estado)}</td></tr>`).join('')}
+ </tbody></table></div>${pager(respuestas.length)}</div>
+ <div class="grid2"><div class="card"><div class="ch"><h3>Resultado del cruce</h3><span class="sm faint mono">${r.id}</span></div><div class="cb">${r.rec?`<dl class="dl"><dt>Enviados en el padrón</dt><dd>${fmt(env.reg)}</dd><dt>Validación</dt><dd><span class="st ok">Conforme</span> <span class="sm faint">19 caracteres · EAF en catálogo · fechas válidas</span></dd><dt>Conformes</dt><dd><b>${fmt(r.conf)}</b> <span class="faint">EAF y apertura registradas</span></dd><dt>Cambio de EAF</dt><dd>${fmt(r.camb)} <span class="faint">historial conservado</span></dd><dt>Observados</dt><dd>${fmt(r.obs)} <span class="faint">no se cargan</span></dd><dt>Pendientes</dt><dd>${fmt(r.pend)} <span class="faint">sin respuesta</span></dd></dl>`:emptyBox('Sin respuesta aún',`Plazo de la SBS: ${r.plazo}. El sistema revisa la carpeta cada día a las 07:30 y avisará por correo.`)}</div></div>
+ <div class="card"><div class="ch"><h3>Observaciones para la SBS</h3><div class="acts"><button class="btn sm">PDF</button><button class="btn sm">Texto</button><button class="btn p sm" id="btnObs" ${!r.rec?'disabled':''}>${ic('up')}Depositar</button></div></div><div class="tw"><table><thead><tr><th>DNI</th><th>Observación</th><th>Valor recibido</th></tr></thead><tbody>${observaciones.map(o=>`<tr><td class="mono">${o.dni}</td><td>${o.tipo}</td><td class="mono muted">${o.valor}</td></tr>`).join('')}</tbody></table></div>${pager(r.obs)}</div></div>`};
+
+// ======================= Afiliados =======================
+M.afiliados=()=>{const q=(state.q||'').toLowerCase(),f=state.f||'',ef=state.ef||'';const rows=afiliados.filter(a=>(!q||a.dni.includes(q)||a.nom.toLowerCase().includes(q))&&(!f||a.estado===f)&&(!ef||a.eaf===ef));return `${ph('Afiliados','Registro único: una fila por afiliado con su EAF, fecha de apertura, inicio del cómputo de boletas y estado.',rules('11','12','13','21'),`<button class="btn">${ic('down')}Exportar</button>`)}
+ <div class="kpis"><div class="kpi"><div><div class="l">Con cuenta</div><div class="v">${fmt(TOT.conCuenta)}</div><div class="s">incluye ${fmt(TOT.cese)} con cese</div></div></div><div class="kpi"><div><div class="l">Pendientes de apertura</div><div class="v">${fmt(TOT.pend)}</div></div></div><div class="kpi"><div><div class="l">Observados</div><div class="v">${fmt(TOT.obs)}</div></div></div><div class="kpi"><div><div class="l">Informados, en espera</div><div class="v">${fmt(TOT.espera)}</div></div></div></div>
+ <div class="card"><div class="filters"><div class="f" style="min-width:260px"><label>Buscar</label><input class="in q" id="q" value="${state.q||''}" placeholder="DNI o apellidos y nombres"></div><div class="f"><label>Estado</label><select class="in" id="f"><option value="">Todos</option>${['Con cuenta','Pendiente','Observado','Informado a SBS','Cese'].map(s=>`<option ${f===s?'selected':''}>${s}</option>`).join('')}</select></div><div class="f"><label>EAF</label><select class="in" id="ef"><option value="">Todas</option>${Object.entries(EAF).map(([c,n])=>`<option value="${c}" ${ef===c?'selected':''}>${n}</option>`).join('')}</select></div><button class="btn ghost" id="limpiar">Limpiar</button></div>
+ <div class="tw"><table><thead><tr><th>DNI</th><th>Apellidos y nombres</th><th>Nacimiento</th><th>Afiliación SNP</th><th>Informado en</th><th>EAF</th><th>Apertura</th><th>Boletas desde</th><th>Estado</th></tr></thead><tbody>
+ ${rows.map(a=>`<tr class="click" data-dni="${a.dni}"><td class="mono">${a.dni}</td><td><b style="font-weight:500">${a.nom}</b></td><td>${a.nac}</td><td>${a.afi}</td><td class="muted">${a.per}</td><td>${a.eaf?EAF[a.eaf]:'—'}</td><td>${a.ape||'—'}</td><td>${inicioComputo(a.ape)}</td><td>${st(a.estado)}</td></tr>`).join('')||`<tr><td colspan="9">${emptyBox('Sin resultados','Pruebe con otro DNI o quite los filtros.')}</td></tr>`}
+ </tbody></table></div>${pager(rows.length?TOT.conCuenta+TOT.pend+TOT.obs+TOT.espera:0)}</div>`};
+function verAfiliado(dni){const a=afiliados.find(x=>x.dni===dni);if(!a)return;const env=envios.find(e=>e.per===a.per)||{};const items=[['Extraído del PUA · cumple las 4 condiciones',env.corte||'—',true],['Enviado a la SBS · '+a.per,env.fecha||'—',!!env.fecha],[a.estado==='Observado'?'Respuesta de la SBS · registro observado':a.ape?'Respuesta de la SBS · cuenta abierta en '+EAF[a.eaf]:'Respuesta de la SBS',a.ape||(a.estado==='Pendiente'?'sin respuesta al vencer el plazo':'en espera'),!!a.ape||a.estado==='Observado'],...(a.hist?[['Cambio de EAF · '+EAF[a.hist[0][0]]+' → '+EAF[a.hist[1][0]],a.hist[1][1],true]]:[]),...(a.cese?[['Cese del beneficio · '+a.cese,'',true]]:[]),['Actualización de EAF para el cálculo','programado · nov 2028',false]];
+ modal(a.nom,`DNI ${a.dni} · nacimiento ${a.nac} · afiliación al SNP ${a.afi}`,`<div style="margin-bottom:14px">${st(a.estado)}</div><div class="grid2"><div><div class="sm muted" style="font-weight:500;margin-bottom:8px">Cuenta por consumo</div><dl class="dl"><dt>EAF</dt><dd>${a.eaf?EAF[a.eaf]:'—'}</dd><dt>Apertura</dt><dd>${a.ape||'—'}</dd><dt>Boletas desde</dt><dd>${inicioComputo(a.ape)}</dd><dt>Historial de EAF</dt><dd>${a.hist?a.hist.map(h=>EAF[h[0]]+' ('+h[1]+')').join(' → '):(a.eaf?EAF[a.eaf]+' ('+a.ape+')':'—')}</dd>${a.cese?`<dt>Cese</dt><dd>${a.cese}</dd>`:''}</dl>
+  <div class="sm muted" style="font-weight:500;margin:16px 0 8px">En su Reporte de Aportes <span class="rule" data-r="21">RN-APC-21</span></div><dl class="dl"><dt>Estado</dt><dd>${a.estado==='Con cuenta'||a.estado==='Cese'?'Cuenta abierta':'Pendiente de apertura'}</dd><dt>EAF donde está tu cuenta</dt><dd>${a.eaf?EAF[a.eaf]:'—'}</dd><dt>Fecha de apertura</dt><dd>${a.ape||'—'}</dd><dt>Tus boletas cuentan desde</dt><dd>${inicioComputo(a.ape)}</dd></dl></div>
+  <div><div class="sm muted" style="font-weight:500;margin-bottom:8px">Trazabilidad</div><ul class="tl">${items.map(([t,d,done])=>`<li class="${done?'':'pend'}"><div class="d">${done?ic('check'):''}</div><div>${t}<div class="s">${d}</div></div></li>`).join('')}</ul></div></div>`,`<button class="btn" id="mcan">Cerrar</button><button class="btn">${ic('down')}Exportar ficha</button>`)}
+
+// ======================= Envíos anuales / EAF =======================
+M.anuales=()=>`${ph('Envíos anuales','Ceses y cambios de datos del año anterior, y stock transitorio. Siguen el mismo circuito: generar, aprobar, depositar.',rules('14','15','04','05','06'))}
+ <div class="grid2"><div class="card"><div class="ch"><div><h3>Ceses y cambios detectados en 2027</h3><div class="sub">archivo anual · vence 15/03/2028</div></div><span class="st">Programado</span></div><div class="cb">${bars([['01 Fallecimiento',CESES.fall,'n'],['02 Acceso a prestación previsional',CESES.pres,'n'],['03 Cumple 65 años',CESES.edad,'n'],['04 Otros (con sustento)',CESES.otros,'n'],['Cambio de nombres, DNI o fecha de nacimiento',CESES.cambios,'']])}<div class="sm faint" style="margin-top:8px">Ceses: ${fmt(TOT.cese)} · se registra el motivo que ocurrió primero</div></div></div>
+ <div class="card"><div class="ch"><h3>Stock transitorio</h3></div><div class="tw"><table><thead><tr><th>Corte</th><th>Vence</th><th class="n">Registros</th><th>Depósito</th><th>Estado</th></tr></thead><tbody><tr><td>31/01/2027<div class="sm faint mono">STK-2027-001</div></td><td>05/02/2027</td><td class="n">${fmt(1879612)}</td><td class="sm muted">04/02/2027 09:58</td><td>${st('Depositado')}</td></tr><tr><td>31/01/2028<div class="sm faint mono">STK-2028-001</div></td><td>07/02/2028</td><td class="n muted">—</td><td class="sm muted">—</td><td>${st('Programado')}</td></tr></tbody></table></div></div></div>`;
+M.eaf=()=>{const s=state.eafStep||0;const steps=['Cargar relación del MEF','Generar archivo de DNI','Depositar para la SBS','Recoger EAF actualizada','Actualizar registro'];return `${ph('Actualización de EAF','Por el mismo medio, se envía a la SBS la relación de afiliados que remite el MEF y se recibe en qué EAF está hoy la cuenta de cada uno.',rules('16','17','07','08','09'),`<button class="btn ghost" id="btnEafReset">Reiniciar</button><button class="btn p" id="btnEaf" ${s>=5?'disabled':''}>${s>=5?ic('check')+'Completado':ic('play')+steps[s]}</button>`)}
+ <div class="callout warn">${ic('alert')}<span>El cálculo y pago del aporte no forma parte de este requerimiento. Este módulo prepara y recibe la información con la SBS para que, cuando el MEF remita los datos (octubre de 2028), se pueda continuar con el cálculo.</span></div>
+ <div class="card"><div class="ch"><div><h3>Ejercicio 2027</h3><div class="sub">relación del MEF recibida el 28/10/2028 · simulación</div></div></div><div class="cb"><div class="stepper" style="grid-template-columns:repeat(5,1fr)">${steps.map((t,i)=>`<div class="sp ${i<s?'done':i===s?'ready':''}"><div class="dot">${i<s?ic('check'):i+1}</div><b>${t}</b><span>${i<s?'Hecho':i===s?'Siguiente':'Pendiente'}</span></div>`).join('')}</div></div></div>
+ <div class="grid2"><div class="card"><div class="ch"><h3>Relación del MEF</h3></div><div class="cb"><dl class="dl"><dt>Personas (SNP y SPP)</dt><dd>${fmt(2146300)}</dd><dt>Afiliados al SNP con cuenta</dt><dd><b>${fmt(1794120)}</b> <span class="faint">se envían</span></dd><dt>Con cese antes del ejercicio</dt><dd>${fmt(3970)} <span class="faint">no se envían</span></dd><dt>No están en el registro</dt><dd>${fmt(1240)} <span class="faint">se informa al MEF y a la SBS</span></dd><dt>Archivo</dt><dd class="mono">${s>=2?'EAF_SNP_2027.txt · '+fmt(1794120)+' DNI':'—'}</dd><dt>Depósito</dt><dd>${s>=3?`<span class="mono">${medio} · 30/10/2028 09:15 · OK</span>`:'—'}</dd></dl></div></div>
+ <div class="card"><div class="ch"><h3>Respuesta · EAF actualizada</h3></div><div class="cb">${s>=4?`<dl class="dl"><dt>Recibida</dt><dd>14/11/2028 07:30</dd><dt>Misma EAF</dt><dd>${fmt(1751880)}</dd><dt>Cambiaron de EAF</dt><dd><b>${fmt(42240)}</b> <span class="faint">historial conservado</span></dd></dl><div class="tw" style="margin-top:12px"><table><thead><tr><th>DNI</th><th>EAF anterior</th><th>EAF vigente</th><th>Cambio</th></tr></thead><tbody><tr><td class="mono">90000003</td><td>EAF de prueba 2</td><td>EAF de prueba 4</td><td>04/06/2028</td></tr><tr><td class="mono">90000002</td><td>EAF de prueba 1</td><td>EAF de prueba 3</td><td>19/08/2028</td></tr><tr><td class="mono">90000001</td><td>EAF de prueba 3</td><td>EAF de prueba 3</td><td class="faint">—</td></tr></tbody></table></div>`:emptyBox('Sin respuesta aún','La SBS devolverá el DNI, la EAF vigente y la fecha de apertura por la carpeta de respuesta.')}</div></div></div>`};
+
+// ======================= Intercambios / Bitácora =======================
+M.intercambios=()=>{const base=[['up','PADRON_SNP_202701.txt','Padrón de enero 2027','13 102','04/02/2027 10:22','Depositado'],['up','STOCK_SNP_20270131.txt','Stock transitorio al 31/01/2027','1 879 612','04/02/2027 09:58','Depositado'],['down','RESP_SBS_202612.txt','Respuesta a diciembre 2026','11 986','26/02/2027 07:30','Procesado'],['up','OBS_202612.txt','Observaciones a la SBS · diciembre','83','26/02/2027 09:10','Depositado'],['down','RESP_SBS_202611.txt','Respuesta a noviembre 2026','12 374','29/01/2027 07:31','Procesado'],['down','RESP_SBS_202610.txt','Respuesta al stock','1 832 310','29/01/2027 07:30','Procesado'],['up','PADRON_SNP_202612.txt','Padrón de diciembre 2026','11 976','07/01/2027 09:05','Depositado'],['up','PADRON_SNP_202611.txt','Padrón de noviembre 2026','12 438','07/12/2026 08:40','Depositado'],['up','PADRON_SNP_202610.txt','Padrón stock al 31/10/2026','1 842 310','06/11/2026 09:12','Depositado']];const extra=P.step>=6?[['up','PADRON_SNP_202703.txt','Padrón de marzo 2027','12 980',P.envio[0].ts,'Depositado'],['down','RESP_SBS_202703.txt','Respuesta a marzo 2027','12 998',P.resp[0].ts,'Procesado'],['up','OBS_202703.txt','Observaciones a la SBS · marzo','204',P.resp[0].ts,'Depositado']]:[];const rows=extra.concat(base);return `${ph('Intercambios con la SBS','Historial único de todos los archivos depositados y recibidos, con su constancia.',rules('06','07','10','18'),`<button class="btn">${ic('down')}Exportar</button>`)}
+ <div class="card"><div class="filters"><div class="f"><label>Dirección</label><select class="in"><option>Todas</option><option>Envío a la SBS</option><option>Respuesta de la SBS</option></select></div><div class="f"><label>Tipo</label><select class="in"><option>Todos</option><option>Padrón</option><option>Respuesta</option><option>Observaciones</option><option>Stock</option></select></div><div class="f"><label>Desde</label><input class="in" placeholder="dd/mm/aaaa"></div><div class="f"><label>Hasta</label><input class="in" placeholder="dd/mm/aaaa"></div><button class="btn">Aplicar</button></div>
+ <div class="tw"><table><thead><tr><th></th><th>Archivo</th><th>Descripción</th><th class="n">Registros</th><th>Fecha y hora</th><th>Medio</th><th>Constancia</th><th>Estado</th></tr></thead><tbody>${rows.map(([d,f,t,n,ts,s])=>`<tr><td><span class="avatar" style="width:26px;height:26px;${d==='down'?'background:var(--ok-soft);color:var(--ok)':''}">${ic(d)}</span></td><td class="mono">${f}</td><td>${t}</td><td class="n">${n}</td><td class="muted sm">${ts}</td><td>${medio}</td><td class="mono faint">${f.length%2?'7f3a…c91e':'b21d…04aa'}</td><td>${st(s)}</td></tr>`).join('')}</tbody></table></div>${pager(rows.length)}</div>`};
+M.bitacora=()=>`${ph('Bitácora','Registro de toda acción del sistema y de los usuarios: quién, cuándo, en qué módulo y qué.',rules('20'),`<button class="btn">${ic('down')}Exportar</button>`)}
+ <div class="card"><div class="filters"><div class="f"><label>Usuario</label><select class="in"><option>Todos</option><option>Sistema</option>${Object.values(U).map(u=>`<option>${u}</option>`).join('')}</select></div><div class="f"><label>Módulo</label><select class="in"><option>Todos</option><option>Padrón mensual</option><option>Respuestas</option><option>Parámetros</option></select></div><div class="f"><label>Desde</label><input class="in" placeholder="dd/mm/aaaa"></div><button class="btn">Aplicar</button></div>
+ <div class="tw"><table><thead><tr><th>Fecha y hora</th><th>Usuario</th><th>Módulo</th><th>Acción</th></tr></thead><tbody>${bitacora.map(([a,b,m,c])=>`<tr><td class="mono muted">${a}</td><td>${b}</td><td class="muted">${m}</td><td>${c}</td></tr>`).join('')}</tbody></table></div>${pager(bitacora.length+1248)}</div>`;
+
+// ======================= Reportes =======================
+M.reportes=()=>{const per=state.rep||'2027';const mes=P.step>=6?`<div class="card" style="border-color:var(--accent)"><div class="ch"><div><h3>Reporte del mes · Marzo 2027</h3><div class="sub">generado al cerrar el proceso · ${P.resp[0].ts}</div></div><div class="acts"><span class="st ok">Generado</span><button class="btn p sm">${ic('down')}PDF</button><button class="btn sm">Excel</button></div></div><div class="cb"><div class="grid3"><dl class="dl"><dt>Evaluados en el PUA</dt><dd>${fmt(P.evaluados)}</dd><dt>Enviados</dt><dd><b>${fmt(P.cumplen)}</b></dd><dt>Excluidos</dt><dd>${fmt(P.exc)}</dd><dt>Depósito</dt><dd>${P.envio[0].ts} · ${medio}</dd></dl><dl class="dl"><dt>Respuesta recibida</dt><dd>${P.resp[0].ts}</dd><dt>Conformes</dt><dd><b>${fmt(P.conf)}</b></dd><dt>Cambio de EAF</dt><dd>${fmt(P.camb)}</dd><dt>Observados</dt><dd>${fmt(P.obs)}</dd><dt>Pendientes</dt><dd>${fmt(P.pend)}</dd></dl><dl class="dl"><dt>Informados (acum.)</dt><dd>${fmt(TOT.informados)}</dd><dt>Con cuenta (acum.)</dt><dd><b>${fmt(TOT.conCuenta)}</b></dd><dt>Sin cuenta (acum.)</dt><dd>${fmt(TOT.pend+TOT.obs)}</dd><dt>Plazos</dt><dd><span class="st ok">Dentro de plazo</span></dd></dl></div></div></div>`:`<div class="callout info">${ic('clock')}<span>El reporte del mes en curso se genera automáticamente al cerrar el proceso en <b>Padrón mensual</b>.</span></div>`;
+ const envP=envios.filter(e=>e.corte.endsWith(per)&&['Respondido','Depositado'].includes(e.estado));return `${ph('Reportes','Reportes de control para Afiliación y Recaudación. Todos se exportan a Excel y PDF.',rules('13','18','21'),`<div class="f" style="min-width:120px"><select class="in" id="rep"><option ${per==='2026'?'selected':''}>2026</option><option ${per==='2027'?'selected':''}>2027</option></select></div><button class="btn">${ic('down')}Exportar todos</button>`)}
+ ${mes}
+ <div class="grid2">
+  <div class="card"><div class="ch"><h3>1 · Padrón enviado por periodo · ${per}</h3></div><div class="tw"><table><thead><tr><th>Periodo</th><th class="n">Enviados</th><th class="n">Excluidos</th><th class="n">% excl.</th></tr></thead><tbody>${envP.map(e=>`<tr><td>${e.per}</td><td class="n">${fmt(e.reg)}</td><td class="n">${fmt(e.exc)}</td><td class="n muted">${pct(e.exc,e.reg+e.exc)}</td></tr>`).join('')||`<tr><td colspan="4">${emptyBox('Sin envíos en '+per,'')}</td></tr>`}</tbody></table></div></div>
+  <div class="card"><div class="ch"><h3>2 · Excluidos por motivo · ${per}</h3></div><div class="cb">${bars(MOTIVOS.map(([k,p])=>[k,Math.round(envP.reduce((a,e)=>a+e.exc,0)*p)]),'n')}</div></div>
+  <div class="card"><div class="ch"><h3>3 · Resultado de las respuestas de la SBS</h3></div><div class="tw"><table><thead><tr><th>Responde a</th><th class="n">Conformes</th><th class="n">Cambio EAF</th><th class="n">Observados</th><th class="n">Pendientes</th></tr></thead><tbody>${respuestas.filter(r=>r.rec).map(r=>`<tr><td>${r.orig}</td><td class="n">${fmt(r.conf)}</td><td class="n">${fmt(r.camb)}</td><td class="n">${fmt(r.obs)}</td><td class="n">${fmt(r.pend)}</td></tr>`).join('')}<tr style="background:var(--surface-2)"><td><b>Total</b></td><td class="n"><b>${fmt(TOT.conCuenta)}</b></td><td class="n">${fmt(respuestas.reduce((a,r)=>a+r.camb,0))}</td><td class="n">${fmt(TOT.obs)}</td><td class="n">${fmt(TOT.pend)}</td></tr></tbody></table></div></div>
+  <div class="card"><div class="ch"><h3>4 · Afiliados con cuenta por EAF</h3></div><div class="cb">${donut(Object.entries(porEAF).map(([c,v])=>[EAF[c],v]))}</div></div>
+  <div class="card"><div class="ch"><h3>5 · Afiliados sin cuenta</h3></div><div class="cb">${bars([['Pendientes de apertura',TOT.pend,'a'],['Observados por la SBS',TOT.obs,'r'],['Enviados, en espera',TOT.espera,'n']])}</div></div>
+  <div class="card"><div class="ch"><h3>6 · Control de plazos</h3></div><div class="cb">${bars([['Dentro de plazo',7,'g'],['Por vencer',2,'a'],['Fuera de plazo',0,'r']])}</div></div>
+ </div>`};
+
+// ======================= Administración =======================
+M.parametros=()=>`${ph('Parámetros','Lo que puede cambiar con el tiempo se configura aquí, sin modificar el sistema.',rules('19','06'),`<button class="btn p" id="saveMedio">${ic('check')}Guardar cambios</button>`)}
+ <div class="grid2"><div class="card"><div class="ch"><h3>Medio de intercambio con la SBS</h3></div><div class="cb"><div class="f" style="min-width:0"><label>Medio activo</label><select class="in" id="selMedio">${['SFTP','Ruta compartida','SBSNet'].map(m=>`<option ${m===medio?'selected':''}>${m}</option>`).join('')}</select></div><div class="f" style="min-width:0;margin-top:12px"><label>Servidor / ruta base (prueba)</label><input class="in mono" value="sftp://sftp.prueba.local:22/aporte_consumo/"></div><div class="grid2" style="margin-top:12px;gap:12px"><div class="f" style="min-width:0"><label>Carpeta de envío</label><input class="in mono" value="/envio/"></div><div class="f" style="min-width:0"><label>Carpeta de respuesta</label><input class="in mono" value="/respuesta/"></div></div><div class="grid2" style="margin-top:12px;gap:12px"><div class="f" style="min-width:0"><label>Usuario</label><input class="in" value="usuario_sicac"></div><div class="f" style="min-width:0"><label>Revisión de respuesta</label><input class="in" value="Diaria · 07:30"></div></div><p class="sm faint" style="margin:12px 0 0">SBSNet: si no hay conexión directa, el sistema prepara el archivo y registra la carga manual con su constancia.</p></div></div>
+ <div class="card"><div class="ch"><h3>Reglas y plazos</h3><button class="btn sm">Editar</button></div><div class="tw"><table><thead><tr><th>Parámetro</th><th>Valor</th></tr></thead><tbody><tr><td>Edad de cese</td><td>65 años</td></tr><tr><td>Inicio de apertura de cuentas</td><td>01/12/2026</td></tr><tr><td>Inicio del cómputo de boletas (mínimo)</td><td>01/01/2027</td></tr><tr><td>Depósito del padrón</td><td>5° día hábil del mes siguiente</td></tr><tr><td>Respuesta de la SBS</td><td>Cierre del segundo mes siguiente</td></tr><tr><td>Archivo anual de ceses y cambios</td><td>15 de marzo</td></tr><tr><td>Aviso previo al vencimiento</td><td>3 días hábiles</td></tr><tr><td>Nombre del padrón</td><td class="mono">PADRON_SNP_AAAAMM.txt</td></tr><tr><td>Longitud del detalle (padrón / respuesta)</td><td>295 / 19</td></tr><tr><td>Correos de aviso</td><td>recaudacion@prueba.local; afiliacion@prueba.local</td></tr></tbody></table></div></div></div>
+ <div class="card"><div class="ch"><h3>Catálogo de EAF (prueba)</h3><button class="btn sm">Agregar</button></div><div class="tw"><table><thead><tr><th>Código</th><th>Nombre</th><th>Vigente desde</th><th>Estado</th></tr></thead><tbody>${Object.entries(EAF).map(([c,n])=>`<tr><td class="mono">${c}</td><td>${n}</td><td>01/12/2026</td><td><span class="st ok">Vigente</span></td></tr>`).join('')}</tbody></table></div></div>`;
+M.usuarios=()=>`${ph('Usuarios y perfiles','Quién puede hacer qué. Toda acción queda en la bitácora.',rules('20'),`<button class="btn p">${ic('user')}Nuevo usuario</button>`)}
+ <div class="card"><div class="tw"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Perfil</th><th>Área</th><th>Último acceso</th><th>Estado</th></tr></thead><tbody><tr><td class="mono">usuario.prueba01</td><td>${U.esp}</td><td>Especialista de Recaudación</td><td>Recaudación</td><td class="sm muted">${now()}</td><td><span class="st ok">Activo</span></td></tr><tr><td class="mono">usuario.prueba02</td><td>${U.afi}</td><td>Analista de Afiliación</td><td>Afiliación</td><td class="sm muted">02/03/2027 09:12</td><td><span class="st ok">Activo</span></td></tr><tr><td class="mono">usuario.prueba03</td><td>${U.ana}</td><td>Analista de Recaudación</td><td>Recaudación</td><td class="sm muted">01/03/2027 17:40</td><td><span class="st ok">Activo</span></td></tr><tr><td class="mono">usuario.prueba04</td><td>${U.con}</td><td>Consulta</td><td>Control</td><td class="sm muted">20/02/2027 11:05</td><td><span class="st ok">Activo</span></td></tr></tbody></table></div></div>
+ <div class="card"><div class="ch"><h3>Permisos por perfil</h3></div><div class="tw"><table><thead><tr><th>Acción</th><th>Analista de Afiliación</th><th>Especialista de Recaudación</th><th>Analista de Recaudación</th><th>Consulta</th></tr></thead><tbody>${[['Ejecutar / revisar la extracción del padrón',1,1,0,0],['Aprobar archivos',0,1,0,0],['Depositar en el medio de intercambio',0,1,1,0],['Revisar respuestas y observaciones',0,1,1,0],['Registrar cese “otros”',1,1,0,0],['Consultar afiliados y reportes',1,1,1,1],['Administrar parámetros',0,1,0,0]].map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td style="text-align:center;color:var(--ok)">${c?ic('check'):'<span class="faint">—</span>'}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+M.reglas=()=>{const scr={'01':'Padrón mensual','02':'Padrón mensual','03':'Padrón mensual','04':'Padrón mensual','05':'Padrón mensual','06':'Padrón mensual · Parámetros','07':'Respuestas de la SBS','08':'Respuestas de la SBS','09':'Respuestas de la SBS','10':'Respuestas de la SBS','11':'Afiliados','12':'Afiliados','13':'Todas','14':'Envíos anuales','15':'Envíos anuales','16':'Actualización de EAF','17':'Actualización de EAF','18':'Tablero · Reportes','19':'Parámetros','20':'Usuarios · Bitácora','21':'Afiliados'};return `${ph('Reglas del requerimiento','Las 21 reglas del Formato de requerimiento (Anexo N° 2) y el módulo donde se cumplen.')}<div class="card"><div class="tw"><table><thead><tr><th>Código</th><th>Regla</th><th>Descripción</th><th>Módulo</th></tr></thead><tbody>${Object.entries(RULES).map(([k,[t,d]])=>`<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t}</b></td><td class="muted">${d}</td><td>${scr[k]}</td></tr>`).join('')}</tbody></table></div></div>`};
+
+// ======================= Render =======================
+const state={screen:'tablero'};
+function bindTips(root){$$('.rule',root).forEach(el=>{el.onmouseenter=()=>{const [t,d]=RULES[el.dataset.r];const tip=$('#tip');tip.innerHTML=`<b>RN-APC-${el.dataset.r} · ${t}</b><br>${d}`;tip.style.display='block';const r=el.getBoundingClientRect();tip.style.left=Math.min(r.left,window.innerWidth-380)+'px';tip.style.top=(r.bottom+6)+'px'};el.onmouseleave=()=>$('#tip').style.display='none'})}
+function renderNav(){$('#navItems').innerHTML=NAV.map(([g,items])=>`<div class="grp">${g}</div>${items.map(([id,t,i])=>`<button class="nv ${state.screen===id?'on':''}" data-s="${id}">${ic(i)}${t}${id==='padron'&&envios[4].estado==='Aprobado'?'<span class="cnt warn">1</span>':''}${id==='respuestas'?'<span class="cnt crit">'+respuestas.filter(r=>r.rec&&r.obs).length+'</span>':''}</button>`).join('')}`).join('');$$('#navItems button').forEach(b=>b.onclick=()=>{state.screen=b.dataset.s;closeModal();render()})}
+function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===state.screen);const grp=NAV.find(g=>g[1].some(i=>i[0]===state.screen))[0];$('#crumb').innerHTML=`<span>SICAC</span>${ic('chev')}<span>${grp}</span>${ic('chev')}<b>${title[1]}</b>`;$('#hoy').textContent=new Date().toLocaleDateString('es-PE',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});$('#modTitle').textContent=title[1];$('#sync').textContent='Última sincronización '+new Date().toTimeString().slice(0,5);
+ const m=$('#page');m.innerHTML=M[state.screen]();window.scrollTo({top:0});
+ $$('[data-env]',m).forEach(r=>r.onclick=()=>{state.env=+r.dataset.env;render()});
+ $$('[data-resp]',m).forEach(r=>r.onclick=()=>{state.resp=+r.dataset.resp;render()});
+ $$('[data-dni]',m).forEach(r=>r.onclick=()=>verAfiliado(r.dataset.dni));
+ $$('[data-ptab]',m).forEach(b=>b.onclick=(ev)=>{ev.stopPropagation();state.ptab=b.dataset.ptab;render()});
+ $$('[data-go]',m).forEach(b=>b.onclick=()=>{state.screen=b.dataset.go;render()});
+ const q=$('#q',m);if(q){q.oninput=()=>{state.q=q.value;const p=q.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(p,p)}}
+ const f=$('#f',m);if(f)f.onchange=()=>{state.f=f.value;render()};const ef=$('#ef',m);if(ef)ef.onchange=()=>{state.ef=ef.value;render()};
+ const rep=$('#rep',m);if(rep)rep.onchange=()=>{state.rep=rep.value;render()};
+ const on=(id,fn)=>{const b=$(id,m);if(b)b.onclick=fn};
+ on('#limpiar',()=>{state.q='';state.f='';state.ef='';render()});
+ on('#pgo',procGo);on('#preset',procReset);
+ on('#aprEnv',()=>{const e=envios[state.env];e.estado='Aprobado';e.apr=now()+' · '+user.nombre;bitacora.unshift([now(),user.nombre,'Padrón mensual','Aprobó el padrón '+e.id]);toast('Padrón aprobado');render()});
+ on('#depEnv',()=>{const e=envios[state.env];e.estado='Depositado';e.fecha=now();bitacora.unshift([now(),'Sistema','Padrón mensual','Depositó PADRON_SNP en '+medio+' · '+e.id]);toast('Depositado en '+medio+' · constancia registrada');render()});
+ on('#btnRec',()=>toast('Carpeta de respuesta revisada · sin archivos nuevos'));
+ on('#btnObs',()=>{bitacora.unshift([now(),'Sistema','Respuestas','Depositó listado de observaciones para la SBS']);toast('Listado depositado para la SBS')});
+ on('#btnEaf',()=>{state.eafStep=Math.min(5,(state.eafStep||0)+1);render()});on('#btnEafReset',()=>{state.eafStep=0;render()});
+ on('#saveMedio',()=>{medio=$('#selMedio').value;bitacora.unshift([now(),user.nombre,'Parámetros','Cambió el medio de intercambio a '+medio]);toast('Parámetros guardados · medio '+medio);render()});
+ bindTips(m)}
+$('#loginForm').onsubmit=(ev)=>{ev.preventDefault();user.rol=$('#rol').value;user.nombre={'Especialista de Recaudación':U.esp,'Analista de Afiliación':U.afi,'Analista de Recaudación':U.ana,'Consulta':U.con}[user.rol];$('#navUser').textContent=user.nombre;$('#navRol').textContent=user.rol;$('#avatar').textContent='UP';$('#login').style.display='none';$('#app').classList.add('on');bitacora.unshift([now(),user.nombre,'Acceso','Inició sesión · perfil '+user.rol]);render()};
+$('#logout').onclick=()=>{$('#app').classList.remove('on');$('#login').style.display='grid'};
+$('#overlay').onclick=(e)=>{if(e.target.id==='overlay')closeModal()};
+$('#gsearch').onclick=()=>{state.screen='afiliados';render();setTimeout(()=>{const q=$('#q');if(q)q.focus()},50)};
+$('#bell').onclick=()=>modal('Avisos','3 pendientes',`<ul class="tl"><li><div class="d" style="background:var(--warn)">${ic('alert')}</div><div>Padrón de febrero 2027 aprobado y sin depositar<div class="s">vence el 05/03/2027 · 3 días hábiles</div></div></li><li><div class="d" style="background:var(--crit)">${ic('alert')}</div><div>41 observaciones de la SBS por revisar (diciembre 2026)<div class="s">listado depositado el 26/02/2027</div></div></li><li><div class="d">${ic('check')}</div><div>Respuesta a diciembre 2026 procesada<div class="s">11 893 cuentas abiertas · 52 cambios de EAF</div></div></li></ul>`,`<button class="btn" id="mcan">Cerrar</button>`);
+let sesS=1799;setInterval(()=>{sesS=Math.max(0,sesS-1);const e=$('#ses');if(e)e.textContent=String(Math.floor(sesS/60)).padStart(2,'0')+':'+String(sesS%60).padStart(2,'0')},1000);
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#gsearch').click()}if(e.key==='Escape')closeModal()});
+</script>
+
+</body>
+</html>
