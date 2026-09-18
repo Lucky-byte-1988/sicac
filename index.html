@@ -208,6 +208,21 @@ th{background:#F3F8FC;color:#3E5871}
 .how .h .n svg{stroke:var(--bg);width:14px;height:14px}
 .how .h.ext .n{background:var(--accent);color:#fff}
 .how .h b{display:block;font-size:12.5px;margin-bottom:3px}.how .h span{font-size:12px;color:var(--ink-2)}
+
+.guide{list-style:none;margin:0;padding:0}
+.guide li{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
+.guide li:first-child{border-top:0;padding-top:0}
+.guide .ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--surface-3);color:var(--ink-3);font-size:11.5px;font-weight:600}
+.guide li.done .ic{background:var(--ok);color:#fff}.guide li.run .ic{background:var(--accent);color:#fff}
+.guide li.done .ic svg,.guide li.run .ic svg{width:13px;height:13px;stroke-width:2.5}
+.guide b{display:block;font-size:13px}
+.guide .what{font-size:12.5px;color:var(--ink-2);margin-top:1px}
+.guide .res{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.guide .res span{font-size:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+.guide .res span b{display:inline;font-size:12px}
+.guide .res span.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}.guide .res span.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.guide li.pend{opacity:.55}
+details.tech summary{cursor:pointer;font-size:12px;color:var(--ink-2);margin:10px 0 6px}
 </style>
 <div class="login" id="login">
   <div class="brand">
@@ -351,7 +366,7 @@ M.tablero=()=>{const excTot=envios.reduce((a,e)=>a+e.exc,0),noEnv=envios.filter(
 // ======================= Padrón mensual + proceso =======================
 const P={step:0,running:false,prog:0,log:[],evaluados:2126112,cumplen:12980,exc:1240,prev:envios.slice(0,5).reduce((a,x)=>a+x.reg,0),envio:[],resp:[],file:null,resfile:null,conf:0,camb:0,obs:0,pend:0};
 function plog(t,c=''){P.log.push([now(),t,c]);bitacora.unshift([now(),'Sistema','Padrón mensual',t]);const l=$('#plog');if(l){l.innerHTML=P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join('');l.scrollTop=l.scrollHeight}}
-function runSeq(steps,done){P.running=true;render();let i=0;const tick=()=>{if(i>=steps.length){P.running=false;done();render();return}const [ms,pc,msg,cls]=steps[i++];setTimeout(()=>{P.prog=pc;const b=$('#pbar');if(b)b.style.width=pc+'%';if(msg)plog(msg,cls);tick()},ms)};tick()}
+function runSeq(steps,done){P.running=true;render();let i=0;const tick=()=>{if(i>=steps.length){P.running=false;done();render();return}const [ms,pc,msg,cls]=steps[i++];setTimeout(()=>{P.prog=pc;const b=$('#pbar');if(b)b.style.width=pc+'%';const g=$('.guide .prog i');if(g)g.style.width=pc+'%';if(msg)plog(msg,cls);tick()},ms)};tick()}
 const STG=[['Extraer del PUA','4 condiciones · corte'],['Generar archivo','estructura SBS'],['Aprobar','Especialista'],['Depositar','carpeta de envío'],['Recibir respuesta','carpeta de respuesta'],['Actualizar registro','EAF y apertura']];
 M.padron=()=>{const sel=state.env??5;const e=envios[sel];const tab=state.ptab||'resumen';const prev=envios.slice(0,sel).reduce((a,x)=>a+x.reg,0);const excl=MOTIVOS.map(([k,p])=>[k,Math.round(e.exc*p)]);
  const lbl=['Ejecutar extracción','Generar archivo','Aprobar','Depositar en '+medio,'Revisar carpeta de respuesta','Actualizar registro'];
@@ -385,6 +400,29 @@ function procGo(){const i=P.step;const e=envios[5];
 function procReset(){const e=envios[5];Object.assign(e,{estado:'Pendiente de extracción',gen:'',apr:'',fecha:''});if(P.step>=6){respuestas.pop();afiliados.shift();TOT.informados-=e.reg;TOT.conCuenta-=P.conf;TOT.pend-=P.pend;TOT.obs-=P.obs;TOT.espera=TOT.informados-TOT.conCuenta-TOT.pend-TOT.obs;porEAF.E03-=P.conf;['inf','cc','pend','obs'].forEach(k=>SPARK[k].pop())}Object.assign(P,{step:0,running:false,prog:0,log:[],envio:[],resp:[],file:null,resfile:null,conf:0,camb:0,obs:0,pend:0});render()}
 
 
+
+// ---------- Guía en lenguaje simple del proceso ----------
+const EXCL_TOT=220651, EXCL_C={dni:22065,fall:19859,pens:110326,edad:68401};
+function guiaHTML(){const done=i=>P.step>i,run=i=>P.step===i&&P.running,pct=P.prog;
+ let n=0;const li=(i,t,what,res,sub)=>{n++;return `<li class="${done(i)?'done':run(i)?'run':P.step===i?'':'pend'}"><div class="ic">${done(i)?ic('check'):run(i)?ic('clock'):n}</div><div><b>${t}</b><div class="what">${what}</div>${done(i)&&res?`<div class="res">${res}</div>`:''}${run(i)?`<div class="prog"><i style="width:${pct}%"></i></div>`:''}${done(i)&&sub?`<div class="sm faint" style="margin-top:4px">${sub}</div>`:''}</div></li>`};
+ const porEvaluar=P.evaluados-P.prev, previos=EXCL_TOT-P.exc;
+ return `<ul class="guide">
+ ${li(0,'Leer el padrón (PUA)','El sistema se conecta al PUA en modo lectura y toma a todos los afiliados al SNP a la fecha de corte 31/03/2027.',
+   `<span>Afiliados leídos <b>${fmt(P.evaluados)}</b></span><span>Ya enviados en meses anteriores <b>${fmt(P.prev)}</b> (no se repiten)</span><span>Quedan por evaluar <b>${fmt(porEvaluar)}</b></span>`)}
+ ${li(0,'Aplicar las 4 condiciones','A los que quedan por evaluar se les revisa, uno por uno, si tienen DNI válido, si no han fallecido, si no tienen pensión ni beneficio previsional y si son menores de 65.',
+   `<span class="ok">Cumplen las 4 → se envían <b>${fmt(P.cumplen)}</b></span><span class="warn">No cumplen <b>${fmt(EXCL_TOT)}</b></span><span>Sin DNI válido o dato incompleto ${fmt(EXCL_C.dni)}</span><span>Fallecidos ${fmt(EXCL_C.fall)}</span><span>Con pensión o beneficio ${fmt(EXCL_C.pens)}</span><span>65 años o más ${fmt(EXCL_C.edad)}</span>`,
+   `De los ${fmt(EXCL_TOT)} que no cumplen, ${fmt(P.exc)} son nuevos este mes (se avisa a Afiliación) y ${fmt(previos)} ya estaban excluidos y siguen sin cumplir.`)}
+ ${li(1,'Armar el archivo para la SBS',`Con los ${fmt(P.cumplen)} que cumplen se arma el archivo con los 11 datos que pide la SBS y se comprueba que esté bien formado.`,
+   `<span>Archivo <b>${P.file||''}</b></span><span>Registros <b>${fmt(P.cumplen)}</b></span><span class="ok">Formato correcto</span>`)}
+ ${li(2,'Aprobar','Una persona autorizada (Especialista de Recaudación) revisa el resumen y aprueba el envío.',`<span>Aprobado por <b>${user.nombre}</b></span>`)}
+ ${li(3,'Colocar el archivo en la ruta de intercambio',`El sistema deposita el archivo aprobado en la carpeta de envío de ${medio}, guarda la constancia y avisa por correo.`,
+   `<span>Carpeta <b>/aporte_consumo/envio/</b></span><span class="ok">Constancia registrada</span><span>Aviso enviado</span>`)}
+ ${li(4,'Recibir la respuesta de la SBS','Cada día el sistema revisa la carpeta de respuesta. Cuando la SBS deja su archivo, lo recoge, lo valida y lo cruza con lo que se envió.',
+   `<span>Archivo <b>${P.resfile||''}</b></span><span class="ok">Con cuenta abierta <b>${fmt(P.conf)}</b></span><span>Cambiaron de EAF ${fmt(P.camb)}</span><span class="warn">Observados ${fmt(P.obs)}</span><span class="warn">Sin respuesta ${fmt(P.pend)}</span>`)}
+ ${li(5,'Registrar y reportar','Se guarda por cada afiliado su EAF y fecha de apertura, se devuelve a la SBS la lista de observados y se genera el reporte del mes.',
+   `<span class="ok">${fmt(P.conf)} afiliados con cuenta registrados</span><span>Reporte de Marzo 2027 generado</span>`)}
+ </ul>`}
+
 // ======================= Extracción PUA → SBS (proceso visible) =======================
 M.extraccion=()=>{const lbl=['Ejecutar extracción del PUA','Generar archivo','Aprobar','Depositar en '+medio,'Revisar carpeta de respuesta','Actualizar registro'];const p=periodosInfo();
  return `${ph('Extracción del PUA y envío a la SBS','Aquí se ve cómo el sistema toma los datos del PUA, los filtra, arma el archivo y lo coloca en la ruta de intercambio; luego recoge la respuesta de la SBS de esa misma ruta.',rules('01','02','04','05','06','07'),`${P.step>0?`<button class="btn ghost" id="preset">Reiniciar (prueba)</button>`:''}${P.step<6?`<button class="btn p" id="pgo" ${P.running||(P.step===2&&!puede('Especialista de Recaudación'))?'disabled':''}>${P.running?ic('clock')+'Procesando…':ic('play')+lbl[P.step]}</button>`:'<span class="st ok">Periodo cerrado</span>'}`)}
@@ -396,11 +434,9 @@ M.extraccion=()=>{const lbl=['Ejecutar extracción del PUA','Generar archivo','A
   <div class="h ext"><div class="n">${ic('down')}</div><b>5 · Respuesta de la SBS</b><span>Revisa la carpeta de respuesta, recoge el archivo con EAF y fecha de apertura, valida, cruza y registra.</span></div>
  </div></div></div>
  <div class="card"><div class="ch"><div><h3>Ejecutar el periodo · ${p.per}</h3><div class="sub">corte ${p.corte} · depósito hasta el ${p.plazo} · medio ${medio} · ${p.estado}</div></div></div>
-  <div class="cb"><div class="stepper">${STG.map(([t,d],i)=>`<div class="sp ${P.step>i?'done':P.step===i?(P.running?'run':'ready'):''}"><div class="dot">${P.step>i?ic('check'):i+1}</div><b>${t}</b><span>${d}</span>${P.step===i&&P.running?`<div class="prog"><i id="pbar" style="width:${P.prog}%"></i></div>`:''}</div>`).join('')}</div>
-  ${P.step===2&&!puede('Especialista de Recaudación')?`<div class="callout warn">${ic('alert')}<span>La aprobación requiere el perfil <b>Especialista de Recaudación</b>. Inicie sesión con ese perfil para continuar.</span></div>`:''}
-  <div class="grid2"><div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Bitácora del proceso</div><div class="log" id="plog">${P.log.length?P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join(''):'<span class="faint">Sin actividad. Pulse “Ejecutar extracción del PUA” (arriba a la derecha) para iniciar.</span>'}</div></div>
-  <div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Ruta de intercambio · ${medio}</div>${folder('/aporte_consumo/envio/',P.envio,'Sin archivo depositado')}${folder('/aporte_consumo/respuesta/',P.resp,'La SBS aún no responde')}</div></div>
-  ${P.step>=1?`<div style="margin-top:14px"><div class="sm muted" style="margin-bottom:6px;font-weight:500">Resultado de la extracción</div><div class="kpis" style="margin-bottom:0"><div class="kpi"><div><div class="l">Leídos del PUA</div><div class="v">${fmt(P.evaluados)}</div></div></div><div class="kpi"><div><div class="l">Ya enviados antes</div><div class="v">${fmt(P.prev)}</div></div></div><div class="kpi"><div><div class="l">Cumplen las 4 condiciones</div><div class="v" style="color:var(--ok)">${fmt(P.cumplen)}</div><div class="s">van en el archivo</div></div></div><div class="kpi"><div><div class="l">Excluidos</div><div class="v" style="color:var(--warn)">${fmt(P.exc)}</div><div class="s">con motivo · a Afiliación</div></div></div></div></div>`:''}
+  <div class="cb">${P.step===2&&!puede('Especialista de Recaudación')?`<div class="callout warn">${ic('alert')}<span>La aprobación requiere el perfil <b>Especialista de Recaudación</b>. Inicie sesión con ese perfil para continuar.</span></div>`:''}
+  <div class="grid32"><div><div class="sm muted" style="margin-bottom:8px;font-weight:500">¿Qué está haciendo el sistema?</div>${guiaHTML()}<details class="tech"><summary>Ver detalle técnico (bitácora)</summary><div class="log" id="plog">${P.log.length?P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join(''):'<span class="faint">Sin actividad.</span>'}</div></details></div>
+  <div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Ruta de intercambio · ${medio}</div>${folder('/aporte_consumo/envio/',P.envio,'Sin archivo depositado')}${folder('/aporte_consumo/respuesta/',P.resp,'La SBS aún no responde')}<p class="sm faint" style="margin:10px 0 0">Aquí se ve lo que el sistema deja en la carpeta de envío y lo que la SBS deja en la de respuesta.</p></div></div>
   </div></div>`};
 function periodosInfo(){const e=envios[5];return {per:e.per,corte:e.corte,plazo:e.plazo,estado:e.estado}}
 
