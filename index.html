@@ -464,6 +464,38 @@ select.in{appearance:none;-webkit-appearance:none;padding-right:26px;background-
 .side{height:calc(100vh - 30px);top:30px}
 body.navtop .side{display:none}
 .main{min-height:calc(100vh - 30px);flex:1 1 60%}
+
+/* ---- macOS actual: casi monocromo. Grises + un solo acento (azul). El color solo en puntos de estado. ---- */
+.nv svg,.tm svg{stroke:var(--ink-2)}.nv.on svg{stroke:var(--ink)}
+.nv .cnt,.nv .cnt.warn,.nv .cnt.crit{background:rgba(0,0,0,.08);color:var(--ink-2)}
+.st,.st.ok,.st.warn,.st.crit,.st.info,.st.vio{background:rgba(0,0,0,.05);color:var(--ink-2)}
+.st.info:before{background:var(--accent)}.st.vio:before{background:#8e8e93}
+.tag.auto,.tag.man{background:rgba(0,0,0,.06);color:var(--ink-2)}
+.kpi .s.up,.kpi .s.dn{color:var(--ink-3)}
+.kpi svg.sp *{stroke:#c7c7cc!important;fill:none!important}.kpi svg.sp circle{fill:#aeaeb2!important}
+.eco-mon-v{color:var(--ink)!important}
+.eco-bar i,.eco-dot,.sit .tr i,.eaft .eb i,.bar .fl,.eaf-pill .eco-dot,.legend i{filter:grayscale(1)}
+.eco-bar i{opacity:.7}
+.sit .p{color:var(--ink-3)!important}
+.sit:first-child .tr i,.eco-bar i:first-child{filter:none;background:var(--accent)!important;opacity:1}
+.guide li.done .ic{background:var(--accent)}.guide li.run .ic{background:var(--ink-3)}
+.guide .gl.res span,.guide .gl.res span.ok,.guide .gl.res span.warn{background:rgba(0,0,0,.04);color:var(--ink-2);border-color:transparent}
+.guide .gl.res span b{color:var(--ink)}
+.sp.done .dot{background:var(--accent);border-color:var(--accent)}
+.tl .d{background:var(--accent)}
+.att .ab,.att .ab.w,.att .ab.c{background:rgba(0,0,0,.06);color:var(--ink)}
+.opt .rec{background:rgba(0,0,0,.06);color:var(--ink-2)}
+.toast svg{stroke:var(--ink)}
+.callout.warn,.callout.info{background:rgba(0,0,0,.035);color:var(--ink-2)}
+.gprog .bar i,.lote .bar i{background:var(--accent)}
+.pipe .pv{color:var(--ink)}
+.eaf-pill.on{background:var(--selected);border-color:transparent}
+.eco-li.on{background:var(--selected)}
+.fileview{color:var(--ink-2)}
+.xh .con{color:var(--ink-2)}.xh .con:before{background:#34c759;box-shadow:none}
+.pill.o,.pill.i{background:rgba(0,0,0,.06)!important;color:var(--ink-2)!important}
+.mefbox .st.ok:before{background:#34c759}
+.rp .rph{background:#1d1d1f}
 </style>
 <div class="login" id="login">
   <div class="brand">
