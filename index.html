@@ -603,6 +603,17 @@ body:has(#page .home) .top .macts{display:none}
 .mb-item.mb-app{padding:3px 9px;display:flex;align-items:center}
 .mb-logo{width:17px;height:17px;display:block}
 body:has(#page .home) .top .ttl,body:has(#page .home) .top .chip-proto{display:none}
+
+/* ---- barra de herramientas: título + subtítulo (Mail / Finder), acciones a la derecha ---- */
+.top{height:56px}
+.top .ttl{flex-direction:column;align-items:flex-start;gap:1px;justify-content:center}
+.top .ttl b{font-size:16px;line-height:1.2}
+.top .ttl .sub{font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.top .chip-proto{display:none}
+.top .r{align-items:center}
+.top .macts .btn{min-height:30px}
+body:has(#page .home) .top .ttl{display:none}
+.side{top:32px}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -626,7 +637,7 @@ body:has(#page .home) .top .ttl,body:has(#page .home) .top .chip-proto{display:n
   </aside>
   <div class="main">
     <div class="onphd"><div class="wm"><b>Cuentas por consumo</b><span>Control de cuentas<br>por consumo · SNP<br>entorno de prueba</span></div><h2><span id="modTitle">Tablero</span><span class="env">ENTORNO DE PRUEBA</span></h2></div>
-        <div class="top"><div style="display:flex;align-items:center;gap:10px;min-width:0"><button class="ib railbtn" id="railToggle" title="Mostrar u ocultar la barra lateral (⌘⇧S)"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="9" y1="4" x2="9" y2="20"/></svg></button><div class="ttl"><b id="modTitle2">Tablero</b><span class="env">Entorno de prueba</span></div><div class="crumb" id="crumb"></div></div><div class="r"><div class="macts" id="modActs"></div><span class="chip-proto" id="modoChip"></span><button class="btn sm ghost" id="btnReiniciar" title="Vuelve a dejar el sistema vacío">Reiniciar simulación</button><button class="ib" id="bell" title="Avisos"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button><span class="sm muted" id="hoy"></span></div></div>
+        <div class="top"><div style="display:flex;align-items:center;gap:10px;min-width:0"><button class="ib railbtn" id="railToggle" title="Mostrar u ocultar la barra lateral (⌘⇧S)"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="9" y1="4" x2="9" y2="20"/></svg></button><div class="ttl"><b id="modTitle2">Tablero</b><span class="sub" id="modSub"></span></div><div class="crumb" id="crumb"></div></div><div class="r"><div class="macts" id="modActs"></div><span class="chip-proto" id="modoChip"></span><button class="btn sm ghost" id="btnReiniciar" title="Vuelve a dejar el sistema vacío">Reiniciar simulación</button><button class="ib" id="bell" title="Avisos"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button><span class="sm muted" id="hoy"></span></div></div>
     <div class="page" id="page"></div>
     <div class="foot"><span>Prototipo v0.7.3 · entorno de prueba · sesión <span id="ses">29:59</span></span><span>Datos ficticios · sin valor oficial</span></div>
   </div>
@@ -1137,7 +1148,7 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
  const mi=$('#mefInput',m);if(mi)mi.onchange=async()=>{const f=mi.files[0];if(!f)return;if(f.size>200*1024*1024){toast('Archivo mayor a 200 MB: usa la carpeta de recepción (SFTP)');mi.value='';return}const r=await leerArchivo(f);state.mefFile={name:f.name,size:f.size,lines:r.lines,width:r.width,ts:now(),src:'archivo'};toast('Archivo leído · '+fmt(r.lines)+' registros');bitacora.unshift([now(),user.nombre,'Actualización de EAF','Subió '+f.name+' · '+fmt(r.lines)+' registros']);render()};
  on('#saveMedio',()=>{medio=$('#selMedio').value;bitacora.unshift([now(),user.nombre,'Parámetros','Cambió el medio de intercambio a '+medio]);toast('Parámetros guardados · medio '+medio);render()});
  bindTips(m);if(document.body.classList.contains('rail'))bindTips($('#navItems'));
- const MA=$('#modActs');MA.innerHTML='';const phx=m.querySelector('.ph');if(phx){const ac=phx.querySelector('.acts');if(ac){MA.appendChild(ac)}if(!phx.querySelector('h1')&&!phx.querySelector('p.ctx'))phx.remove()}}
+ const MA=$('#modActs');MA.innerHTML='';const phx=m.querySelector('.ph');let subT='';if(phx){const ac=phx.querySelector('.acts');if(ac){MA.appendChild(ac)}const sh=phx.querySelector('h1.modsub');if(sh){subT=sh.textContent.trim();sh.remove()}if(!phx.querySelector('h1')&&!phx.querySelector('p.ctx'))phx.remove()}$('#modSub').textContent=[subT,'Entorno de prueba',modo==='cero'?'Simulación desde cero':'Historial de ejemplo'].filter(Boolean).join(' · ')}
 $('#loginForm').onsubmit=(ev)=>{ev.preventDefault();resetDatos($('#modo').value);user.rol=$('#rol').value;user.nombre={'Especialista de Recaudación':U.esp,'Analista de Afiliación':U.afi,'Analista de Recaudación':U.ana,'Consulta':U.con}[user.rol];$('#navUser').textContent=user.nombre;$('#navRol').textContent=user.rol;$('#avatar').textContent='UP';$('#login').style.display='none';$('#app').classList.add('on');state.screen='inicio';bitacora.unshift([now(),user.nombre,'Acceso','Inició sesión · perfil '+user.rol]);render()};
 $('#logout').onclick=()=>{$('#app').classList.remove('on');$('#login').style.display='grid'};
 try{state.nav=localStorage.getItem('sicac.nav')||'left'}catch(e){state.nav='left'}
