@@ -569,16 +569,11 @@ body.navtop .side{display:none}
 .lgver{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:11.5px;color:var(--ink-3)}
 .login .brand,.login .formwrap,.login .proto,.login .row,.login h1,.login .sub{display:none}
 
-/* ---- Inicio: pantalla en calma ---- */
+/* ---- Inicio: área vacía, como una ventana recién abierta ---- */
 .home{min-height:calc(100vh - 32px - 52px - 60px);display:grid;place-items:center}
-.home-in{text-align:center;max-width:520px;padding:24px}
-.home-ic{width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,#1B8FD6,#6CC04A);color:#fff;display:grid;place-items:center;font-weight:700;font-size:22px;margin:0 auto 18px;box-shadow:0 8px 24px rgba(27,143,214,.22)}
-.home h1{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.022em;margin:0 0 6px}
-.home p{margin:0;color:var(--ink-2);font-size:14px}
-.home-acts{display:flex;gap:10px;justify-content:center;margin:22px 0 14px;flex-wrap:wrap}
-.home-pend{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-.home-pend a{font-size:12.5px;color:var(--ink-2);background:rgba(0,0,0,.05);padding:4px 10px;border-radius:999px;text-decoration:none}.home-pend a:hover{background:rgba(0,0,0,.08);color:var(--ink)}
-.home-hint{font-size:12.5px;color:var(--ink-3)}.home-hint a{color:var(--accent);text-decoration:none}
+.home-in{text-align:center;padding:24px}
+.home-g{width:44px;height:44px;stroke:var(--ink-3);opacity:.55;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.home p{margin:0;color:var(--ink-3);font-size:15px;font-weight:400}
 body:has(#page .home) .top .macts{display:none}
 </style>
 <div class="login" id="login">
@@ -970,11 +965,7 @@ M.traza=()=>{const q=(state.tq??'').trim();const t=q?trazaDe(q):trazaDe((afiliad
 async function exportTraza(){const rows=$$('#page table tbody tr').map(tr=>[...tr.children].map(td=>'"'+td.textContent.trim().replace(/"/g,'""')+'"').join(';'));const name='trazabilidad_'+((state.tq||'').trim()||'afiliado')+'.csv';msgDl(await bajar(new Blob(['﻿'+['"Fecha";"Evento";"Detalle";"Origen"',...rows].join('\r\n')],{type:'text/csv'}),name),name)}
 
 // ======================= Inicio (pantalla vacía al entrar) =======================
-M.inicio=()=>{const h=new Date().getHours();const sal=h<12?'Buenos días':h<19?'Buenas tardes':'Buenas noches';const nEnv=envios.filter(e=>e.fecha).length;const pend=[];const apr=envios.filter(e=>e.estado==='Aprobado').length;if(apr)pend.push([apr+' padrón aprobado sin depositar','padron']);if(TOT.obs)pend.push([fmt(TOT.obs)+' observados por corregir','respuestas']);const nl=avisos.filter(a=>!a.leido).length;if(nl)pend.push([nl+' avisos sin leer','avisos']);
- return `<div class="home"><div class="home-in"><div class="home-ic">SC</div><h1>${sal}, ${user.nombre}</h1><p>${nEnv?`${nEnv} envío${nEnv>1?'s':''} a la SBS · ${fmt(TOT.conCuenta)} cuentas abiertas`:'Todavía no hay envíos. Empieza cuando quieras.'}</p>
- <div class="home-acts"><button class="btn p" data-go="extraccion">${ic('play')}Ejecutar envío</button><button class="btn" data-go="afiliados">${ic('users')}Padrón de cuentas</button><button class="btn" data-go="tablero">${ic('grid')}Tablero</button></div>
- ${pend.length?`<div class="home-pend">${pend.map(([t,g])=>`<a href="#" data-go="${g}">${t}</a>`).join('')}</div>`:''}
- <div class="home-hint">Elige un módulo en la barra lateral o en el menú · <a href="#" id="homeComo">Cómo funciona SICAC</a></div></div></div>`};
+M.inicio=()=>`<div class="home"><div class="home-in"><svg class="home-g" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="9" y1="4" x2="9" y2="20"/></svg><p>Selecciona un módulo en la barra lateral</p></div></div>`;
 
 // ======================= Documentos y casos =======================
 const DTIPOS=['Oficio','Memorando','Carta','Correo','Acta de reunión','Informe','Resolución','Otro'];
@@ -1086,7 +1077,7 @@ function renderNav(){$('#navItems').innerHTML=NAV.map(([g,items])=>`<div class="
  const badge=id=>id==='padron'&&envios.some(e=>e.estado==='Aprobado')?'<span class="cnt warn">1</span>':id==='respuestas'&&respuestas.filter(r=>r.rec&&r.obs).length?'<span class="cnt crit">'+respuestas.filter(r=>r.rec&&r.obs).length+'</span>':'';
  document.body.classList.toggle('navtop',state.nav==='top');
  renderMenubar()}
-function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===state.screen);const grp=NAV.find(g=>g[1].some(i=>i[0]===state.screen))[0];$('#crumb').innerHTML=`<span>${grp}</span>${ic('chev')}<b>${title[1]}</b>`;$('#hoy').textContent=new Date().toLocaleDateString('es-PE',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});$('#modTitle').textContent=title[1];$('#modTitle2').textContent=title[1];$('#modoChip').textContent=modo==='cero'?'Simulación desde cero':'Historial de ejemplo';
+function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===state.screen);const grp=NAV.find(g=>g[1].some(i=>i[0]===state.screen))[0];$('#crumb').innerHTML=`<span>${grp}</span>${ic('chev')}<b>${title[1]}</b>`;$('#hoy').textContent=new Date().toLocaleDateString('es-PE',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});$('#modTitle').textContent=title[1];$('#modTitle2').textContent=state.screen==='inicio'?'SICAC':title[1];$('#modoChip').textContent=modo==='cero'?'Simulación desde cero':'Historial de ejemplo';
  const m=$('#page');m.innerHTML=M[state.screen]();const ph0=m.querySelector('.ph');if(ph0){const sub=ph0.querySelector('h1');if(sub)sub.classList.add('modsub')}if(state._last!==state.screen){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');state._last=state.screen}window.scrollTo({top:0});
  $$('[data-verenv]',m).forEach(b=>b.onclick=()=>verEnvio(+b.dataset.verenv));
  $$('[data-resp]',m).forEach(r=>r.onclick=()=>{state.resp=+r.dataset.resp;render()});
@@ -1109,7 +1100,6 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
  ['u','m'].forEach(k=>{const el=$('#auf'+k,m);if(el)el.onchange=()=>{state.auf[k]=el.value;render()}});const auq=$('#aufq',m);if(auq)auq.oninput=()=>{state.auf.q=auq.value;const p=auq.selectionStart;render();const n=$('#aufq');n.focus();n.setSelectionRange(p,p)};on('#aufclr',()=>{state.auf={u:'',m:'',q:''};render()});on('#auCsv',exportAud);
  const tqi=$('#tq',m);if(tqi){tqi.onkeydown=ev=>{if(ev.key==='Enter'){state.tq=tqi.value;render()}}}on('#tqGo',()=>{state.tq=$('#tq').value;render()});on('#tzCsv',exportTraza);on('#tzRep',()=>{state.rq=(state.tq||'').trim()||(afiliados[0]||{}).dni;state.screen='reporteAf';render()});
  const rq=$('#rq',m);if(rq){rq.onkeydown=ev=>{if(ev.key==='Enter'){state.rq=rq.value;render()}}}on('#rqGo',()=>{state.rq=$('#rq').value;render()});on('#rpPdf',()=>{const a=afiliados.find(x=>x.dni===(state.rq||'').trim())||afiliados[0];if(!a)return;const r=a.estado==='Con cuenta'&&CS.step>=6?calcPersona(baseSim(a.dni)):null;const L=['Reporte de Aportes · entorno de prueba','Emitido el '+hoy(),'','Afiliado: '+a.nom,'DNI: '+a.dni+' · nacido el '+a.nac,'','Tu cuenta de aporte por consumo','Estado: '+(a.estado==='Con cuenta'?'Cuenta abierta':a.estado==='Cese'?'Cuenta cerrada por cese':a.estado==='Observado'?'Observada · en corrección':'Pendiente de apertura'),'EAF: '+(a.eaf?EAF[a.eaf]:'—'),'Fecha de apertura: '+(a.ape||'—'),'Aporte '+CALC.ej+' acreditado: '+(r?money(r.pg):'se calcula en '+CALC.pago),'','Datos ficticios · sin valor oficial'];const name='Reporte_Aportes_'+a.dni+'.pdf';bajar(new Blob([miniPDF(L)],{type:'application/pdf'}),name).then(x=>msgDl(x,name))});on('#rpMail',()=>{const a=afiliados.find(x=>x.dni===(state.rq||'').trim())||afiliados[0];if(!a)return;aviso('Reporte',`Reporte de Aportes enviado al afiliado ${a.dni}`,'Afiliado · correo registrado');bitacora.unshift([now(),user.nombre,'Reporte de Aportes','Envió el reporte al afiliado '+a.dni]);toast('Reporte enviado por correo (prueba)');render()});
- on('#homeComo',()=>MFN.como());$$('.home-pend a',m).forEach(a=>a.onclick=ev=>{ev.preventDefault();state.screen=a.dataset.go;render()});
  on('#dNuevo',()=>nuevoDoc());on('#dNuevoCaso',nuevoCaso);$$('[data-caso]',m).forEach(a=>a.onclick=ev=>{ev.preventDefault();verCaso(a.dataset.caso)});$$('[data-doc]',m).forEach(a=>a.onclick=ev=>{ev.preventDefault();verDoc(a.dataset.doc)});$$('[data-dldoc]',m).forEach(b=>b.onclick=ev=>{ev.stopPropagation();dlDoc(b.dataset.dldoc)});$$('[data-dges]',m).forEach(b=>b.onclick=()=>{state.df.ges=state.df.ges===b.dataset.dges?'':b.dataset.dges;render()});
  $$('[data-xs3]',m).forEach(h=>h.onclick=()=>{const k=h.dataset.xs3;if(XS3.k===k)XS3.d=-XS3.d;else{XS3.k=k;XS3.d=k==='ts'?-1:1}render()});['anio','mes','ges','tipo','caso'].forEach(k=>{const el=$('#df'+k,m);if(el)el.onchange=()=>{state.df[k]=el.value;render()}});const dq=$('#dfq',m);if(dq)dq.oninput=()=>{state.df.q=dq.value;const p=dq.selectionStart;render();const n=$('#dfq');n.focus();n.setSelectionRange(p,p)};on('#dfclr',()=>{state.df={anio:'',mes:'',ges:'',tipo:'',caso:'',q:''};render()});
  on('#cgo',calcGo);on('#call',calcAll);on('#creset',calcReset);on('#cpresuReg',()=>regPresupuesto());$$('[data-dlpresu]',m).forEach(b=>b.onclick=async()=>{const a=CS.presuDoc.archivo;const blob=a.blob||new Blob([miniPDF(['Presupuesto autorizado · ejercicio '+CALC.ej,CS.presuDoc.num+' · '+CS.presuDoc.fecha,'Monto: '+money(CS.presu),'','Documento de prueba · sin valor oficial'])],{type:'application/pdf'});msgDl(await bajar(blob,a.name),a.name)});const sb=$('#simBase',m);if(sb)sb.oninput=()=>{state.simBase=parseFloat(String(sb.value).replace(/[^\d.]/g,''))||0;const p=sb.selectionStart;render();const n=$('#simBase');n.focus();n.setSelectionRange(p,p)};
