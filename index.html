@@ -656,6 +656,9 @@ body.menuopen .mb-dim{display:block;opacity:1}
 .mb-sep{height:1px;background:rgba(0,0,0,.14);margin:6px 8px}
 .mb-item.open{background:rgba(0,0,0,.12)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.mb-dd{background:rgba(250,250,252,.97)}.modal{background:#fff}.toast{background:#fff}.tip{background:#fff}}
+
+/* la barra de menús no lleva desenfoque propio: si lo llevara, sus menús desplegables solo desenfocarían la barra y no la página */
+.mbar{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(245,245,247,.96)}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
