@@ -238,6 +238,39 @@ details.tech summary{cursor:pointer;font-size:12px;color:var(--ink-2);margin:10p
 .tag.auto{background:var(--accent-soft);color:var(--accent-2)}.tag.man{background:var(--warn-soft);color:var(--warn)}
 .autobar{display:flex;align-items:flex-start;gap:10px;flex-wrap:nowrap;padding:10px 14px;border-radius:10px;background:var(--accent-soft);margin-bottom:12px;font-size:12.5px}
 .autobar b{color:var(--accent-2)}.autobar svg{flex:none;margin-top:2px;stroke:var(--accent)}
+
+/* ---- ruta de intercambio ---- */
+.xchg{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+.xchg .xh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:linear-gradient(90deg,#EAF3FB,#EEF8EC);border-bottom:1px solid var(--border)}
+.xchg .xh b{font-size:12.5px}.xchg .xh .host{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink-2)}
+.xchg .xh .con{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ok);font-weight:600}
+.xchg .xh .con:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(46,158,58,.18)}
+.xdir{padding:10px 14px 12px;border-bottom:1px solid var(--border)}.xdir:last-child{border-bottom:0}
+.xdir .lab{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.xdir .lab .pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:11px;letter-spacing:0;text-transform:none;font-weight:600}
+.xdir .lab .pill.o{background:var(--accent-soft);color:var(--accent-2)}.xdir .lab .pill.i{background:var(--ok-soft);color:var(--ok)}
+.xdir .path{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink-3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.fr{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2)}
+.fr+.fr{margin-top:6px}
+.fr .fi{width:30px;height:30px;border-radius:7px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--accent)}
+.fr .fn{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:600;color:var(--ink)}
+.fr .fm{font-size:11.5px;color:var(--ink-2)}
+.fr.new{border-color:#BFDD8A;background:#F6FBF1}
+.xempty{padding:12px 10px;border:1px dashed var(--border-2);border-radius:8px;font-size:12px;color:var(--ink-3);text-align:center}
+/* ---- pasos ---- */
+.gprog{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;color:var(--ink-2)}
+.gprog .bar{flex:1;height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;display:block;margin:0;grid-template-columns:none}
+.gprog .bar i{display:block;height:100%;background:linear-gradient(90deg,#1B8FD6,#3CB043);border-radius:3px;transition:width .3s}
+.guide li{position:relative;grid-template-columns:30px 1fr;gap:12px;padding:9px 0}
+.guide li:before{content:"";position:absolute;left:14px;top:34px;bottom:-4px;width:2px;background:var(--border)}
+.guide li:last-child:before{display:none}
+.guide li.done:before{background:var(--ok)}
+.guide .ic{width:28px;height:28px;font-size:12px;box-shadow:0 0 0 3px var(--surface)}
+.guide li.run .ic{box-shadow:0 0 0 3px var(--accent-soft)}
+.guide b{font-size:13px}
+.guide .res span{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-size:12px;display:inline-flex;align-items:center;gap:5px}
+.guide .res span.ok{background:var(--ok-soft);border-color:transparent}.guide .res span.warn{background:var(--warn-soft);border-color:transparent}
+.tag{font-size:10px;padding:1px 6px}
 </style>
 <div class="login" id="login">
   <div class="brand">
@@ -412,7 +445,8 @@ function verEnvio(i,tab='resumen'){const e=envios[i];const prev=envios.slice(0,i
  $$('[data-mtab]',$('#modal')).forEach(b=>b.onclick=()=>verEnvio(i,b.dataset.mtab));
  const ap=$('#aprEnv');if(ap)ap.onclick=()=>{e.estado='Aprobado';e.apr=now()+' · '+user.nombre;bitacora.unshift([now(),user.nombre,'Envíos','Aprobó el padrón '+e.id]);closeModal();toast('Padrón aprobado');render()};
  const dp=$('#depEnv');if(dp)dp.onclick=()=>{e.estado='Depositado';e.fecha=now();bitacora.unshift([now(),'Sistema','Envíos','Depositó PADRON_SNP en '+medio+' · '+e.id]);recalcTOT();closeModal();toast('Depositado en '+medio+' · constancia registrada');render()}}
-function folder(t,files,empty){return `<div class="folder"><div class="fh">${ic('folder')}${t}</div>${files.length?files.map(f=>`<div class="f ${f.new?'new':''}"><span class="fn">${ic('file')}${f.name}</span><span class="sm faint">${f.ts}</span></div>`).join(''):`<div class="empty" style="padding:10px 12px;text-align:left">${empty}</div>`}</div>`}
+function folder(t,files,empty,dir){const out=dir!=='in';return `<div class="xdir"><div class="lab"><span class="pill ${out?'o':'i'}">${out?ic('up')+'ONP → SBS':ic('down')+'SBS → ONP'}</span>${out?'Carpeta de envío':'Carpeta de respuesta'}</div><div class="path">${ic('folder')}${t}</div>${files.length?files.map(f=>`<div class="fr ${f.new?'new':''}"><div class="fi">${ic('file')}</div><div><div class="fn">${f.name}</div><div class="fm">${f.size||(out?'3.8 MB':'248 KB')} · ${f.ts}</div></div><span class="st ${out?'info':'ok'}">${out?'Depositado':'Recibido'}</span></div>`).join(''):`<div class="xempty">${empty}</div>`}</div>`}
+function xchg(){return `<div class="xchg"><div class="xh"><div><b>Ruta de intercambio</b><div class="host">${medio==='SFTP'?'sftp.prueba.local:22':medio==='SBSNet'?'SBSNet · buzón de pruebas':'\\\\servidor\\intercambio'}</div></div><span class="con">${P.running||P.auto?'Transfiriendo…':'Conectado'}</span></div>${folder('/aporte_consumo/envio/',P.envio,'Aún no se ha depositado ningún archivo','out')}${folder('/aporte_consumo/respuesta/',P.resp,'La SBS aún no ha dejado respuesta','in')}</div>`}
 function procGo(){const i=P.step;const e=marzo();
  if(i===0)runSeq([[300,10,'Conectando al PUA…'],[700,35,`Leídos ${fmt(P.evaluados)} afiliados al SNP · corte 31/03/2027`],[500,50,'Condición 1 · DNI validado con RENIEC'],[400,62,'Condición 2 · no fallecido (PUA / RENIEC)'],[400,74,'Condición 3 · sin pensión ni beneficio previsional'],[400,86,'Condición 4 · menor de 65 años'],[500,95,P.prev?`Ya enviados: ${fmt(P.prev)} (no se repiten)`:'Primer envío: no hay afiliados enviados anteriormente'],[400,100,`Cumplen: ${fmt(P.cumplen)} · Excluidos: ${fmt(P.exc)} con motivo`,'ok']],()=>{P.step=1;e.estado='Generado';e.gen=now()});
  else if(i===1)runSeq([[400,30,'Cabecera ORIGEN|DESTINO|PADRON|202703'],[600,70,`${fmt(P.cumplen)} registros de 295 caracteres · orden por DNI`],[500,100,'Validación: longitud OK · orden OK · sin duplicados · fechas OK','ok']],()=>{P.step=2;P.file='PADRON_SNP_202703.txt'});
@@ -447,8 +481,8 @@ M.extraccion=()=>{const lbl=['Ejecutar extracción del PUA','Generar archivo','A
  <div class="autobar">${ic('clock')}<span><b>Proceso automático.</b> Corre solo el ${p.corte} 23:00 y revisa la respuesta a diario; solo la <b>aprobación</b> es manual. Corte ${p.corte} · depósito hasta el ${p.plazo} · ${medio}${P.auto?' · <b>ejecutando…</b>':''}</span></div>
  ${modo==='cero'&&P.step>=6?`<div class="callout info">${ic('check')}<span><b>Envío completado.</b> Revise Envíos a la SBS · Respuestas de la SBS · Afiliados con cuenta · Archivos enviados y recibidos.</span></div>`:''}
  <div class="card"><div class="cb">${P.step===2&&!puede('Especialista de Recaudación')?`<div class="callout warn">${ic('alert')}<span>La aprobación requiere el perfil <b>Especialista de Recaudación</b>.</span></div>`:''}
-  <div class="grid32"><div>${guiaHTML()}<details class="tech"><summary>Ver detalle técnico (bitácora)</summary><div class="log" id="plog">${P.log.length?P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join(''):'<span class="faint">Sin actividad.</span>'}</div></details></div>
-  <div><div class="sm muted" style="margin-bottom:6px;font-weight:500">Ruta de intercambio · ${medio}</div>${folder('/aporte_consumo/envio/',P.envio,'Sin archivo depositado')}${folder('/aporte_consumo/respuesta/',P.resp,'La SBS aún no responde')}</div></div>
+  <div class="grid32"><div><div class="gprog"><span>${Math.min(P.step,6)} de 6 pasos</span><span class="bar"><i style="width:${Math.min(P.step,6)/6*100}%"></i></span><span>${P.step>=6?'completado':P.running?'en curso':'pendiente'}</span></div>${guiaHTML()}<details class="tech"><summary>Ver detalle técnico (bitácora)</summary><div class="log" id="plog">${P.log.length?P.log.map(([a,b,c])=>`<div><span class="t">${a}</span><span class="${c}">${b}</span></div>`).join(''):'<span class="faint">Sin actividad.</span>'}</div></details></div>
+  <div>${xchg()}</div></div>
   </div></div>`};
 function periodosInfo(){const e=marzo();return {per:e.per,corte:e.corte,plazo:e.plazo,estado:e.estado}}
 
