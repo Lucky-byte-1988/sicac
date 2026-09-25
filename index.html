@@ -753,6 +753,7 @@ table.dense th.sep,table.dense td.sep{padding-left:10px}
 .mefbox{border:1px solid var(--border);border-style:solid}
 .afg.w2{grid-template-columns:repeat(2,minmax(0,1fr))!important}.afg .fn{display:inline-flex;align-items:center;gap:6px;vertical-align:middle}.afg>div b .ib{display:inline-grid;vertical-align:middle;width:26px;height:26px}.afg>div b .btn{display:inline-flex;margin-top:6px}
 .modal.xwide{max-width:1260px}
+.kpi .l,.eco-mon-l{display:flex;align-items:center;gap:6px}.kpi .l svg.ki{width:13px;height:13px;flex:none;color:var(--ink-3);stroke-width:1.7}.eco-mon-l svg.ki{width:11px;height:11px;flex:none;color:var(--ink-3);stroke-width:1.9}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -922,7 +923,7 @@ async function exportCSV(){const rows=$$('#page table tbody tr').filter(tr=>tr.c
 function toast(t){const e=$('#toast');e.innerHTML=ic('check')+'<span>'+t+'</span>';e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2800)}
 let _mLock=0,_mT=null;
 function modal(title,sub,body,foot,opts={}){clearTimeout(_closeT);clearTimeout(_mT);const o=$('#overlay'),m=$('#modal');o.classList.remove('out');m.classList.toggle('wide',!!opts.wide);m.classList.toggle('xwide',!!opts.xwide);const open=o.classList.contains('on');const h0=open?m.offsetHeight:0,st0=open?m.scrollTop:0,top0=open?m.getBoundingClientRect().top:0,M0=open?(parseFloat(m.style.marginTop)||0):0;
- m.innerHTML=`<div class="mh"><div><h3>${title}</h3>${sub?`<p>${sub}</p>`:''}</div><button class="ib" id="mclose">${ic('x')}</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;o.classList.add('on');$('#mclose').onclick=closeModal;bindTips(m);const c=$('#mcan');if(c)c.onclick=closeModal;
+ m.innerHTML=`<div class="mh"><div><h3>${title}</h3>${sub?`<p>${sub}</p>`:''}</div><button class="ib" id="mclose">${ic('x')}</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;o.classList.add('on');$('#mclose').onclick=closeModal;kpiIcons(m);bindTips(m);const c=$('#mcan');if(c)c.onclick=closeModal;
  if(open){m.style.height='';m.style.minHeight='';const VH=window.innerHeight;const h1=m.offsetHeight;const target=Math.min(Math.max(h1,h0,_mLock),Math.round(VH*.92));_mLock=target;m.scrollTop=st0;
   const top1=Math.max(20,Math.min(top0,VH-20-target));const M=Math.round(2*top1-VH+target);
   if(target!==h0||M!==M0){m.style.height=h0+'px';m.style.marginTop=M0+'px';m.classList.add('rs');m.offsetHeight;m.style.height=target+'px';m.style.marginTop=M+'px';_mT=setTimeout(()=>{m.classList.remove('rs');m.style.height='';m.style.minHeight=target+'px'},280)}else m.style.minHeight=target+'px'}else{_mLock=0;m.style.minHeight='';m.style.height='';m.style.marginTop='';m.classList.remove('rs')}}
@@ -935,6 +936,10 @@ const user={nombre:U.esp,rol:'Especialista de Recaudación'};const puede=(...r)=
 // ======================= Navegación =======================
 const NAV=[['General',[['tablero','Tablero','grid']]],['Procesos',[['extraccion','Ejecutar envío (PUA → SBS)','db'],['historico','Cargar envíos anteriores','up'],['padron','Envíos a la SBS','file'],['respuestas','Respuestas de la SBS','inbox'],['anuales','Envíos anuales','cal'],['eaf','Actualización de EAF','refresh'],['eafx','Intercambio anual de EAF','updown'],['calculo','Cálculo del aporte (1 %)','calc'],['pago','Gestión del pago','doc']]],['Consultas',[['afiliados','Padrón de cuentas','users'],['abonos','Abonos y pendientes (EAF)','calc'],['intercambios','Archivos enviados y recibidos','updown'],['documentos','Documentos y casos','clip'],['avisos','Avisos','bell'],['reporteAf','Reporte de Aportes por Consumo','doc']]],['Análisis',[['reportes','Reportes','chart']]],['Administración',[['parametros','Parámetros','sliders'],['presupuesto','Presupuesto del MEF','cal'],['usuarios','Usuarios y perfiles','shield'],['auditoria','Auditoría','list'],['modelo','Modelo de datos','db'],['reglas','Reglas del requerimiento','book']]]];
 const M={};
+// Icono del indicador según lo que mide · mismo criterio en todos los módulos
+const KPI_IC=[[/sin cuenta|pendiente|espera|plazo/,'clock'],[/observad|error|bloque/,'alert'],[/con cuenta|cuenta abierta|activa|acreditad|conciliad/,'check'],[/informad|persona|afiliad|padr[oó]n|cuentas/,'users'],[/abonad|pagad|aporte|monto|presupuesto|estimad|autorizad|prorrata|acumulad/,'calc'],[/ejercicio|a[nñ]o|periodo/,'cal'],[/orden|documento|expediente|archivo/,'doc'],[/env[ií]o|enviad|dep[oó]sito/,'up'],[/respuesta|recib/,'down'],[/eaf|entidad/,'users'],[/caso|gesti[oó]n/,'clip']];
+const kpiIcon=t=>{const x=(t||'').toLowerCase();for(const [re,k] of KPI_IC)if(re.test(x))return k;return 'chart'};
+function kpiIcons(root){$$('.kpi .l, .eco-mon-l',root).forEach(el=>{if(el.querySelector('svg'))return;el.insertAdjacentHTML('afterbegin',ic(kpiIcon(el.textContent),'i ki'))})}
 // Módulos donde hay montos: solo ahí tiene sentido el selector de formato
 const MONEY_SCREENS=new Set(['tablero','calculo','pago','abonos','presupuesto','reportes','afiliados','reporteAf']);
 // Filtro por EAF en la barra superior, igual que el formato de montos
@@ -1645,7 +1650,7 @@ function renderNav(){$('#navItems').innerHTML=NAV.map(([g,items])=>`<div class="
  document.body.classList.toggle('navtop',state.nav==='top');
  renderMenubar()}
 function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===state.screen);const grp=NAV.find(g=>g[1].some(i=>i[0]===state.screen))[0];$('#crumb').innerHTML=`<span>${grp}</span>${ic('chev')}<b>${title[1]}</b>`;$('#hoy').textContent=new Date().toLocaleDateString('es-PE',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});$('#modTitle').textContent=title[1];$('#modTitle2').textContent=title[1];{const mm=$('#mfmt');if(mm)mm.style.display=MONEY_SCREENS.has(state.screen)?'':'none'}eafSeg();$('#modoChip').textContent=modo==='cero'?'Simulación desde cero':'Historial de ejemplo';
- const m=$('#page');m.innerHTML=M[state.screen]();const ph0=m.querySelector('.ph');if(ph0){const sub=ph0.querySelector('h1');if(sub)sub.classList.add('modsub')}if(state._last!==state.screen){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');state._last=state.screen;window.scrollTo({top:0})}
+ const m=$('#page');m.innerHTML=M[state.screen]();kpiIcons(m);const ph0=m.querySelector('.ph');if(ph0){const sub=ph0.querySelector('h1');if(sub)sub.classList.add('modsub')}if(state._last!==state.screen){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');state._last=state.screen;window.scrollTo({top:0})}
  $$('[data-verenv]',m).forEach(b=>b.onclick=()=>verEnvio(+b.dataset.verenv));
  $$('[data-goresp]',m).forEach(b=>b.onclick=()=>{state.screen='respuestas';render();verResp(+b.dataset.goresp)});$$('[data-verresp]',m).forEach(b=>b.onclick=()=>verResp(+b.dataset.verresp));
  $$('[data-dni]',m).forEach(r=>r.onclick=()=>verAfiliado(r.dataset.dni));$$('[data-veraf]',m).forEach(b=>b.onclick=ev=>{ev.stopPropagation();verAfiliado(b.dataset.veraf)});$$('[data-trz]',m).forEach(b=>b.onclick=ev=>{ev.stopPropagation();state.tq=b.dataset.trz;state.screen='reporteAf';render()});$$('[data-ps]',m).forEach(h=>h.onclick=()=>{const k=h.dataset.ps;if(PS.k===k)PS.d=-PS.d;else{PS.k=k;PS.d=1}render()});
