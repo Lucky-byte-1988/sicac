@@ -1822,16 +1822,29 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||E.t.
  ${[1,2,0].map(u=>`<div class="card" style="margin-bottom:12px"><div class="ch"><div><h3>${DM_U[u][0]}</h3><div class="sub">${DM_U[u][1]}</div></div></div>${u===1?flow(['afiliado','envio','respuesta','cuenta','anual']):u===2?flow(['relacion','eafanual','ejercicio','presupuesto','aporte','orden']):''}<div class="dmg">${DM.filter(E=>E.u===u).map(card).join('')}</div></div>`).join('')}`};
 // ======================= Cese y saldo de la cuenta =======================
 // Cierre del beneficio: qué pasa con el saldo cuando el afiliado cesa (arts. 72.4, 79.3, 79.4, 80.2, 81.1 y 81.2)
-const CESE_DEST={fcr:'FCR · DL 19990',eafp:'EAF del pensionista',cont:'Conteo de aportes'};
+const CESE_DEST={fcr:'FCR · DL 19990',fcrspp:'FCR · SPP',eafp:'EAF del pensionista',cont:'Conteo de aportes',rp:'Retiro programado en la EAF'};
+// Quién actúa: la ONP pide, la EAF transfiere de oficio, o el caso no pasa por la ONP
+const CESE_VIA={sol:'La ONP solicita a la EAF',ofi:'La EAF transfiere · la ONP verifica',ent:'Entre EAF · la ONP no interviene',afi:'Lo pide el afiliado a su EAF'};
+// Cómo se decide el destino del saldo, según la norma
+const CESE_REGLA=[
+ ['SNP','Fallecimiento sin beneficiarios con derecho','fcr','sol','72.4'],
+ ['SNP','Fallecimiento o invalidez con prestación en el SNP','fcr','ofi','80.2'],
+ ['SNP','Accede a pensión y necesita el saldo para completar aportes','cont','sol','79.3 y 79.4'],
+ ['SNP','Ya tiene pensión solo con sus aportes del SNP','rp','afi','79.5'],
+ ['SNP','Aporte que se paga después de la pensión','fcr','sol','81.1 a'],
+ ['SPP','Accede a una prestación en el SPP','eafp','ent','79.1 y 81.1 b'],
+ ['SPP','Pensión mínima o proporcional garantizada, 95.5 % o PMO','fcrspp','ent','72.5 y 81.1 c-d'],
+ ['SPP','Invalidez o sobrevivencia con cobertura del seguro','fcrspp','ent','80.4']];
 let CESOS=[
- {dni:'90000021',nom:'APELLIDO PRUEBA, AFILIADO 021',reg:'SNP',mot:'01',fec:'12/02/2031',eaf:'PRO',saldo:186.4,dest:'fcr',of:'OF-2031-0187',est:'Transferido',ftr:'05/03/2031',art:'72.4',pend:0},
- {dni:'90000034',nom:'APELLIDO PRUEBA, AFILIADO 034',reg:'SNP',mot:'02',fec:'28/02/2031',eaf:'INT',saldo:243.15,dest:'cont',of:'OF-2031-0203',est:'Transferido',ftr:'14/03/2031',art:'79.3',pend:0},
- {dni:'90000047',nom:'APELLIDO PRUEBA, AFILIADO 047',reg:'SNP',mot:'03',fec:'05/03/2031',eaf:'HAB',saldo:158.9,dest:'fcr',of:'OF-2031-0221',est:'En espera de la EAF',ftr:'',art:'79.4',pend:0},
- {dni:'90000052',nom:'APELLIDO PRUEBA, AFILIADO 052',reg:'SNP',mot:'04',fec:'11/03/2031',eaf:'PRO',saldo:97.25,dest:'fcr',of:'OF-2031-0230',est:'En espera de la EAF',ftr:'',art:'80.2',pend:0},
- {dni:'90000068',nom:'APELLIDO PRUEBA, AFILIADO 068',reg:'SNP',mot:'02',fec:'19/03/2031',eaf:'RIM',saldo:210.7,dest:'cont',of:'',est:'Por solicitar',ftr:'',art:'79.3',pend:0},
- {dni:'90000073',nom:'APELLIDO PRUEBA, AFILIADO 073',reg:'SNP',mot:'01',fec:'02/04/2031',eaf:'INT',saldo:132.55,dest:'fcr',of:'',est:'Con aporte pendiente',ftr:'',art:'81.2',pend:4.3},
- {dni:'90000081',nom:'APELLIDO PRUEBA, AFILIADO 081',reg:'SPP',mot:'02',fec:'08/04/2031',eaf:'PRO',saldo:301.8,dest:'eafp',of:'OF-2031-0258',est:'Transferido',ftr:'22/04/2031',art:'81.1 b',pend:0},
- {dni:'90000094',nom:'APELLIDO PRUEBA, AFILIADO 094',reg:'SNP',mot:'03',fec:'15/04/2031',eaf:'HAB',saldo:174.3,dest:'fcr',of:'',est:'Con aporte pendiente',ftr:'',art:'81.1 a',pend:3.04}];
+ {dni:'90000021',nom:'APELLIDO PRUEBA, AFILIADO 021',reg:'SNP',mot:'01',fec:'12/02/2031',eaf:'PRO',saldo:186.4,dest:'fcr',via:'sol',of:'OF-2031-0187',est:'Transferido',ftr:'05/03/2031',art:'72.4',pend:0},
+ {dni:'90000034',nom:'APELLIDO PRUEBA, AFILIADO 034',reg:'SNP',mot:'02',fec:'28/02/2031',eaf:'INT',saldo:243.15,dest:'cont',via:'sol',of:'OF-2031-0203',est:'Transferido',ftr:'14/03/2031',art:'79.3',pend:0},
+ {dni:'90000047',nom:'APELLIDO PRUEBA, AFILIADO 047',reg:'SNP',mot:'03',fec:'05/03/2031',eaf:'HAB',saldo:158.9,dest:'fcr',via:'sol',of:'OF-2031-0221',est:'En espera de la EAF',ftr:'',art:'79.4',pend:0},
+ {dni:'90000052',nom:'APELLIDO PRUEBA, AFILIADO 052',reg:'SNP',mot:'04',fec:'11/03/2031',eaf:'PRO',saldo:97.25,dest:'fcr',via:'ofi',of:'OF-2031-0230',est:'En espera de la EAF',ftr:'',art:'80.2',pend:0},
+ {dni:'90000068',nom:'APELLIDO PRUEBA, AFILIADO 068',reg:'SNP',mot:'02',fec:'19/03/2031',eaf:'RIM',saldo:210.7,dest:'cont',via:'sol',of:'',est:'Por solicitar',ftr:'',art:'79.3',pend:0},
+ {dni:'90000073',nom:'APELLIDO PRUEBA, AFILIADO 073',reg:'SNP',mot:'01',fec:'02/04/2031',eaf:'INT',saldo:132.55,dest:'fcr',via:'sol',of:'',est:'Con aporte pendiente',ftr:'',art:'81.2',pend:4.3},
+ {dni:'90000081',nom:'APELLIDO PRUEBA, AFILIADO 081',reg:'SPP',mot:'02',fec:'08/04/2031',eaf:'PRO',saldo:301.8,dest:'eafp',via:'ent',of:'—',est:'Transferido',ftr:'22/04/2031',art:'81.1 b',pend:0},
+ {dni:'90000087',nom:'APELLIDO PRUEBA, AFILIADO 087',reg:'SPP',mot:'02',fec:'12/04/2031',eaf:'RIM',saldo:265.4,dest:'fcrspp',via:'ent',of:'—',est:'Transferido',ftr:'30/04/2031',art:'81.1 c',pend:0},
+ {dni:'90000094',nom:'APELLIDO PRUEBA, AFILIADO 094',reg:'SNP',mot:'03',fec:'15/04/2031',eaf:'HAB',saldo:174.3,dest:'fcr',via:'sol',of:'',est:'Con aporte pendiente',ftr:'',art:'81.1 a',pend:3.04}];
 const CESE_ART={'01':'72.4','02':'79.3','03':'79.4','04':'80.2'};
 function verCese(dni){const c=CESOS.find(x=>x.dni===dni);if(!c)return;
  const mot=(CESE_MOT.find(x=>x[0]===c.mot)||['','—'])[1];
@@ -1847,6 +1860,7 @@ function verCese(dni){const c=CESOS.find(x=>x.dni===dni);if(!c)return;
    <div><span>EAF de la cuenta</span><b>${EAF[c.eaf]}</b></div>
    <div><span>Saldo acumulado</span><b>${money(c.saldo)}</b></div>
    <div><span>Destino del saldo</span><b>${CESE_DEST[c.dest]}</b></div>
+   <div><span>Quién actúa</span><b>${CESE_VIA[c.via]}</b></div>
    <div><span>Oficio a la EAF</span><b class="mono">${c.of||'por generar'}</b></div>
    <div><span>Sustento</span><b>Reglamento · art. ${c.art}</b></div>
   </div>
@@ -1858,7 +1872,7 @@ M.cese=()=>{const f=state.cf||'';const L=CESOS.filter(c=>!f||c.mot===f);
  const porTr=sum(c=>c.est!=='Transferido'?c.saldo:0), tr=sum(c=>c.est==='Transferido'?c.saldo:0);
  const bloq=L.filter(c=>c.pend>0).length;
  const mot=m=>(CESE_MOT.find(x=>x[0]===m)||['','—'])[1];
- const stEst=e=>e==='Transferido'?'<span class="st ok">Transferido</span>':e==='En espera de la EAF'?'<span class="st info">En espera de la EAF</span>':e==='Con aporte pendiente'?'<span class="st warn">Con aporte pendiente</span>':'<span class="st">Por solicitar</span>';
+ const stEst=e=>e==='Transferido'?'<span class="st ok">Transferido</span>':e==='En espera de la EAF'?'<span class="st info">En espera</span>':e==='Con aporte pendiente'?'<span class="st warn">Con aporte pendiente</span>':'<span class="st">Por solicitar</span>';
  return `${ph('Cese y saldo de la cuenta','',rules('31','32','33','34','35'),`<div class="seg">${[['','Todos'],...CESE_MOT.map(m=>[m[0],m[1]])].map(([k,t])=>`<button class="${f===k?'on':''}" data-cf="${k}">${t}</button>`).join('')}</div><button class="btn">${ic('down')}Exportar</button>`)}
  <div class="kpis">
   <div class="kpi"><div><div class="l">Casos del ejercicio</div><div class="v">${L.length}</div><div class="s">con saldo en la cuenta especial</div></div></div>
@@ -1868,8 +1882,11 @@ M.cese=()=>{const f=state.cf||'';const L=CESOS.filter(c=>!f||c.mot===f);
  </div>
  <div class="card"><div class="ch"><h3>Casos de cese</h3><span class="ctx">una fila por afiliado</span></div><div class="tw"><table class="money dense zb"><thead>
   <tr class="grp"><th colspan="4">Afiliado</th><th colspan="3" class="sep">Cuenta especial</th><th colspan="3" class="sep">Transferencia del saldo</th></tr>
-  <tr><th>DNI</th><th>Afiliado</th><th>Motivo de cese</th><th>Fecha</th><th class="sep">Régimen</th><th>EAF</th><th class="n">Saldo</th><th class="sep">Destino</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>
-  ${L.map(c=>`<tr class="click" data-cese="${c.dni}"><td class="mono">${c.dni}</td><td><b style="font-weight:500">${c.nom}</b></td><td class="muted">${c.mot} · ${mot(c.mot)}</td><td class="muted">${c.fec}</td><td class="sep muted">${c.reg}</td><td class="muted">${EAF[c.eaf]}</td><td class="n">${money(c.saldo)}</td><td class="sep muted">${CESE_DEST[c.dest]}</td><td>${stEst(c.est)}</td><td class="muted">${c.ftr||'—'}</td></tr>`).join('')}
+  <tr><th>DNI</th><th>Afiliado</th><th>Motivo</th><th>Fecha</th><th class="sep">Régimen</th><th>EAF</th><th class="n">Saldo</th><th class="sep">Destino</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>
+  ${L.map(c=>`<tr class="click" data-cese="${c.dni}"><td class="mono">${c.dni}</td><td><b style="font-weight:500">${c.nom}</b></td><td class="muted">${mot(c.mot)}</td><td class="muted">${c.fec}</td><td class="sep muted">${c.reg}</td><td class="muted">${EAF[c.eaf]}</td><td class="n">${money(c.saldo)}</td><td class="sep muted">${CESE_DEST[c.dest]}</td><td>${stEst(c.est)}</td><td class="muted">${c.ftr||'—'}</td></tr>`).join('')}
+ </tbody></table></div></div>
+ <div class="card"><div class="ch"><div><h3>Cómo se decide el destino del saldo</h3><div class="sub">según el régimen y el motivo del cese</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:70px">Régimen</th><th>Situación</th><th style="width:190px">Destino del saldo</th><th style="width:230px">Quién actúa</th><th style="width:110px">Artículo</th></tr></thead><tbody>
+ ${CESE_REGLA.map(r=>`<tr><td><b style="font-weight:500">${r[0]}</b></td><td class="muted" style="white-space:normal">${r[1]}</td><td>${CESE_DEST[r[2]]}</td><td class="muted">${CESE_VIA[r[3]]}</td><td class="mono muted" ${artTip(r[4].split(' ')[0])}>art. ${r[4]}</td></tr>`).join('')}
  </tbody></table></div></div>`};
 
 // ======================= Mapa de interoperabilidad (Ayuda) =======================
