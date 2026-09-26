@@ -797,11 +797,11 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mapa{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}
 .mapa-svg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);padding:6px}
 .mapa-svg>svg{width:100%;height:auto;display:block}
-.eco-hd{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;padding:13px 16px 2px;
-  font-size:12.5px;color:var(--ink-2);line-height:1.5}
-.eco-hd b{color:var(--ink);font-weight:600}
-.eco-hd .pn{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--accent-2);background:var(--accent-soft);border-radius:999px;padding:2px 9px}
+.eco-hd{padding:26px 30px 14px;max-width:860px;animation:hdIn .34s ease}
+@keyframes hdIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.eco-hd p{margin:0;font:600 22px/1.38 var(--font-display);letter-spacing:-.018em;color:var(--ink)}
+.eco-hd b{color:var(--accent-2);font-weight:600}
+@media(max-width:1200px){.eco-hd{padding:20px 20px 10px}.eco-hd p{font-size:19px}}
 .eco-leg{display:flex;flex-wrap:wrap;gap:4px 18px;padding:10px 14px 4px;border-top:1px solid var(--border);
   margin-top:8px;font-size:11.5px;color:var(--ink-3)}
 .eco-leg b{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2);margin-right:4px}
@@ -1860,6 +1860,8 @@ const COD_T={
  ISN2:['ISN2AAMM','Archivo anual de ceses del beneficio y cambios de datos del ejercicio.','ONP → SBS · hasta el 15 de marzo','ceses y cambios del año'],
  ISNT:['ISNT2701 y ISNT2801','Stock de afiliados del SNP sin cese al 31/01/2027 y al 31/01/2028.','ONP → SBS · intercambio transitorio','stock inicial']};
 const codTip=c=>COD_T[c]?`data-tip="<b>${COD_T[c][0]}</b><br>${COD_T[c][1]}<div class=&quot;tt-h&quot;>${COD_T[c][2]} · AAMM es el año y el mes del periodo: ISN12701 es enero de 2027</div>"`:'';
+// Cómo se nombra cada entidad dentro de una frase
+const ART_N={onp:'La ONP',sbs:'La SBS',sunat:'La SUNAT',mef:'El MEF',reniec:'El RENIEC',eaf:'La EAF',afi:'El afiliado'};
 const MAPA_ACC={
  isn1:{de:'Selecciona a los afiliados con derecho y deposita el padrón del mes para la SBS.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
  apert:{de:'Asigna la EAF que corresponde y dispone la apertura de la cuenta especial.',a:'Abre la cuenta especial a nombre del afiliado y queda lista para recibir el aporte.'},
@@ -2055,8 +2057,9 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
   <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
   <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span></span>${x.cod?`<span class="cod" ${codTip(x.cod)}>${x.cod}</span>`:''}</button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="mapa"><div class="mapa-svg">${norma?`<div class="eco-hd"><b>${MAPA_N[ns].t}</b> · lo que le corresponde hacer según el reglamento</div>`
-  :(F0?`<div class="eco-hd"><span class="pn">Paso ${LST.findIndex(x=>x.id===sel)+1} de ${LST.length}</span><b>${F0.t}</b> · ${(MAPA_TIP[F0.id]||[F0.d])[0]}</div>`:'')}<svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.1"/></marker>
+ <div class="mapa"><div class="mapa-svg">${norma?`<div class="eco-hd"><p>Esto es lo que le corresponde hacer ${(ART_N[ns]||'').startsWith('El ')?'al':'a la'} <b>${MAPA_N[ns].t}</b> según el reglamento.</p></div>`
+  :(F0?(()=>{const A=MAPA_ACC[F0.id]||{},fr=A.de||(MAPA_TIP[F0.id]||[F0.d])[0];
+   return `<div class="eco-hd" key="${F0.id}"><p><b>${ART_N[F0.de]||MAPA_N[F0.de].t}</b> ${fr.charAt(0).toLowerCase()+fr.slice(1)}</p></div>`})():'')}<svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.1"/></marker>
    <marker id="pton" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.4"/></marker>
    <marker id="cv" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="21" markerHeight="21" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="8.6"/><path class="cvc" d="M9.2 7.6 L13 11 L9.2 14.4"/></marker>
    <marker id="cvon" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="23" markerHeight="23" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="9.2"/><path class="cvc" d="M9.2 7.5 L13.2 11 L9.2 14.5"/></marker></defs>${zonas}${trazos}${nodos}</svg>${(()=>{const cs=[...new Set(LST.filter(f=>f.cod).map(f=>f.cod))];
