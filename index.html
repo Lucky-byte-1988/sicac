@@ -1795,13 +1795,13 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||E.t.
 // ======================= Mapa del ecosistema (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
- sunat:{x:150,y:120,t:'SUNAT',s:'boletas electrónicas'},
- mef:{x:150,y:420,t:'MEF',s:'presupuesto anual'},
- onp:{x:430,y:270,t:'ONP',s:'PUA · este sistema',big:1},
- reniec:{x:830,y:80,t:'RENIEC',s:'nombres y DNI'},
- sbs:{x:830,y:270,t:'SBS',s:'abre las cuentas'},
- eaf:{x:1040,y:145,t:'EAF',s:'administra el fondo'},
- afi:{x:1040,y:430,t:'Afiliado',s:'cuenta por consumo'}};
+ sunat:{x:170,y:110,t:'SUNAT',s:'boletas electrónicas'},
+ mef:{x:170,y:450,t:'MEF',s:'presupuesto anual'},
+ onp:{x:490,y:280,t:'ONP',s:'PUA · este sistema',big:1},
+ reniec:{x:850,y:110,t:'RENIEC',s:'nombres y DNI'},
+ sbs:{x:850,y:280,t:'SBS',s:'abre las cuentas'},
+ eaf:{x:1090,y:110,t:'EAF',s:'administra el fondo'},
+ afi:{x:1090,y:450,t:'Afiliado',s:'cuenta por consumo'}};
 const MAPA_F=[
  {id:'isn1',de:'onp',a:'sbs',g:'mes',cod:'ISN1',art:'73.6',t:'Padrón mensual de afiliados',d:'Afiliados al SNP que cumplen las cuatro condiciones, para que la SBS les abra la cuenta.',per:'Mensual · 5.º día hábil',len:'294 caracteres',mod:'padron'},
  {id:'osn1',de:'sbs',a:'onp',g:'mes',cod:'OSN1',art:'73.7',t:'Cuentas abiertas',d:'La SBS devuelve, por cada DNI, la EAF y la fecha de apertura de la cuenta.',per:'Mensual · cierre del 2.º mes',len:'19 caracteres',mod:'respuestas'},
@@ -1819,9 +1819,11 @@ const MAPA_F=[
  {id:'acred',de:'eaf',a:'afi',g:'calc',art:'78.7',t:'Acreditación en la cuenta',d:'La EAF abona el aporte en la cuenta especial e informa al afiliado.',per:'Anual',mod:'reporteAf'},
  {id:'pend',de:'onp',a:'mef',g:'calc',art:'78.6',t:'Pendientes de pago',d:'Si el presupuesto no alcanzó, la diferencia por prorrata se informa para el año siguiente (78.6).',per:'Anual · 31 de enero',mod:'presupuesto'}];
 const MAPA_Z=[
- {x:48,y:56,w:206,h:436,t:'Base de cálculo y presupuesto'},
- {x:326,y:150,w:610,h:240,t:'Intercambio ONP ⇄ SBS'},
- {x:934,y:78,w:212,h:414,t:'Cuenta del afiliado'}];
+ {x:58,y:44,w:224,h:468,t:'Base de cálculo y presupuesto'},
+ {x:378,y:214,w:584,h:132,t:'Intercambio ONP ⇄ SBS'},
+ {x:978,y:44,w:224,h:468,t:'Cuenta del afiliado'}];
+// carriles libres por donde puede pasar un trazo sin cruzar una tarjeta
+const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
 const MAPA_TIP={
  isn1:['Lista de afiliados del SNP para que la SBS les abra la cuenta','OSN1 · la EAF asignada y la fecha de apertura'],
  osn1:['Por cada DNI, la EAF asignada y la fecha en que se abrió la cuenta',''],
@@ -1877,26 +1879,53 @@ const ROLES={
    ['79.3','Suma el saldo a sus aportes al pedir una pensión','Al tramitarla','']]};
 function mapaOff(list){const G={},O={};
  list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f.id)});
- Object.values(G).forEach(ids=>{const st=ids.length>4?42:64;ids.forEach((id,i)=>O[id]=(i-(ids.length-1)/2)*st)});
+ Object.values(G).forEach(ids=>{const st=ids.length>4?42:44;ids.forEach((id,i)=>O[id]=(i-(ids.length-1)/2)*st)});
  return O}
-function mapaMid(f,off){const A=MAPA_N[f.de],B=MAPA_N[f.a];const dx=B.x-A.x,dy=B.y-A.y;
- const cx=(A.x+B.x)/2+(Math.abs(dy)>Math.abs(dx)?off:0), cy=(A.y+B.y)/2+(Math.abs(dy)>Math.abs(dx)?0:off);
- const t=.5,a=(1-t)*(1-t),b=2*(1-t)*t,c=t*t;
- return {x:a*A.x+b*cx+c*B.x, y:a*A.y+b*cy+c*B.y}}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// une los puntos con tramos rectos y esquinas redondeadas
+function rline(P,r){const Q=[];P.forEach(p=>{const q=Q[Q.length-1];if(!q||Math.abs(q[0]-p[0])>1.5||Math.abs(q[1]-p[1])>1.5)Q.push(p)});
+ if(Q.length<3)return `M ${Q[0][0]} ${Q[0][1]} L ${Q[Q.length-1][0]} ${Q[Q.length-1][1]}`;
+ let d=`M ${Q[0][0]} ${Q[0][1]}`;
+ for(let i=1;i<Q.length-1;i++){const [px,py]=Q[i-1],[cx,cy]=Q[i],[nx,ny]=Q[i+1];
+  const l1=Math.hypot(cx-px,cy-py)||1,l2=Math.hypot(nx-cx,ny-cy)||1,rr=Math.min(r,l1/2,l2/2);
+  d+=` L ${(cx-(cx-px)/l1*rr).toFixed(1)} ${(cy-(cy-py)/l1*rr).toFixed(1)} Q ${cx} ${cy} ${(cx+(nx-cx)/l2*rr).toFixed(1)} ${(cy+(ny-cy)/l2*rr).toFixed(1)}`}
+ const e=Q[Q.length-1];return d+` L ${e[0]} ${e[1]}`}
+function rmid(P){let L=0;const seg=[];for(let i=1;i<P.length;i++){const l=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);seg.push(l);L+=l}
+ let t=L/2;for(let i=0;i<seg.length;i++){if(t<=seg[i]){const k=seg[i]?t/seg[i]:0;return {x:P[i][0]+(P[i+1][0]-P[i][0])*k,y:P[i][1]+(P[i+1][1]-P[i][1])*k}}t-=seg[i]}
+ return {x:P[P.length-1][0],y:P[P.length-1][1]}}
+// cuántas tarjetas atraviesa un recorrido
+function rcost(P,de,a){let c=0,L=0,b=0;
+ for(let i=1;i<P.length;i++){const [x1,y1]=P[i-1],[x2,y2]=P[i];L+=Math.hypot(x2-x1,y2-y1);if(i>1)b++;
+  for(const k in MAPA_N){if(k===de||k===a)continue;const N=MAPA_N[k];
+   if(Math.min(x1,x2)<N.x+96&&Math.max(x1,x2)>N.x-96&&Math.min(y1,y2)<N.y+40&&Math.max(y1,y2)>N.y-40)c++}}
+ return c*1000+b*40+L}
+function ruta(f,off){const A=MAPA_N[f.de],B=MAPA_N[f.a];const HX=98,HY=42;
+ const sx=B.x>=A.x?1:-1, sy=B.y>=A.y?1:-1;
+ const ax=A.x+sx*HX, bx=B.x-sx*HX, ay=A.y+sy*HY, by=B.y-sy*HY;
+ const e=clamp(off*.26,-38,38), C=[];
+ const alinH=Math.abs(B.y-A.y)<8, alinV=Math.abs(B.x-A.x)<8;
+ if(alinH){const cap=Math.max(30,Math.abs(bx-ax)*.34),yt=A.y+clamp(off,-cap,cap),j=Math.min(34,Math.abs(bx-ax)/4)*sx;
+  C.push(Math.abs(off)<=24?[[ax,A.y+off],[bx,B.y+off]]
+   :[[ax,A.y+e],[ax+j,A.y+e],[ax+j,yt],[bx-j,yt],[bx-j,B.y+e],[bx,B.y+e]])}
+ if(alinV){const cap=Math.max(30,Math.abs(by-ay)*.34),xt=A.x+clamp(off,-cap,cap),j=Math.min(34,Math.abs(by-ay)/4)*sy;
+  C.push(Math.abs(off)<=56?[[A.x+off,ay],[B.x+off,by]]
+   :[[A.x+e,ay],[A.x+e,ay+j],[xt,ay+j],[xt,by-j],[B.x+e,by-j],[B.x+e,by]])}
+ if(!alinH&&!alinV){
+  [.5,.28,.72].forEach(k=>{const mx=ax+(bx-ax)*k+clamp(off*.42,-30,30);C.push([[ax,A.y+e],[mx,A.y+e],[mx,B.y+e],[bx,B.y+e]])});
+  [.5,.28,.72].forEach(k=>{const my=ay+(by-ay)*k+clamp(off*.42,-30,30);C.push([[A.x+e,ay],[A.x+e,my],[B.x+e,my],[B.x+e,by]])});
+  LANE_Y.forEach(ly=>{if(Math.abs(ly-A.y)<60||Math.abs(ly-B.y)<60)return;
+   C.push([[A.x+e,A.y+(ly<A.y?-HY:HY)],[A.x+e,ly+off*.3],[B.x+e,ly+off*.3],[B.x+e,B.y+(ly<B.y?-HY:HY)]])});
+  LANE_X.forEach(lx=>{if(Math.abs(lx-A.x)<130||Math.abs(lx-B.x)<130)return;
+   C.push([[A.x+(lx<A.x?-HX:HX),A.y+e],[lx+off*.3,A.y+e],[lx+off*.3,B.y+e],[B.x+(lx<B.x?-HX:HX),B.y+e]])})}
+ let best=C[0],bc=Infinity;
+ C.forEach(P=>{const c=rcost(P,f.de,f.a);if(c<bc){bc=c;best=P}});
+ const P=best.map(p=>[Math.round(p[0]),Math.round(p[1])]);
+ return {d:rline(P,14),mid:rmid(P)}}
 let MAPA_T=null;
 function mapaPlay(list){if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null;render();return}
  let i=list.findIndex(x=>x.id===state.mapaSel);if(i<0||i>=list.length-1)i=-1;
  const paso=()=>{i++;if(i>=list.length){clearInterval(MAPA_T);MAPA_T=null;render();return}state.mapaSel=list[i].id;render()};
  MAPA_T=setInterval(paso,2600);paso()}
-function mapaPath(f,rev,off){const A=MAPA_N[rev?f.a:f.de],B=MAPA_N[rev?f.de:f.a];const x1=A.x,y1=A.y,x2=B.x,y2=B.y;const dx=x2-x1,dy=y2-y1;
- const mx=(x1+x2)/2+(Math.abs(dy)>Math.abs(dx)?off:0), my=(y1+y2)/2+(Math.abs(dy)>Math.abs(dx)?0:off);
- const sp=off*.34;const px1=Math.abs(dy)>Math.abs(dx)?x1+sp:x1, py1=Math.abs(dy)>Math.abs(dx)?y1:y1+sp;
- const px2=Math.abs(dy)>Math.abs(dx)?x2+sp:x2, py2=Math.abs(dy)>Math.abs(dx)?y2:y2+sp;
- const cut=(px,py)=>{const ux=mx-px,uy=my-py,L=Math.hypot(ux,uy)||1;const vx=ux/L,vy=uy/L;let t=L;
-  if(Math.abs(vx)>1e-6)t=Math.min(t,101/Math.abs(vx));if(Math.abs(vy)>1e-6)t=Math.min(t,44/Math.abs(vy));
-  return [Math.round(px+vx*t),Math.round(py+vy*t)]};
- const [sx,sy]=cut(px1,py1),[ex,ey]=cut(px2,py2);
- return `M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
 M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f.g===g;const F=MAPA_F;
  const norma=g==='norma';const LST=MAPA_F.filter(f=>!g||f.g===g);
  const sel=norma?(state.mapaSel||''):(LST.some(x=>x.id===state.mapaSel)?state.mapaSel:(LST[0]?LST[0].id:''));
@@ -1915,16 +1944,16 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
  const zonas=MAPA_Z.map(z=>{const x=Math.max(z.x,VB.x0-4),y=Math.max(z.y,VB.y0-4),
    x2=Math.min(z.x+z.w,VB.x1+4),y2=Math.min(z.y+z.h,VB.y1+4);
   if(x2-x<130||y2-y<80)return '';
-  const lab=(z.y-16>VB.y0&&z.x>VB.x0-2)?`<text class="mzt" x="${x+4}" y="${y-9}">${z.t}</text>`:'';
+  const lab=(z.y-18>VB.y0&&z.x>VB.x0-2)?`<text class="mzt" x="${x+4}" y="${y-12}">${z.t}</text>`:'';
   return `<g class="mz"><rect x="${x}" y="${y}" width="${x2-x}" height="${y2-y}" rx="18"/>${lab}</g>`}).join('');
  const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k||viv.has(k);
   const ini=!norma&&LST.length&&LST[0].de===k;
   if(!INV.has(k)&&(N.x-W/2<VB.x0+8||N.x+W/2>VB.x1-8||N.y-H/2-26<VB.y0+8||N.y+H/2>VB.y1-8))return '';
   const tx=N.x-W/2+48;
   return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-W/2}" y="${N.y-H/2}" width="${W}" height="${H}" rx="14"/><circle class="nib" cx="${N.x-W/2+27}" cy="${N.y}" r="16"/><svg class="nic" x="${N.x-W/2+18}" y="${N.y-9}" width="18" height="18" viewBox="0 0 24 24">${IC[NIC[k]||'grid']}</svg><text class="mnt" x="${tx}" y="${N.y-2}">${N.t}</text><text class="mns" x="${tx}" y="${N.y+14}">${N.s}</text>${ini?`<g class="mini"><rect x="${N.x-W/2}" y="${N.y-H/2-23}" width="62" height="17" rx="8.5"/><text x="${N.x-W/2+31}" y="${N.y-H/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
- const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
-  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);
-  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?`marker-start="url(#${on?'aron':'ar'})"`:`marker-end="url(#${on?'aron':'ar'})"`}/><path class="hit" d="${d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2s':'3.4s'}" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`}${dim||!np?'':(()=>{const M=mapaMid(f,OFF[f.id]||0);return `<g class="mnum"><circle cx="${M.x}" cy="${M.y}" r="10"/><text x="${M.x}" y="${M.y+3.5}">${np}</text></g>`})()}</g>`}).join('');
+ const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;
+  const R=ruta(f,OFF[f.id]||0);const M=R.mid;
+  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${R.d}" marker-end="url(#${on?'aron':'ar'})"/><path class="hit" d="${R.d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2.2s':'3.6s'}" repeatCount="indefinite"><mpath href="#p_${f.id}"/></animateMotion></circle>`}${dim||!np?'':`<g class="mnum"><circle cx="${Math.round(M.x)}" cy="${Math.round(M.y)}" r="10"/><text x="${Math.round(M.x)}" y="${Math.round(M.y)+3.5}">${np}</text></g>`}</g>`}).join('');
  const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
  const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}${F0.cod?`<span class="cod">${F0.cod}</span>`:''}</div><div class="mp-d">${(MAPA_TIP[F0.id]||[F0.d])[0]}</div><div class="mp-m">${F0.per}${F0.len?' · '+F0.len:''}${F0.art?`<span class="art-c" data-tip="Reglamento de la Ley 32123 · D.S. 189-2025-EF">art. ${F0.art}</span>`:''}</div>${F0.mod?`<button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button>`:''}</div>`
   :N0?`<div class="mp"><div class="mp-k">Entidad</div><div class="mp-t">${N0.t}</div><div class="mp-d">${N0.s}</div><div class="mp-l">${F.filter(x=>x.de===sel||x.a===sel).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de===sel?'o':'i'}">${x.de===sel?'envía':'recibe'}</span>${x.t}</button>`).join('')}</div></div>`
