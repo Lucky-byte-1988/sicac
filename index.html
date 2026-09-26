@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cuentas por consumo · prototipo</title>
+<title>Aportes por consumo · prototipo</title>
 </head>
 <body>
 <title>Cuentas por consumo · prototipo</title>
@@ -794,7 +794,8 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .fhd{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.fhd .fn{font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:7px}.fhd .fn svg{width:14px;height:14px;color:var(--ink-3)}.fhd .sm{margin-right:auto}
 .mapa{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}
 .mapa-svg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);padding:6px}
-.mapa svg{width:100%;height:auto;display:block}
+.mapa-svg>svg{width:100%;height:auto;display:block}
+.mapa svg.i{width:15px;height:15px}
 .mn rect{fill:var(--surface);stroke:var(--border-2);stroke-width:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.05))}
 .mn{cursor:pointer}
 .mn:hover rect{stroke:var(--ink-3)}
@@ -824,6 +825,41 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mp-f:hover{background:var(--surface-2)}
 .mp-f .pill{flex:none}
 @media(max-width:1100px){.mapa{grid-template-columns:1fr}}
+.mp-col{display:flex;flex-direction:column;gap:12px}
+.mapa{align-items:start}
+.mnum circle{fill:var(--surface);stroke:var(--border-2);stroke-width:1}
+.mnum text{font:600 10.5px var(--font-sans);fill:var(--ink-2);text-anchor:middle}
+.mf.on .mnum circle{fill:var(--accent);stroke:var(--accent)}
+.mf.on .mnum text{fill:#fff}
+.mp-ctl{display:flex;gap:6px;margin-top:12px}
+.mp-ctl .btn{flex:1;justify-content:center}
+.mp-ctl #mpPrev svg{transform:rotate(180deg)}
+.mp-steps{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:2px;
+  max-height:432px;overflow-y:auto}
+.mp-steps.nm{max-height:none;overflow:visible}
+.mn.off{opacity:.35}
+.mn .mini rect{fill:var(--accent)}
+.mn .mini text{fill:#fff;font:600 9px var(--font-sans);letter-spacing:.07em;text-anchor:middle}
+.mp-steps button{display:flex;align-items:flex-start;gap:9px;width:100%;border:0;background:none;font:inherit;
+  text-align:left;padding:7px 8px;border-radius:9px;cursor:pointer;color:var(--ink)}
+.mp-steps button:hover{background:var(--surface-2)}
+.mp-steps li.on button{background:var(--accent-soft)}
+.mp-steps .sn{flex:none;width:20px;height:20px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);
+  font-size:11px;font-weight:600;display:grid;place-items:center;margin-top:1px}
+.mp-steps li.on .sn{background:var(--accent);color:#fff}
+.mp-steps .st2{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mp-steps .st2 b{font-weight:500;font-size:12.5px}
+.mp-steps .st2 span{font-size:11.5px;color:var(--ink-3)}
+.mp-ch{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.mp-ch .ch{border:1px solid var(--border);background:var(--surface);font:inherit;font-size:11.5px;
+  color:var(--ink-2);padding:3px 9px;border-radius:999px;cursor:pointer}
+.mp-ch .ch:hover{background:var(--surface-2)}
+.mp-ch .ch.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.mp-steps.nm{margin-top:10px}
+.mp-steps.nm .art{flex:none;min-width:38px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);
+  text-align:right;padding-top:2px}
+.mp-steps.nm button.ro{cursor:default}
+.mp-steps.nm button.ro:hover{background:none}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -1755,23 +1791,85 @@ const MAPA_F=[
  {id:'pago',de:'onp',a:'eaf',g:'calc',lb:'pago 1 %',t:'Pago del 1 % y acreditación',d:'La ONP transfiere a cada EAF y le entrega el detalle por persona para acreditar (78.7).',per:'Anual · diciembre',mod:'abonos'},
  {id:'acred',de:'eaf',a:'afi',g:'calc',lb:'abono',t:'Acreditación en la cuenta',d:'La EAF abona el aporte en la cuenta especial e informa al afiliado.',per:'Anual',mod:'reporteAf'},
  {id:'pend',de:'onp',a:'mef',g:'calc',lb:'pendientes',t:'Pendientes de pago',d:'Si el presupuesto no alcanzó, la diferencia por prorrata se informa para el año siguiente (78.6).',per:'Anual · 31 de enero',mod:'presupuesto'}];
-const MAPA_G=[['','Todo el ecosistema'],['mes','Cada mes'],['anio','Cada año'],['calc','Cálculo y pago']];
-function mapaPath(f,rev){const A=MAPA_N[rev?f.a:f.de],B=MAPA_N[rev?f.de:f.a];const x1=A.x,y1=A.y,x2=B.x,y2=B.y;const dx=x2-x1,dy=y2-y1;
- const off=(f.de==='onp'&&f.a==='sbs')?(f.id==='isn1'?-78:f.id==='isn2'?-26:f.id==='isnt'?26:78):(f.de==='sbs'&&f.a==='onp')?(f.id==='osn1'?-52:52):0;
+const MAPA_G=[['','Todo el ecosistema'],['mes','Cada mes'],['anio','Cada año'],['calc','Cálculo y pago'],['norma','Quién hace qué']];
+// Deberes de cada entidad según el D.S. 189-2025-EF · [artículo, deber, plazo, módulo]
+const ROLES={
+ onp:[['73.6','Remite a la SBS los afiliados SNP que no eligieron EAF','Periódico','padron'],
+   ['76.1 e','Actualiza ante la SBS la condición de los afiliados SNP','Antes del envío a la SUNAT','anuales'],
+   ['78.2','Calcula el aporte de cada afiliado con la información del MEF','Desde el 31 de octubre','calculo'],
+   ['78.3','Solicita a la SBS la EAF vigente de cada cuenta especial','Antes del pago','eafx'],
+   ['78.4','Prorratea cuando el aporte supera el presupuesto autorizado','En el cálculo','calculo'],
+   ['78.1','Paga el aporte a las EAF con cargo al presupuesto','Anual','pago'],
+   ['78.6','Remite al MEF los montos pendientes de pago','31 de enero','presupuesto'],
+   ['79.4','Pide a la EAF la transferencia del saldo al FCR','Al otorgar la prestación','']],
+ sbs:[['73.9','Establece condiciones y plazos de la cuenta especial','Permanente',''],
+   ['73.5','Designa la EAF de menor comisión si el afiliado no elige','Al vencer el plazo','respuestas'],
+   ['73.7','Remite a la ONP los afiliados SNP con cuenta abierta','Mensual','respuestas'],
+   ['76.1','Entrega a la SUNAT la relación de cuentas, aperturas y ceses','31 de marzo',''],
+   ['76.1 b','Contrasta el DNI con la información del RENIEC','En cada relación',''],
+   ['74.2','Fija el traslado de EAF y el cambio de tipo de fondo','Permanente','eaf'],
+   ['73.8','Evalúa licitaciones de las cuentas especiales','Periódico','']],
+ sunat:[['75.3 b','Publica no habidos, bajas de RUC y sin capacidad operativa','Permanente','reglas'],
+   ['77.2','Cierra la información de boletas del ejercicio','31 de enero',''],
+   ['77.1','Entrega al MEF la base de cálculo de cada persona','31 de julio','calculo'],
+   ['76.3','Establece la forma del intercambio con la SBS','Por resolución','']],
+ mef:[['72.3','Estima el gasto e informa el monto para el presupuesto','30 de abril','presupuesto'],
+   ['78.2','Traslada a la ONP la información de la SUNAT','31 de octubre','calculo'],
+   ['78.5','Considera los montos pendientes en la ley del año siguiente','En la ley anual','presupuesto']],
+ eaf:[['73.1','Apertura la cuenta especial por consumo','Al recibir el padrón','respuestas'],
+   ['73.4','En el SPP la abre donde está el aporte obligatorio','Al recibir el padrón',''],
+   ['78.7','Acredita el aporte en la cuenta de cada afiliado','Al recibir el pago','abonos'],
+   ['78.7','Informa al afiliado el estado de su cuenta','Según la SBS',''],
+   ['79.1','Transfiere el saldo cuando el afiliado pide su prestación','A solicitud',''],
+   ['81.2','No cierra la cuenta hasta recibir el total del aporte','Permanente','abonos']],
+ reniec:[['76.1 b','Provee a la SBS los cambios de nombres y de DNI','Permanente','']],
+ afi:[['73.5','Elige la EAF donde se abre su cuenta especial','En el plazo de la SBS',''],
+   ['75.3 d','Pide que la boleta lleve sus nombres y su DNI','En cada compra','reglas'],
+   ['74.2','Puede trasladarse de EAF y cambiar de tipo de fondo','Cuando lo decida',''],
+   ['78.7','Recibe de la EAF el estado de su cuenta','Según la SBS','afiliados'],
+   ['79.3','Suma el saldo a sus aportes al pedir una pensión','Al tramitarla','']]};
+function mapaOff(list){const G={},O={};
+ list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f.id)});
+ Object.values(G).forEach(ids=>{const st=ids.length>4?42:64;ids.forEach((id,i)=>O[id]=(i-(ids.length-1)/2)*st)});
+ return O}
+function mapaMid(f,off){const A=MAPA_N[f.de],B=MAPA_N[f.a];const dx=B.x-A.x,dy=B.y-A.y;
+ const cx=(A.x+B.x)/2+(Math.abs(dy)>Math.abs(dx)?off:0), cy=(A.y+B.y)/2+(Math.abs(dy)>Math.abs(dx)?0:off);
+ const t=.32,a=(1-t)*(1-t),b=2*(1-t)*t,c=t*t;
+ return {x:a*A.x+b*cx+c*B.x, y:a*A.y+b*cy+c*B.y}}
+let MAPA_T=null;
+function mapaPlay(list){if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null;render();return}
+ let i=list.findIndex(x=>x.id===state.mapaSel);if(i<0||i>=list.length-1)i=-1;
+ const paso=()=>{i++;if(i>=list.length){clearInterval(MAPA_T);MAPA_T=null;render();return}state.mapaSel=list[i].id;render()};
+ paso();MAPA_T=setInterval(paso,2600)}
+function mapaPath(f,rev,off){const A=MAPA_N[rev?f.a:f.de],B=MAPA_N[rev?f.de:f.a];const x1=A.x,y1=A.y,x2=B.x,y2=B.y;const dx=x2-x1,dy=y2-y1;
  const mx=(x1+x2)/2+(Math.abs(dy)>Math.abs(dx)?off:0), my=(y1+y2)/2+(Math.abs(dy)>Math.abs(dx)?0:off);
  return `M ${x1} ${y1} Q ${mx} ${my} ${x2} ${y2}`}
 M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const sel=state.mapaSel||'';const act=f=>!g||f.g===g;const F=MAPA_F;
- const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=sel===k;const w=N.big?150:132,h=N.big?60:54;
-  return `<g class="mn ${on?'on':''}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${N.y-4}">${N.t}</text><text class="mns" x="${N.x}" y="${N.y+14}">${N.s}</text></g>`}).join('');
- const trazos=F.map(f=>{const on=sel===f.id;const dim=!act(f);const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
-  const rev=B.x<A.x;const d=mapaPath(f,rev);const lab=f.lb&&!dim&&horiz&&(g!==''||on);
-  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?'marker-start="url(#ar)"':'marker-end="url(#ar)"'}/><path class="hit" d="${d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2s':'3.4s'}" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`}${lab?`<text class="mfl" dy="-5"><textPath href="#p_${f.id}" startOffset="50%" text-anchor="middle">${f.lb}</textPath></text>`:''}</g>`}).join('');
+ const norma=g==='norma';const ns=norma?(ROLES[sel]?sel:'onp'):'';const hi=norma?ns:sel;
+ const LST=MAPA_F.filter(f=>!g||f.g===g);
+ const INV=new Set();
+ if(norma){INV.add(ns);MAPA_F.forEach(f=>{if(f.de===ns||f.a===ns){INV.add(f.de);INV.add(f.a)}})}
+ else if(g){LST.forEach(f=>{INV.add(f.de);INV.add(f.a)})}
+ const OFF=mapaOff(norma?MAPA_F:LST);
+ const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k;const w=N.big?150:132,h=N.big?60:54;
+  const ini=!norma&&LST.length&&LST[0].de===k;
+  return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${N.y-4}">${N.t}</text><text class="mns" x="${N.x}" y="${N.y+14}">${N.s}</text>${ini?`<g class="mini"><rect x="${N.x-29}" y="${N.y-h/2-23}" width="58" height="17" rx="8.5"/><text x="${N.x}" y="${N.y-h/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
+ const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
+  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);const lab=f.lb&&!dim&&horiz&&(g!==''||on);
+  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?'marker-start="url(#ar)"':'marker-end="url(#ar)"'}/><path class="hit" d="${d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2s':'3.4s'}" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`}${lab?`<text class="mfl" dy="-16"><textPath href="#p_${f.id}" startOffset="50%" text-anchor="middle">${f.lb}</textPath></text>`:''}${dim||!np?'':(()=>{const M=mapaMid(f,OFF[f.id]||0);return `<g class="mnum"><circle cx="${M.x}" cy="${M.y}" r="10"/><text x="${M.x}" y="${M.y+3.5}">${np}</text></g>`})()}</g>`}).join('');
  const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
  const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}</div><div class="mp-d">${F0.d}</div><dl class="dl"><dt>Periodicidad</dt><dd>${F0.per}</dd>${F0.len?`<dt>Registro</dt><dd>${F0.len}</dd>`:''}</dl><button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button></div>`
   :N0?`<div class="mp"><div class="mp-k">Entidad</div><div class="mp-t">${N0.t}</div><div class="mp-d">${N0.s}</div><div class="mp-l">${F.filter(x=>x.de===sel||x.a===sel).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de===sel?'o':'i'}">${x.de===sel?'envía':'recibe'}</span>${x.t}</button>`).join('')}</div></div>`
-  :`<div class="mp"><div class="mp-k">${g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'El recorrido'}</div><div class="mp-t">${g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div><div class="mp-l">${F.filter(act).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de==='onp'?'o':'i'}">${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span>${x.t}</button>`).join('')}</div></div>`;
+  :'';
+ const roles=norma?`<div class="mp"><div class="mp-k">Según el reglamento</div><div class="mp-t">${MAPA_N[ns].t}</div>
+  <div class="mp-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
+  <ol class="mp-steps nm">${ROLES[ns].map(r=>`<li><button ${r[3]?`data-go="${r[3]}"`:'class="ro"'}><span class="art">${r[0]}</span><span class="st2"><b>${r[1]}</b><span>${r[2]}</span></span></button></li>`).join('')}</ol></div>`:'';
+ const idx=LST.findIndex(x=>x.id===sel);
+ const pasos=`<div class="mp"><div class="mp-k">${g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'Todo el ecosistema'}</div><div class="mp-t">${g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div>
+  <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('clock')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
+  <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}${x.per?' · '+x.per:''}</span></span></button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="mapa"><div class="mapa-svg"><svg viewBox="0 0 1120 540" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div>${panel}</div>`};
+ <div class="mapa"><div class="mapa-svg"><svg viewBox="0 0 1120 540" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
 M.reglas=()=>{const lab=k=>{for(const g of NAV)for(const it of g[1])if(it[0]===k)return it[1];return k};return `${ph('Reglas del requerimiento','')}<div class="card"><div class="ch"><div><h3>${Object.keys(RULES).length} reglas en ${RSECS.length} bloques</h3><div class="sub">en el orden del proceso</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:90px">Código</th><th style="width:220px">Regla</th><th>Descripción</th><th style="width:190px">Módulo</th></tr></thead><tbody>${RSECS.map(([L,t,sub,ids])=>`<tr class="rsec"><td colspan="4"><b>${L} · ${t}</b>${sub?` <span class="muted">· ${sub}</span>`:''}</td></tr>${ids.map(k=>{const [t2,d,scr]=RULES[k];return `<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t2}</b></td><td class="muted" style="white-space:normal">${d}</td><td><button class="lnkb" data-go="${scr}">${lab(scr)}</button></td></tr>`}).join('')}`).join('')}</tbody></table></div></div>`};
 
 // ======================= Render =======================
@@ -1815,6 +1913,7 @@ function renderNav(){$('#navItems').innerHTML=NAV.map(([g,items])=>`<div class="
  document.body.classList.toggle('navtop',state.nav==='top');
  renderMenubar()}
 function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===state.screen);const grp=NAV.find(g=>g[1].some(i=>i[0]===state.screen))[0];$('#crumb').innerHTML=`<span>${grp}</span>${ic('chev')}<b>${title[1]}</b>`;$('#hoy').textContent=new Date().toLocaleDateString('es-PE',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});$('#modTitle').textContent=title[1];$('#modTitle2').textContent=title[1];{const mm=$('#mfmt');if(mm)mm.style.display=MONEY_SCREENS.has(state.screen)?'':'none'}eafSeg();$('#modoChip').textContent=modo==='cero'?'Simulación desde cero':'Historial de ejemplo';
+ if(MAPA_T&&state.screen!=='mapa'){clearInterval(MAPA_T);MAPA_T=null}
  const m=$('#page');m.innerHTML=M[state.screen]();kpiIcons(m);const ph0=m.querySelector('.ph');if(ph0){const sub=ph0.querySelector('h1');if(sub)sub.classList.add('modsub')}if(state._last!==state.screen){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');state._last=state.screen;window.scrollTo({top:0})}
  $$('[data-verenv]',m).forEach(b=>b.onclick=()=>verEnvio(+b.dataset.verenv));
  $$('[data-goresp]',m).forEach(b=>b.onclick=()=>{state.screen='respuestas';render();verResp(+b.dataset.goresp)});$$('[data-verresp]',m).forEach(b=>b.onclick=()=>verResp(+b.dataset.verresp));
@@ -1835,10 +1934,15 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
  
  on('#avLeidos',()=>{avisos.forEach(a=>a.leido=true);render()});$$('[data-avv]',m).forEach(b=>b.onclick=()=>{state.af.v=b.dataset.avv;render()});$$('[data-avgo]',m).forEach(b=>b.onclick=ev=>{ev.stopPropagation();const a=avisos.find(x=>x.id===b.dataset.avgo);if(a)a.leido=true;state.screen=b.dataset.go;render()});$$('[data-av]',m).forEach(r=>r.onclick=()=>{const a=avisos.find(x=>x.id===r.dataset.av);if(a){a.leido=true;render()}});const aft=$('#aftipo',m);if(aft)aft.onchange=()=>{state.af.tipo=aft.value;render()};const afq=$('#afq',m);if(afq)afq.oninput=()=>{state.af.q=afq.value;const p=afq.selectionStart;render();const n=$('#afq');n.focus();n.setSelectionRange(p,p)};
  ['u','m'].forEach(k=>{const el=$('#auf'+k,m);if(el)el.onchange=()=>{state.auf[k]=el.value;render()}});const auq=$('#aufq',m);if(auq)auq.oninput=()=>{state.auf.q=auq.value;const p=auq.selectionStart;render();const n=$('#aufq');n.focus();n.setSelectionRange(p,p)};on('#aufclr',()=>{state.auf={u:'',m:'',q:''};render()});on('#auCsv',exportAud);
- const tqi=$('#tq',m);if(tqi){tqi.onkeydown=ev=>{if(ev.key==='Enter'){state.tq=tqi.value;render()}}}on('#tzDoc',()=>reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tzPrint',()=>{reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni);setTimeout(()=>window.print(),350)});on('#tzPdf',()=>reportePDF((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tqClr',()=>{state.tq='';render()});{const sel=$('#tqSel',m);if(sel)sel.onchange=()=>{if(sel.value){state.tq=sel.value;render()}};const tn=$('#tqn',m);if(tn)tn.onkeydown=e=>{if(e.key==='Enter'){const v=tn.value.trim().toLowerCase();const h=[...afiliados,...SPP_EJ].find(x=>x.nom.toLowerCase().includes(v));if(h){state.tq=h.dni;render()}else toast('No se encontró')}}}{const ta=$('#tabAnio',m);if(ta)ta.onchange=()=>{state.tab={anio:ta.value,mes:''};render()};const tm=$('#tabMes',m);if(tm)tm.onchange=()=>{state.tab={...(state.tab||{}),mes:tm.value};render()};const tf=$('#tabAf',m);if(tf)tf.onchange=()=>{state.tabAf=+tf.value;render()}}{const f=k=>{const el=$('#ab'+k,m);if(el)el.onchange=()=>{state.abf={...(state.abf||{}),[k.toLowerCase()==='anio'?'anio':k.toLowerCase()==='eaf'?'eaf':'est']:el.value};render()}};f('Anio');f('Eaf');f('Est');const aq=$('#abq',m);if(aq)aq.onkeydown=e=>{if(e.key==='Enter'){state.abq=aq.value;render()}}}$$('[data-xrep]',m).forEach(b=>b.onclick=()=>exportTarjeta(b));$$('[data-prep]',m).forEach(b=>b.onclick=()=>pdfTarjeta(b));on('#rpGen',()=>{const v=($('#rpDni',m)||{}).value||'';reporteTraza(v.trim()||(afiliados[0]||SPP_EJ[0]).dni)});on('#tzCtl',()=>{const d=(state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni;modal('Trazabilidad · '+d,'',tablaEventos(eventosCuenta(d)),`<button class="btn" id="mcan">Cerrar</button><button class="btn" id="tzCsv2">${ic('down')}Excel</button>`,{xwide:true});$('#tzCsv2').onclick=exportTraza});$$('[data-vereafx]',m).forEach(b=>b.onclick=()=>verEafAnual(+b.dataset.vereafx));$$('[data-ent]',m).forEach(b=>b.onclick=ev=>{if(ev.target.closest('[data-go]'))return;verEntidad(b.dataset.ent)});{const dq=$('#dmq',m);if(dq){dq.oninput=()=>{state.dmq=dq.value;const q=dq.value.trim().toLowerCase();$$('.dme',m).forEach(el=>{const E=DM.find(x=>x.k===el.dataset.ent);el.classList.toggle('dim',!!q&&!(E.t.toLowerCase().includes(q)||E.que.toLowerCase().includes(q)||E.f.some(f=>f.join(' ').toLowerCase().includes(q))))})}}}on('#pgNuevo',()=>catEdit('hitos',null));$$('[data-hedit]',m).forEach(b=>b.onclick=()=>catEdit('hitos',HITOS_T.findIndex(x=>x.key===b.dataset.hedit)));on('#phNuevo',()=>catEdit('presu',null));$$('[data-phedit]',m).forEach(b=>b.onclick=()=>catEdit('presu',HITOS_P.findIndex(x=>x.k===b.dataset.phedit)));$$('[data-go][data-cat]',m).forEach(b=>b.onclick=()=>{state.cat=b.dataset.cat;state.screen='parametros';render()});$$('[data-mg]',m).forEach(b=>b.onclick=()=>{state.mapaG=b.dataset.mg;state.mapaSel='';render()});
+ const tqi=$('#tq',m);if(tqi){tqi.onkeydown=ev=>{if(ev.key==='Enter'){state.tq=tqi.value;render()}}}on('#tzDoc',()=>reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tzPrint',()=>{reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni);setTimeout(()=>window.print(),350)});on('#tzPdf',()=>reportePDF((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tqClr',()=>{state.tq='';render()});{const sel=$('#tqSel',m);if(sel)sel.onchange=()=>{if(sel.value){state.tq=sel.value;render()}};const tn=$('#tqn',m);if(tn)tn.onkeydown=e=>{if(e.key==='Enter'){const v=tn.value.trim().toLowerCase();const h=[...afiliados,...SPP_EJ].find(x=>x.nom.toLowerCase().includes(v));if(h){state.tq=h.dni;render()}else toast('No se encontró')}}}{const ta=$('#tabAnio',m);if(ta)ta.onchange=()=>{state.tab={anio:ta.value,mes:''};render()};const tm=$('#tabMes',m);if(tm)tm.onchange=()=>{state.tab={...(state.tab||{}),mes:tm.value};render()};const tf=$('#tabAf',m);if(tf)tf.onchange=()=>{state.tabAf=+tf.value;render()}}{const f=k=>{const el=$('#ab'+k,m);if(el)el.onchange=()=>{state.abf={...(state.abf||{}),[k.toLowerCase()==='anio'?'anio':k.toLowerCase()==='eaf'?'eaf':'est']:el.value};render()}};f('Anio');f('Eaf');f('Est');const aq=$('#abq',m);if(aq)aq.onkeydown=e=>{if(e.key==='Enter'){state.abq=aq.value;render()}}}$$('[data-xrep]',m).forEach(b=>b.onclick=()=>exportTarjeta(b));$$('[data-prep]',m).forEach(b=>b.onclick=()=>pdfTarjeta(b));on('#rpGen',()=>{const v=($('#rpDni',m)||{}).value||'';reporteTraza(v.trim()||(afiliados[0]||SPP_EJ[0]).dni)});on('#tzCtl',()=>{const d=(state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni;modal('Trazabilidad · '+d,'',tablaEventos(eventosCuenta(d)),`<button class="btn" id="mcan">Cerrar</button><button class="btn" id="tzCsv2">${ic('down')}Excel</button>`,{xwide:true});$('#tzCsv2').onclick=exportTraza});$$('[data-vereafx]',m).forEach(b=>b.onclick=()=>verEafAnual(+b.dataset.vereafx));$$('[data-ent]',m).forEach(b=>b.onclick=ev=>{if(ev.target.closest('[data-go]'))return;verEntidad(b.dataset.ent)});{const dq=$('#dmq',m);if(dq){dq.oninput=()=>{state.dmq=dq.value;const q=dq.value.trim().toLowerCase();$$('.dme',m).forEach(el=>{const E=DM.find(x=>x.k===el.dataset.ent);el.classList.toggle('dim',!!q&&!(E.t.toLowerCase().includes(q)||E.que.toLowerCase().includes(q)||E.f.some(f=>f.join(' ').toLowerCase().includes(q))))})}}}on('#pgNuevo',()=>catEdit('hitos',null));$$('[data-hedit]',m).forEach(b=>b.onclick=()=>catEdit('hitos',HITOS_T.findIndex(x=>x.key===b.dataset.hedit)));on('#phNuevo',()=>catEdit('presu',null));$$('[data-phedit]',m).forEach(b=>b.onclick=()=>catEdit('presu',HITOS_P.findIndex(x=>x.k===b.dataset.phedit)));$$('[data-go][data-cat]',m).forEach(b=>b.onclick=()=>{state.cat=b.dataset.cat;state.screen='parametros';render()});$$('[data-mg]',m).forEach(b=>b.onclick=()=>{if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null}state.mapaG=b.dataset.mg;state.mapaSel='';render()});
+ {const L=(state.screen==='mapa')?MAPA_F.filter(f=>{const g=state.mapaG===undefined?'mes':state.mapaG;return !g||f.g===g}):[];
+  const j=L.findIndex(x=>x.id===state.mapaSel);
+  const pv=$('#mpPrev',m);if(pv)pv.onclick=()=>{if(j>0){state.mapaSel=L[j-1].id;render()}};
+  const nx=$('#mpNext',m);if(nx)nx.onclick=()=>{if(j<L.length-1){state.mapaSel=L[j+1].id;render()}};
+  const pl=$('#mpPlay',m);if(pl)pl.onclick=()=>mapaPlay(L)}
  $$('[data-mf]',m).forEach(b=>b.onclick=()=>{state.mapaSel=state.mapaSel===b.dataset.mf?'':b.dataset.mf;render()});
  $$('[data-mf2]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf2;render()});
- $$('[data-mn]',m).forEach(b=>b.onclick=()=>{state.mapaSel=state.mapaSel===b.dataset.mn?'':b.dataset.mn;render()});
+ $$('[data-mn]',m).forEach(b=>b.onclick=()=>{state.mapaSel=(state.mapaG==='norma'||state.mapaSel!==b.dataset.mn)?b.dataset.mn:'';render()});
  on('#tqGo',()=>{state.tq=$('#tq').value;render()});on('#tzCsv',exportTraza);on('#tzRep',()=>{state.rq=(state.tq||'').trim()||(afiliados[0]||{}).dni;state.screen='reporteAf';render()});
  $$('[data-psec]',m).forEach(b=>b.onclick=()=>{state.psec=b.dataset.psec;render()});const pej=$('#pej',m);if(pej)pej.onchange=()=>{state.pej=+pej.value;render()};$$('[data-hito]',m).forEach(b=>b.onclick=()=>{const ej=state.pej||CALC.ej;const x=hitosDe(ej).find(h=>h.key===b.dataset.hito);nuevoDoc('',{hito:x.key,titulo:'Adjuntar documento · '+x.t,sub:x.nota,tipo:x.tipo,dir:x.dir,de:x.de,para:x.para,asunto:x.t+' · ejercicio '+ej,gestion:'Gestión del pago',anio:ej+1})});
  const hf=$('#hFiles',m);if(hf)hf.onchange=()=>histAgregar([...hf.files]);on('#hDemo',()=>{HIST_DEMO.forEach(h=>{if(!hist.some(x=>x.name===h.name)&&!histCargas.some(x=>x.name===h.name))hist.push({...h,apr:user.nombre,formato:'TXT · anexo'})});render()});on('#hConfirm',histConfirmar);$$('[data-hf]',m).forEach(el=>el.onchange=()=>{const h=hist[+el.dataset.i];if(h){h[el.dataset.hf]=el.dataset.hf==='exc'?(parseInt(String(el.value).replace(/\D/g,''))||0):el.value;if(el.dataset.hf==='fecha')h.fechaSug=false}render()});$$('[data-hdel]',m).forEach(b=>b.onclick=()=>{hist.splice(+b.dataset.hdel,1);render()});
