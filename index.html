@@ -853,7 +853,8 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 @media(max-width:1100px){.mapa{grid-template-columns:1fr}}
 .mp-col{display:flex;flex-direction:column;gap:12px}
 .mapa{align-items:start}
-.mnum circle{fill:var(--surface);stroke:var(--border-2);stroke-width:1}
+.mnum circle{fill:var(--surface);stroke:var(--border-2);stroke-width:1;cursor:help}
+.mf:hover .mnum circle{stroke:var(--ink-3)}
 .mnum text{font:600 10.5px var(--font-sans);fill:var(--ink-2);text-anchor:middle}
 .mf.on .mnum circle{fill:var(--accent);stroke:var(--accent)}
 .mf.on .mnum text{fill:#fff}
@@ -1850,6 +1851,23 @@ const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
 // Qué hace cada entidad en cada etapa (el globo cambia según dónde esté el usuario)
 // Qué hace cada lado en cada paso: de = quien envía, a = quien recibe
 // Cómo se nombra cada entidad dentro de una frase
+// Qué se ve dentro de cada intercambio: muestra de un registro
+const MAPA_MU={
+ isn1:[[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_NACIMIENTO','19750213'],['FEC_AFILIACION','20010501']],'10 campos · 294 caracteres · un registro por afiliado'],
+ apert:[[['DNI','90000001'],['EAF asignada','Profuturo'],['Apertura','06/11/2026']],'La SBS dispone la apertura en la EAF'],
+ osn1:[[['NUM_DOC','90000001'],['COD_EAF','PRO'],['FEC_APERTURA','20261106']],'3 campos · 19 caracteres · un registro por cuenta abierta'],
+ isn2:[[['NUM_DOC','90000001'],['MOT_CESE','01 · fallecimiento'],['FEC_CESE','20261122'],['NUEVO_DNI','(en blanco)']],'9 campos · 154 caracteres · solo los que cesan o cambian'],
+ isnt:[[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_APERTURA','20261106']],'6 campos · 136 caracteres · padrón completo a la fecha de corte'],
+ reniec:[[['DNI anterior','90000001'],['DNI nuevo','41235678'],['Apellidos','APELLIDO PRUEBA']],'Solo los ciudadanos con cambios'],
+ sbs_sunat:[[['DNI','90000001'],['Cuenta desde','06/11/2026'],['Cese','sin cese']],'Relación anual · hasta el 31 de marzo'],
+ sunat_mef:[[['DNI','90000001'],['Consumo del ejercicio','S/ 4,287.00'],['Tope','8 UIT']],'Un monto por persona · hasta el 31 de julio'],
+ mef_onp:[[['DNI','90000001'],['Base de cálculo','S/ 4,287.00'],['Régimen','SNP']],'SNP y SPP · hasta el 31 de octubre'],
+ presu:[[['Ejercicio','2027'],['Cobertura','89.98 % de lo calculado'],['Efecto','pago con prorrata']],'Monto autorizado en la Ley de Presupuesto'],
+ eafx:[[['DNI','90000001'],['EAF en la relación','Profuturo']],'Solo los DNI, para confirmar la EAF'],
+ eafr:[[['DNI','90000001'],['EAF vigente','Profuturo'],['Traslado','sin traslado']],'Respuesta de la SBS antes del pago'],
+ pago:[[['DNI','90000001'],['Aporte (1 %)','S/ 42.87'],['Se transfiere','S/ 38.57'],['EAF','Profuturo']],'Detalle por persona junto con la transferencia'],
+ acred:[[['DNI','90000001'],['Acreditado','S/ 38.57'],['Fecha','15/12/2028']],'Abono en la cuenta especial'],
+ pend:[[['DNI','90000001'],['Pendiente','S/ 4.30'],['Se paga en','2029']],'Informe al MEF · hasta el 31 de enero']};
 const ART_N={onp:'La ONP',sbs:'La SBS',sunat:'La SUNAT',mef:'El MEF',reniec:'El RENIEC',eaf:'La EAF',afi:'El afiliado'};
 const MAPA_ACC={
  isn1:{de:'Selecciona a los afiliados con derecho y deposita el padrón del mes para la SBS.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
@@ -2145,8 +2163,12 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
     html=`<b>${ids.length} intercambios por este tramo</b><br>${fs.map(x=>x.t).join(' · ')}`}
    else if(f.id!==MAPA_SEL){const T=MAPA_TIP[f.id]||[f.d,''];
     html=`<b>${f.t}</b><br>${T[0]}`}
-   gr.onmousemove=html?(e=>pon(e,html)):off;
-   gr.onmouseleave=off});
+   gr.onmousemove=e=>{if(e.target.closest('.mnum,.mgr'))return;html?pon(e,html):off()};
+   gr.onmouseleave=off;
+   const nm=gr.querySelector('.mnum');const MU=MAPA_MU[f.id];
+   if(nm&&ids.length===1&&MU){const filas=MU[0].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+    const hm=`<div class="tt-t">${f.t}</div><table class="tt">${filas}</table><div class="tt-h">${MU[1]}</div>`;
+    nm.onmousemove=e=>{e.stopPropagation();pon(e,hm)};nm.onmouseleave=off}});
   $$('.mn',m).forEach(gr=>{const k=gr.dataset.mn,N=MAPA_N[k];if(!N)return;
    const gg=state.mapaG===undefined?'mes':state.mapaG;
    const cur=MAPA_F.find(x=>x.id===MAPA_SEL);
