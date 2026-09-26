@@ -955,7 +955,7 @@ const RSECS=[
  ['C','Padrón de cuentas y envíos anuales','',['12','13','14','15']],
  ['D','Actualización de EAF','intercambio para el cálculo',['16','17']],
  ['E','Cálculo y pago del aporte (1 %)','',['18','19','20','21','22','36']],
- ['F','Cese del beneficio y saldo de la cuenta','arts. 72.4, 79.3, 79.4, 80.2 y 81',['31','32','33','34','35']],
+ ['F','Cese del beneficio y saldo de la cuenta','arts. 72.4, 79.3, 79.4, 80.2 y 81',['31','32','33','34','35','37']],
  ['G','Consultas, reportes y documentos','',['23','24','25','26','27']],
  ['H','Administración y puesta en marcha','',['28','29','30']]];
 const RULES={
@@ -993,6 +993,7 @@ const RULES={
  '33':['Saldo para el conteo de aportes','Cuando el afiliado al SNP inicia el trámite de una prestación, el sistema entrega el saldo acumulado por aportes por consumo para el conteo de aportes del expediente (79.3).','cese'],
  '34':['Aportes posteriores al cese','El aporte que se paga después de que el afiliado accedió a la pensión no se abona en la cuenta especial: se transfiere al FCR-DL 19990 y queda registrado como tal (81.1 a).','cese'],
  '35':['Cuenta no cerrable con pendientes','Mientras queden aportes pendientes de pago, la cuenta especial no se cierra: el sistema lo advierte y mantiene el caso abierto (81.2).','cese'],
+ '37':['Interfaces del cese','El sistema no custodia ni recauda fondos: informa y controla. Expone el saldo de la cuenta especial al sistema de prestaciones de la ONP para el conteo de aportes, recibe de él el aviso del cese, emite el oficio a la EAF y registra la confirmación del ingreso al FCR.','cese'],
  '36':['Informe de pendientes al MEF','Remite al MEF, hasta el 31 de enero, el monto pendiente de pago por ejercicio y por afiliado, con cargo de recepción, para su consideración en el presupuesto del año siguiente (78.6).','presupuesto'],
  '30':['Cargar envíos anteriores','Carga los padrones ya enviados y las respuestas ya recibidas antes de la puesta en marcha (TXT del anexo, CSV o Excel) con fecha, medio y N° de operación reales; los valida, cruza e incorpora con la marca histórico.','historico']};
 // Códigos de EAF según la propuesta de la SBS (02/09/2026): PRO, RIM, INT, HAB
@@ -1891,6 +1892,12 @@ M.cese=()=>{const f=state.cf||'';const L=CESOS.filter(c=>!f||c.mot===f);
  </tbody></table></div></div>
  <div class="card"><div class="ch"><div><h3>Cómo se decide el destino del saldo</h3><div class="sub">según el régimen y el motivo del cese</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:70px">Régimen</th><th>Situación</th><th style="width:190px">Destino del saldo</th><th style="width:230px">Quién actúa</th><th style="width:110px">Artículo</th></tr></thead><tbody>
  ${CESE_REGLA.map(r=>`<tr><td><b style="font-weight:500">${r[0]}</b></td><td class="muted" style="white-space:normal">${r[1]}</td><td>${CESE_DEST[r[2]]}</td><td class="muted">${CESE_VIA[r[3]]}</td><td class="mono muted" ${artTip(r[4].split(' ')[0])}>art. ${r[4]}</td></tr>`).join('')}
+ </tbody></table></div></div>
+ <div class="card"><div class="ch"><div><h3>Con qué sistemas se conecta</h3><div class="sub">este sistema informa y controla; no custodia el fondo</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:250px">Sistema</th><th style="width:130px">Sentido</th><th>Qué viaja</th></tr></thead><tbody>
+  <tr><td><b style="font-weight:500">Prestaciones de la ONP</b></td><td><span class="pill i">recibe</span></td><td class="muted" style="white-space:normal">El aviso del cese y del trámite de pensión, con su motivo y fecha.</td></tr>
+  <tr><td><b style="font-weight:500">Prestaciones de la ONP</b></td><td><span class="pill o">entrega</span></td><td class="muted" style="white-space:normal">El saldo acumulado de la cuenta especial, para el conteo de aportes del expediente (79.3).</td></tr>
+  <tr><td><b style="font-weight:500">EAF</b></td><td><span class="pill o">entrega</span></td><td class="muted" style="white-space:normal">El oficio que solicita la transferencia del saldo y el seguimiento de su respuesta (79.4).</td></tr>
+  <tr><td><b style="font-weight:500">FCR · DL 19990</b></td><td><span class="pill i">recibe</span></td><td class="muted" style="white-space:normal">La confirmación del ingreso del saldo transferido, que cierra el caso (80.2).</td></tr>
  </tbody></table></div></div>`};
 
 // ======================= Mapa de interoperabilidad (Ayuda) =======================
