@@ -1843,6 +1843,23 @@ const MAPA_Z=[
 // carriles libres por donde puede pasar un trazo sin cruzar una tarjeta
 const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
 // Qué hace cada entidad en cada etapa (el globo cambia según dónde esté el usuario)
+// Qué hace cada lado en cada paso: de = quien envía, a = quien recibe
+const MAPA_ACC={
+ isn1:{de:'Selecciona a los afiliados con derecho y deposita el padrón del mes para la SBS.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
+ apert:{de:'Asigna la EAF que corresponde y dispone la apertura de la cuenta especial.',a:'Abre la cuenta especial a nombre del afiliado y queda lista para recibir el aporte.'},
+ osn1:{de:'Informa a la ONP, por cada DNI, la EAF asignada y la fecha de apertura.',a:'Concilia la respuesta contra lo enviado y actualiza su padrón de cuentas.'},
+ isn2:{de:'Informa los ceses del ejercicio y los cambios de datos de sus afiliados.',a:'Registra los ceses y actualiza los datos antes de remitir la relación a la SUNAT.'},
+ isnt:{de:'Remite el padrón completo de afiliados sin cese a la fecha de corte.',a:'Recibe el stock inicial con el que se constituye el universo de cuentas.'},
+ reniec:{de:'Informa los cambios de nombres y de número de DNI de los ciudadanos.',a:'Contrasta el DNI de cada afiliado con lo que informa el RENIEC.'},
+ sbs_sunat:{de:'Remite a la SUNAT quiénes tienen cuenta, desde cuándo y quiénes cesaron.',a:'Recibe la relación de afiliados con cuenta para cruzarla con las boletas del ejercicio.'},
+ sunat_mef:{de:'Acumula el consumo con boleta de cada persona del ejercicio y lo entrega al MEF.',a:'Recibe el monto de consumo que corresponde a cada persona.'},
+ mef_onp:{de:'Traslada a la ONP la relación de personas con su base de cálculo.',a:'Recibe la relación y prepara el cálculo individual del aporte.'},
+ presu:{de:'Comunica el monto autorizado en la Ley de Presupuesto para el ejercicio.',a:'Registra el presupuesto disponible con el que pagará el aporte.'},
+ eafx:{de:'Consulta a la SBS en qué EAF está hoy la cuenta de cada persona.',a:'Recibe los DNI de la relación y ubica la EAF vigente de cada cuenta.'},
+ eafr:{de:'Devuelve la EAF vigente de cada persona, antes del pago.',a:'Actualiza la EAF de destino de cada afiliado antes de ordenar el pago.'},
+ pago:{de:'Transfiere a cada EAF el 1 % del ejercicio con el detalle por persona.',a:'Recibe el pago del aporte junto con el detalle por afiliado.'},
+ acred:{de:'Acredita el aporte en la cuenta especial e informa al afiliado el estado de su fondo.',a:'Ve el aporte del ejercicio acreditado en su cuenta especial.'},
+ pend:{de:'Informa al MEF los montos que quedaron pendientes por prorrata.',a:'Considera los montos pendientes en el presupuesto del año siguiente.'}};
 const MAPA_CTX={
  mes:{onp:'Cada mes arma el padrón de quienes cumplen las cuatro condiciones, lo deposita para la SBS y luego concilia la respuesta contra lo enviado.',
    sbs:'Cada mes recibe el padrón, dispone la apertura de la cuenta en la EAF y devuelve por cada DNI la EAF asignada y la fecha de apertura.',
@@ -2127,13 +2144,15 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
    const deb=(ROLES[k]||[]).length;
    const cur=MAPA_F.find(x=>x.id===MAPA_SEL);
    const np=cur?etapa.findIndex(x=>x.id===cur.id)+1:0;
-   let paso='';
-   if(cur&&np&&(cur.de===k||cur.a===k)){const T=(MAPA_TIP[cur.id]||[cur.t,''])[0];
-    paso=`<div class="tt-p"><b>Paso ${np} · ${cur.de===k?'envía':'recibe'}</b><br>${T}</div>`}
-   const txt=(MAPA_CTX[gg]&&MAPA_CTX[gg][k])||N.d||N.s;
-   const nota=(env+rec)?`Envía ${env} · recibe ${rec}${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}`
-     :`No interviene en esta etapa${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}`;
-   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${paso}${txt}<div class="tt-h">${nota}</div>`);
+   const enPaso=cur&&np&&(cur.de===k||cur.a===k);
+   let cuerpo;
+   if(enPaso){const A=MAPA_ACC[cur.id]||{},T=(MAPA_TIP[cur.id]||[cur.t,''])[0];
+    cuerpo=`<div class="tt-p"><b>Paso ${np} · ${cur.de===k?'envía':'recibe'}</b><br>${(cur.de===k?A.de:A.a)||T}</div>`}
+   else cuerpo=(MAPA_CTX[gg]&&MAPA_CTX[gg][k])||N.d||N.s;
+   const nota=[(env+rec)?`Envía ${env} · recibe ${rec}`:'No interviene en esta etapa',
+     (cur&&np&&!enPaso&&(env+rec))?'En este paso no interviene':'',
+     deb?`${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''].filter(Boolean).join(' · ');
+   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${cuerpo}<div class="tt-h">${nota}</div>`);
    gr.onmouseleave=off});
   $$('.mz',m).forEach(gr=>{const z=MAPA_Z.find(x=>x.t===gr.dataset.mz);if(!z||!z.d)return;
    gr.onmousemove=e=>pon(e,`<div class="tt-t">${z.t}</div>${z.d}`);gr.onmouseleave=off})}
