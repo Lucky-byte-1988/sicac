@@ -627,6 +627,8 @@ body.menuopen .mb-dim{display:block;opacity:1}
 .tip table.tt td{padding:3px 0;border:0;color:var(--ink-2);white-space:nowrap}.tip table.tt td+td{text-align:right;padding-left:24px;color:var(--ink);font-variant-numeric:tabular-nums}
 .tip table.tt tr.tot td{border-top:1px solid rgba(0,0,0,.10);padding-top:6px;margin-top:2px;font-weight:600;color:var(--ink)}
 .tip .tt-h{margin-top:8px;font-size:11.5px;color:var(--ink-3)}
+.tip .tt-p{background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:7px 9px;margin:0 0 8px;font-size:12px;line-height:1.4}
+.tip .tt-p b{color:var(--accent-2);font-size:11px;letter-spacing:.02em;text-transform:uppercase}
 .tip b{font-weight:600}
 
 /* ---- semántica de estados: verde completado · azul en curso/acción · ámbar atención · rojo error ---- */
@@ -1837,6 +1839,21 @@ const MAPA_Z=[
  {x:978,y:44,w:224,h:468,t:'Cuenta del afiliado',d:'Donde termina el recorrido: la EAF acredita el aporte en la cuenta especial y el afiliado lo ve reflejado en su fondo.'}];
 // carriles libres por donde puede pasar un trazo sin cruzar una tarjeta
 const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
+// Qué hace cada entidad en cada etapa (el globo cambia según dónde esté el usuario)
+const MAPA_CTX={
+ mes:{onp:'Cada mes arma el padrón de quienes cumplen las cuatro condiciones, lo deposita para la SBS y luego concilia la respuesta contra lo enviado.',
+   sbs:'Cada mes recibe el padrón, dispone la apertura de la cuenta en la EAF y devuelve por cada DNI la EAF asignada y la fecha de apertura.',
+   eaf:'Cada mes abre la cuenta especial de los afiliados que la SBS le asigna.'},
+ anio:{onp:'Una vez al año informa los ceses del ejercicio y los cambios de datos, hasta el 15 de marzo; en 2027 y 2028 informa además el padrón completo.',
+   sbs:'Consolida el año: solicita a la ONP la condición de los afiliados, valida el DNI con el RENIEC y remite a la SUNAT quiénes tienen cuenta, hasta el 31 de marzo.',
+   reniec:'Entrega a la SBS los cambios de nombres y de número de DNI ocurridos en el año.',
+   sunat:'Recibe de la SBS la relación de afiliados con cuenta, para cruzarla con las boletas del ejercicio.'},
+ calc:{sunat:'Acumula el consumo con boleta de cada persona del ejercicio y lo entrega al MEF hasta el 31 de julio.',
+   mef:'Traslada la relación a la ONP hasta el 31 de octubre y comunica el presupuesto autorizado del ejercicio.',
+   onp:'Calcula el 1 % de cada persona, prorratea si el presupuesto no alcanza, paga a las EAF e informa lo pendiente al MEF hasta el 31 de enero.',
+   sbs:'Antes del pago, confirma a la ONP en qué EAF está hoy la cuenta de cada persona.',
+   eaf:'Recibe el pago de la ONP y acredita el aporte en la cuenta especial de cada afiliado.',
+   afi:'Ve acreditado el aporte del ejercicio en su cuenta especial y, si hubo prorrata, el saldo que queda pendiente.'}};
 const MAPA_TIP={
  isn1:['Afiliados al SNP con derecho, para que la SBS disponga la apertura de su cuenta','OSN1 · la EAF asignada y la fecha de apertura'],
  osn1:['Por cada DNI, la EAF asignada y la fecha en que se abrió la cuenta',''],
@@ -1942,7 +1959,7 @@ function ruta(f,q){const off=q&&q.o||0, ep=q&&q.e||0;const A=MAPA_N[f.de],B=MAPA
  C.forEach(P=>{const c=rcost(P,f.de,f.a);if(c<bc){bc=c;best=P}});
  const P=best.map(p=>[Math.round(p[0]),Math.round(p[1])]);
  return {d:rline(P,14),mid:rmid(P)}}
-let MAPA_T=null;
+let MAPA_T=null,MAPA_SEL='';
 function mapaPlay(list){if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null;render();return}
  let i=list.findIndex(x=>x.id===state.mapaSel);if(i<0||i>=list.length-1)i=-1;
  const paso=()=>{i++;if(i>=list.length){clearInterval(MAPA_T);MAPA_T=null;render();return}state.mapaSel=list[i].id;render()};
@@ -1954,6 +1971,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
  const INV=new Set();
  if(norma){INV.add(ns);MAPA_F.forEach(f=>{if(f.de===ns||f.a===ns){INV.add(f.de);INV.add(f.a)}})}
  else LST.forEach(f=>{INV.add(f.de);INV.add(f.a)});
+ MAPA_SEL=norma?'':sel;
  const bund=!norma&&!g;
  let DIB;
  if(norma)DIB=MAPA_F.map(f=>({f,ids:[f.id]}));
@@ -2099,10 +2117,20 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
     html=`<div class="tt-t">${MAPA_N[f.de].t} → ${MAPA_N[f.a].t}${f.cod?` <span class="cod">${f.cod}</span>`:''}</div>${T[0]}${pie}`}
    gr.onmousemove=e=>pon(e,html);
    gr.onmouseleave=off});
-  $$('.mn',m).forEach(gr=>{const N=MAPA_N[gr.dataset.mn];if(!N)return;
-   const env=MAPA_F.filter(x=>x.de===gr.dataset.mn).length,rec=MAPA_F.filter(x=>x.a===gr.dataset.mn).length;
-   const deb=(ROLES[gr.dataset.mn]||[]).length;
-   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${N.d||N.s}<div class="tt-h">Envía ${env} · recibe ${rec}${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}</div>`);
+  $$('.mn',m).forEach(gr=>{const k=gr.dataset.mn,N=MAPA_N[k];if(!N)return;
+   const gg=state.mapaG===undefined?'mes':state.mapaG;
+   const etapa=(gg&&gg!=='norma')?MAPA_F.filter(x=>x.g===gg):MAPA_F;
+   const env=etapa.filter(x=>x.de===k).length,rec=etapa.filter(x=>x.a===k).length;
+   const deb=(ROLES[k]||[]).length;
+   const cur=MAPA_F.find(x=>x.id===MAPA_SEL);
+   const np=cur?etapa.findIndex(x=>x.id===cur.id)+1:0;
+   let paso='';
+   if(cur&&np&&(cur.de===k||cur.a===k)){const T=(MAPA_TIP[cur.id]||[cur.t,''])[0];
+    paso=`<div class="tt-p"><b>Paso ${np} · ${cur.de===k?'envía':'recibe'}</b><br>${T}</div>`}
+   const txt=(MAPA_CTX[gg]&&MAPA_CTX[gg][k])||N.d||N.s;
+   const nota=(env+rec)?`Envía ${env} · recibe ${rec}${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}`
+     :`No interviene en esta etapa${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}`;
+   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${paso}${txt}<div class="tt-h">${nota}</div>`);
    gr.onmouseleave=off});
   $$('.mz',m).forEach(gr=>{const z=MAPA_Z.find(x=>x.t===gr.dataset.mz);if(!z||!z.d)return;
    gr.onmousemove=e=>pon(e,`<div class="tt-t">${z.t}</div>${z.d}`);gr.onmouseleave=off})}
