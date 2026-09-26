@@ -860,6 +860,61 @@ thead th.sort.on{color:var(--ink);font-weight:600}
   text-align:right;padding-top:2px}
 .mp-steps.nm button.ro{cursor:default}
 .mp-steps.nm button.ro:hover{background:none}
+
+/* ---- Mapa del ecosistema · un paso a la vez ---- */
+.eco{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);overflow:hidden}
+.eco-c{max-width:960px;margin:0 auto;padding:14px 20px 0}
+.eco-c>svg{width:100%;height:auto;display:block}
+.eco-p{padding:0 24px 30px;text-align:center}
+.eco svg.i{width:15px;height:15px}
+.eco-nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0 20px}
+.eco-nav .rd{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--border);
+  background:var(--surface);color:var(--ink-2);display:grid;place-items:center;cursor:pointer}
+.eco-nav .rd:hover{background:var(--surface-2);color:var(--ink)}
+.eco-nav .rd:disabled{opacity:.3;cursor:default;background:var(--surface);color:var(--ink-2)}
+.eco-nav #mpPrev svg{transform:rotate(180deg)}
+.eco-nav .pl{margin-left:6px}
+.eco-nav .pl.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.dots{display:flex;align-items:center;gap:6px}
+.dots button{width:7px;height:7px;padding:0;border:0;border-radius:999px;background:var(--surface-3);
+  cursor:pointer;transition:width .22s ease,background .22s ease}
+.dots button:hover{background:var(--ink-3)}
+.dots button.on{width:22px;background:var(--accent)}
+.eco-cap{max-width:600px;margin:0 auto;animation:ecoIn .32s ease}
+@keyframes ecoIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.eco-cap .k{font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.eco-cap h3{font:600 21px/1.25 var(--font-display);letter-spacing:-.015em;margin:7px 0 0;color:var(--ink)}
+.eco-cap p{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:8px 0 0}
+.eco-cap .m{font-size:12px;color:var(--ink-3);margin-top:12px}
+.lnk{border:0;background:none;font:inherit;font-size:13px;font-weight:500;color:var(--accent);cursor:pointer;
+  display:inline-flex;align-items:center;gap:2px;margin-top:14px;padding:5px 10px;border-radius:8px}
+.lnk:hover{background:var(--accent-soft)}
+.eco-ch{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;padding:0 0 18px}
+.eco-ch .ch{border:1px solid var(--border);background:var(--surface);font:inherit;font-size:12px;
+  color:var(--ink-2);padding:4px 12px;border-radius:999px;cursor:pointer}
+.eco-ch .ch:hover{background:var(--surface-2);color:var(--ink)}
+.eco-ch .ch.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.eco-du{list-style:none;max-width:660px;margin:22px auto 0;padding:0;text-align:left}
+.eco-du li{display:flex;align-items:flex-start;gap:14px;padding:11px 12px;border-top:1px solid var(--border)}
+.eco-du li.cl{cursor:pointer}
+.eco-du li.cl:hover{background:var(--surface-2)}
+.eco-du .a{flex:none;width:44px;text-align:right;padding-top:2px;
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.eco-du .t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.eco-du .t b{font-weight:500;font-size:13.5px}
+.eco-du .t span{font-size:11.5px;color:var(--ink-3)}
+.eco-du svg.ch{flex:none;margin-top:3px;color:var(--ink-3);opacity:0}
+.eco-du li.cl:hover svg.ch{opacity:1}
+#ar path{fill:var(--ink-3);opacity:.5}
+#aron path{fill:var(--accent)}
+.mn .mini rect{fill:var(--surface-3)}
+.mn .mini text{fill:var(--ink-2)}
+.mn .mini.on rect{fill:var(--accent)}
+.mn .mini.on text{fill:#fff}
+.mn.off{opacity:.28}
+.mf.dim path:first-child{opacity:.09}
+.mf.dim .hit{display:none}
+@media(max-width:900px){.eco-c{padding:10px 12px 0}.eco-p{padding:0 16px 24px}}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -894,7 +949,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 
 <script>
 // ======================= Iconos =======================
-const IC={grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',inbox:'<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',refresh:'<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',updown:'<path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>',list:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',chart:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',check:'<polyline points="20 6 9 17 4 12"/>',chev:'<polyline points="9 18 15 12 9 6"/>',x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',up:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',down:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',play:'<polygon points="5 3 19 12 5 21 5 3"/>',alert:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',ext:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',doc:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',clip:'<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>',calc:'<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/>'};
+const IC={grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',inbox:'<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',refresh:'<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',updown:'<path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>',list:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',chart:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',check:'<polyline points="20 6 9 17 4 12"/>',chev:'<polyline points="9 18 15 12 9 6"/>',x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',up:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',down:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',play:'<polygon points="5 3 19 12 5 21 5 3"/>',pause:'<line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/>',alert:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',ext:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',doc:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',clip:'<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>',calc:'<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/>'};
 const ic=(n,cls='i')=>`<svg class="${cls}" viewBox="0 0 24 24">${IC[n]}</svg>`;
 // ======================= Datos de prueba (ficticios, coherentes) =======================
 const RSECS=[
@@ -1768,20 +1823,20 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||E.t.
 // ======================= Mapa del ecosistema (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
- reniec:{x:140,y:90,t:'RENIEC',s:'identidad'},
+ reniec:{x:800,y:70,t:'RENIEC',s:'nombres y DNI'},
  sunat:{x:140,y:450,t:'SUNAT',s:'boletas electrónicas'},
  mef:{x:450,y:450,t:'MEF',s:'presupuesto y relación'},
  onp:{x:450,y:250,t:'ONP',s:'PUA · este sistema',big:1},
  sbs:{x:800,y:250,t:'SBS',s:'abre las cuentas'},
- eaf:{x:990,y:90,t:'EAF',s:'Profuturo · Prima · Integra · Habitat'},
- afi:{x:990,y:450,t:'Afiliado',s:'cuenta por consumo'}};
+ eaf:{x:1000,y:112,t:'EAF',s:'Profuturo · Prima · Integra · Habitat'},
+ afi:{x:1000,y:445,t:'Afiliado',s:'cuenta por consumo'}};
 const MAPA_F=[
- {id:'reniec',de:'reniec',a:'onp',g:'mes',t:'Identidad y fallecimientos',d:'RENIEC confirma nombres, DNI y defunciones que alimentan el PUA.',per:'Continuo',mod:'afiliados'},
  {id:'isn1',de:'onp',a:'sbs',g:'mes',lb:'ISN1',t:'ISN1 · padrón mensual',d:'Afiliados al SNP que cumplen las cuatro condiciones, para que la SBS les abra la cuenta.',per:'Mensual · 5.º día hábil',len:'294 caracteres',mod:'padron'},
  {id:'osn1',de:'sbs',a:'onp',g:'mes',lb:'OSN1',t:'OSN1 · cuentas abiertas',d:'La SBS devuelve, por cada DNI, la EAF y la fecha de apertura de la cuenta.',per:'Mensual · cierre del 2.º mes',len:'19 caracteres',mod:'respuestas'},
  {id:'apert',de:'sbs',a:'eaf',g:'mes',lb:'apertura',t:'Apertura de la cuenta especial',d:'La SBS asigna la EAF y la cuenta queda abierta a nombre del afiliado.',per:'Mensual',mod:'afiliados'},
  {id:'isn2',de:'onp',a:'sbs',g:'anio',lb:'ISN2',t:'ISN2 · ceses y cambios',d:'Ceses del beneficio (fallecimiento, pensión, 65 años) y cambios de nombres o DNI del año anterior.',per:'Anual · 15 de marzo',len:'154 caracteres',mod:'anuales'},
  {id:'isnt',de:'onp',a:'sbs',g:'anio',lb:'ISNT',t:'ISNT · stock transitorio',d:'Stock de afiliados sin cese al 31/01/2027 y al 31/01/2028.',per:'05/02/2027 y 07/02/2028',len:'136 caracteres',mod:'anuales'},
+ {id:'reniec',de:'reniec',a:'sbs',g:'anio',t:'Cambios de nombres y DNI',d:'El RENIEC entrega a la SBS los ciudadanos que cambiaron de nombres o de número de DNI, para que valide la relación antes de remitirla (76.1 b).',per:'Continuo',mod:''},
  {id:'sbs_sunat',de:'sbs',a:'sunat',g:'anio',t:'Afiliados con cuenta',d:'La SBS informa a la SUNAT quiénes tienen cuenta y desde cuándo (artículo 76).',per:'Anual · 31 de marzo',mod:'reglas'},
  {id:'sunat_mef',de:'sunat',a:'mef',g:'calc',lb:'base de consumo',t:'Base de consumo',d:'La SUNAT calcula, por persona, el consumo con boleta electrónica del ejercicio (artículo 77).',per:'Anual · 31 de julio',mod:'reglas'},
  {id:'mef_onp',de:'mef',a:'onp',g:'calc',lb:'relación',t:'Relación del MEF',d:'Personas del Sistema (SNP y SPP) con su base de consumo, para que la ONP calcule el aporte.',per:'Anual · 31 de octubre',mod:'eafx'},
@@ -1840,36 +1895,48 @@ let MAPA_T=null;
 function mapaPlay(list){if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null;render();return}
  let i=list.findIndex(x=>x.id===state.mapaSel);if(i<0||i>=list.length-1)i=-1;
  const paso=()=>{i++;if(i>=list.length){clearInterval(MAPA_T);MAPA_T=null;render();return}state.mapaSel=list[i].id;render()};
- paso();MAPA_T=setInterval(paso,2600)}
+ MAPA_T=setInterval(paso,2600);paso()}
 function mapaPath(f,rev,off){const A=MAPA_N[rev?f.a:f.de],B=MAPA_N[rev?f.de:f.a];const x1=A.x,y1=A.y,x2=B.x,y2=B.y;const dx=x2-x1,dy=y2-y1;
  const mx=(x1+x2)/2+(Math.abs(dy)>Math.abs(dx)?off:0), my=(y1+y2)/2+(Math.abs(dy)>Math.abs(dx)?0:off);
- return `M ${x1} ${y1} Q ${mx} ${my} ${x2} ${y2}`}
-M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const sel=state.mapaSel||'';const act=f=>!g||f.g===g;const F=MAPA_F;
- const norma=g==='norma';const ns=norma?(ROLES[sel]?sel:'onp'):'';const hi=norma?ns:sel;
+ const cut=(px,py)=>{const ux=mx-px,uy=my-py,L=Math.hypot(ux,uy)||1;const vx=ux/L,vy=uy/L;let t=L;
+  if(Math.abs(vx)>1e-6)t=Math.min(t,78/Math.abs(vx));if(Math.abs(vy)>1e-6)t=Math.min(t,40/Math.abs(vy));
+  return [Math.round(px+vx*t),Math.round(py+vy*t)]};
+ const [sx,sy]=cut(x1,y1),[ex,ey]=cut(x2,y2);
+ return `M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
+M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const norma=g==='norma';const sel=state.mapaSel||'';
  const LST=MAPA_F.filter(f=>!g||f.g===g);
+ const ns=norma?(ROLES[sel]?sel:'onp'):'';
+ let i=LST.findIndex(x=>x.id===sel);if(!norma&&i<0)i=0;
+ const cur=norma?null:LST[i];const hi=norma?ns:(cur?cur.id:'');
+ const OFF=mapaOff(norma?MAPA_F:LST);
  const INV=new Set();
  if(norma){INV.add(ns);MAPA_F.forEach(f=>{if(f.de===ns||f.a===ns){INV.add(f.de);INV.add(f.a)}})}
- else if(g){LST.forEach(f=>{INV.add(f.de);INV.add(f.a)})}
- const OFF=mapaOff(norma?MAPA_F:LST);
- const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k;const w=N.big?150:132,h=N.big?60:54;
+ else LST.forEach(f=>{INV.add(f.de);INV.add(f.a)});
+ const viv=new Set(norma?[ns]:[cur.de,cur.a]);
+ const vb=(()=>{const P=[...INV].map(k=>MAPA_N[k]);if(!P.length)return '0 0 1120 540';const pad=115,AR=2.55;
+  let x0=Math.min(...P.map(N=>N.x))-pad,x1=Math.max(...P.map(N=>N.x))+pad,y0=Math.min(...P.map(N=>N.y))-pad,y1=Math.max(...P.map(N=>N.y))+pad;
+  let w=x1-x0,h=y1-y0;if(w/h<AR){const nw=h*AR;x0-=(nw-w)/2;w=nw}else{const nh=w/AR;y0-=(nh-h)/2;h=nh}
+  return `${Math.round(x0)} ${Math.round(y0)} ${Math.round(w)} ${Math.round(h)}`})();
+ const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k||viv.has(k);const w=N.big?150:134,h=on?62:52;
   const ini=!norma&&LST.length&&LST[0].de===k;
-  return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${N.y-4}">${N.t}</text><text class="mns" x="${N.x}" y="${N.y+14}">${N.s}</text>${ini?`<g class="mini"><rect x="${N.x-29}" y="${N.y-h/2-23}" width="58" height="17" rx="8.5"/><text x="${N.x}" y="${N.y-h/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
- const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
-  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);const lab=f.lb&&!dim&&horiz&&(g!==''||on);
-  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?'marker-start="url(#ar)"':'marker-end="url(#ar)"'}/><path class="hit" d="${d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2s':'3.4s'}" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`}${lab?`<text class="mfl" dy="-16"><textPath href="#p_${f.id}" startOffset="50%" text-anchor="middle">${f.lb}</textPath></text>`:''}${dim||!np?'':(()=>{const M=mapaMid(f,OFF[f.id]||0);return `<g class="mnum"><circle cx="${M.x}" cy="${M.y}" r="10"/><text x="${M.x}" y="${M.y+3.5}">${np}</text></g>`})()}</g>`}).join('');
- const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
- const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}</div><div class="mp-d">${F0.d}</div><dl class="dl"><dt>Periodicidad</dt><dd>${F0.per}</dd>${F0.len?`<dt>Registro</dt><dd>${F0.len}</dd>`:''}</dl><button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button></div>`
-  :N0?`<div class="mp"><div class="mp-k">Entidad</div><div class="mp-t">${N0.t}</div><div class="mp-d">${N0.s}</div><div class="mp-l">${F.filter(x=>x.de===sel||x.a===sel).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de===sel?'o':'i'}">${x.de===sel?'envía':'recibe'}</span>${x.t}</button>`).join('')}</div></div>`
-  :'';
- const roles=norma?`<div class="mp"><div class="mp-k">Según el reglamento</div><div class="mp-t">${MAPA_N[ns].t}</div>
-  <div class="mp-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
-  <ol class="mp-steps nm">${ROLES[ns].map(r=>`<li><button ${r[3]?`data-go="${r[3]}"`:'class="ro"'}><span class="art">${r[0]}</span><span class="st2"><b>${r[1]}</b><span>${r[2]}</span></span></button></li>`).join('')}</ol></div>`:'';
- const idx=LST.findIndex(x=>x.id===sel);
- const pasos=`<div class="mp"><div class="mp-k">${g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'Todo el ecosistema'}</div><div class="mp-t">${g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div>
-  <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('clock')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
-  <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}${x.per?' · '+x.per:''}</span></span></button></li>`).join('')}</ol></div>`;
+  return `<g class="mn ${on?'on':''} ${INV.has(k)?'':'off'}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${on?N.y-5:N.y+5}">${N.t}</text>${on?`<text class="mns" x="${N.x}" y="${N.y+13}">${N.s}</text>`:''}${ini?`<g class="mini ${i===0?'on':''}"><rect x="${N.x-29}" y="${N.y-h/2-23}" width="58" height="17" rx="8.5"/><text x="${N.x}" y="${N.y-h/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
+ const trazos=MAPA_F.map(f=>{const on=hi===f.id||(norma&&(f.de===ns||f.a===ns));const fuera=norma?!(f.de===ns||f.a===ns):!(!g||f.g===g);if(fuera&&!norma)return '';
+  const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
+  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);const act=!norma&&cur&&cur.id===f.id;
+  return `<g class="mf ${act?'on':''} ${fuera?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?`marker-start="url(#${act?'aron':'ar'})"`:`marker-end="url(#${act?'aron':'ar'})"`}/><path class="hit" d="${d}"/>${act?`<circle class="dot" r="4.2"><animateMotion dur="2.2s" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`:''}</g>`}).join('');
+ const pie=norma?`<div class="eco-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
+  <div class="eco-cap"><div class="k">Según el reglamento</div><h3>${MAPA_N[ns].t}</h3><p>${MAPA_N[ns].s}</p></div>
+  <ol class="eco-du">${ROLES[ns].map(r=>`<li ${r[3]?`data-go="${r[3]}" class="cl"`:''}><span class="a">${r[0]}</span><span class="t"><b>${r[1]}</b><span>${r[2]}</span></span>${r[3]?ic('chev','i ch'):''}</li>`).join('')}</ol>`
+ :`<div class="eco-nav"><button class="rd" id="mpPrev" ${i>0?'':'disabled'}>${ic('chev')}</button>
+   <div class="dots">${LST.map((x,k)=>`<button class="${k===i?'on':''}" data-mf2="${x.id}" data-tip="${x.t}"></button>`).join('')}</div>
+   <button class="rd" id="mpNext" ${i<LST.length-1?'':'disabled'}>${ic('chev')}</button>
+   <button class="rd pl ${MAPA_T?'on':''}" id="mpPlay" data-tip="${MAPA_T?'Detener':'Ver el recorrido'}">${ic(MAPA_T?'pause':'play')}</button></div>
+  <div class="eco-cap"><div class="k">Paso ${i+1} de ${LST.length} · ${g==='mes'?'cada mes':g==='anio'?'cada año':g==='calc'?'cálculo y pago':'el recorrido completo'}</div>
+   <h3>${cur.t}</h3><p>${cur.d}</p>
+   <div class="m">${MAPA_N[cur.de].t} → ${MAPA_N[cur.a].t} · ${cur.per}${cur.len?' · '+cur.len:''}</div>
+   ${cur.mod?`<button class="lnk" data-go="${cur.mod}">Ver el módulo ${ic('chev')}</button>`:''}</div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="mapa"><div class="mapa-svg"><svg viewBox="0 0 1120 540" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
+ <div class="eco"><div class="eco-c"><svg viewBox="${vb}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div><div class="eco-p">${pie}</div></div>`};
 M.reglas=()=>{const lab=k=>{for(const g of NAV)for(const it of g[1])if(it[0]===k)return it[1];return k};return `${ph('Reglas del requerimiento','')}<div class="card"><div class="ch"><div><h3>${Object.keys(RULES).length} reglas en ${RSECS.length} bloques</h3><div class="sub">en el orden del proceso</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:90px">Código</th><th style="width:220px">Regla</th><th>Descripción</th><th style="width:190px">Módulo</th></tr></thead><tbody>${RSECS.map(([L,t,sub,ids])=>`<tr class="rsec"><td colspan="4"><b>${L} · ${t}</b>${sub?` <span class="muted">· ${sub}</span>`:''}</td></tr>${ids.map(k=>{const [t2,d,scr]=RULES[k];return `<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t2}</b></td><td class="muted" style="white-space:normal">${d}</td><td><button class="lnkb" data-go="${scr}">${lab(scr)}</button></td></tr>`}).join('')}`).join('')}</tbody></table></div></div>`};
 
 // ======================= Render =======================
@@ -1936,11 +2003,11 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
  ['u','m'].forEach(k=>{const el=$('#auf'+k,m);if(el)el.onchange=()=>{state.auf[k]=el.value;render()}});const auq=$('#aufq',m);if(auq)auq.oninput=()=>{state.auf.q=auq.value;const p=auq.selectionStart;render();const n=$('#aufq');n.focus();n.setSelectionRange(p,p)};on('#aufclr',()=>{state.auf={u:'',m:'',q:''};render()});on('#auCsv',exportAud);
  const tqi=$('#tq',m);if(tqi){tqi.onkeydown=ev=>{if(ev.key==='Enter'){state.tq=tqi.value;render()}}}on('#tzDoc',()=>reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tzPrint',()=>{reporteTraza((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni);setTimeout(()=>window.print(),350)});on('#tzPdf',()=>reportePDF((state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni));on('#tqClr',()=>{state.tq='';render()});{const sel=$('#tqSel',m);if(sel)sel.onchange=()=>{if(sel.value){state.tq=sel.value;render()}};const tn=$('#tqn',m);if(tn)tn.onkeydown=e=>{if(e.key==='Enter'){const v=tn.value.trim().toLowerCase();const h=[...afiliados,...SPP_EJ].find(x=>x.nom.toLowerCase().includes(v));if(h){state.tq=h.dni;render()}else toast('No se encontró')}}}{const ta=$('#tabAnio',m);if(ta)ta.onchange=()=>{state.tab={anio:ta.value,mes:''};render()};const tm=$('#tabMes',m);if(tm)tm.onchange=()=>{state.tab={...(state.tab||{}),mes:tm.value};render()};const tf=$('#tabAf',m);if(tf)tf.onchange=()=>{state.tabAf=+tf.value;render()}}{const f=k=>{const el=$('#ab'+k,m);if(el)el.onchange=()=>{state.abf={...(state.abf||{}),[k.toLowerCase()==='anio'?'anio':k.toLowerCase()==='eaf'?'eaf':'est']:el.value};render()}};f('Anio');f('Eaf');f('Est');const aq=$('#abq',m);if(aq)aq.onkeydown=e=>{if(e.key==='Enter'){state.abq=aq.value;render()}}}$$('[data-xrep]',m).forEach(b=>b.onclick=()=>exportTarjeta(b));$$('[data-prep]',m).forEach(b=>b.onclick=()=>pdfTarjeta(b));on('#rpGen',()=>{const v=($('#rpDni',m)||{}).value||'';reporteTraza(v.trim()||(afiliados[0]||SPP_EJ[0]).dni)});on('#tzCtl',()=>{const d=(state.tq||'').trim()||(afiliados[0]||SPP_EJ[0]).dni;modal('Trazabilidad · '+d,'',tablaEventos(eventosCuenta(d)),`<button class="btn" id="mcan">Cerrar</button><button class="btn" id="tzCsv2">${ic('down')}Excel</button>`,{xwide:true});$('#tzCsv2').onclick=exportTraza});$$('[data-vereafx]',m).forEach(b=>b.onclick=()=>verEafAnual(+b.dataset.vereafx));$$('[data-ent]',m).forEach(b=>b.onclick=ev=>{if(ev.target.closest('[data-go]'))return;verEntidad(b.dataset.ent)});{const dq=$('#dmq',m);if(dq){dq.oninput=()=>{state.dmq=dq.value;const q=dq.value.trim().toLowerCase();$$('.dme',m).forEach(el=>{const E=DM.find(x=>x.k===el.dataset.ent);el.classList.toggle('dim',!!q&&!(E.t.toLowerCase().includes(q)||E.que.toLowerCase().includes(q)||E.f.some(f=>f.join(' ').toLowerCase().includes(q))))})}}}on('#pgNuevo',()=>catEdit('hitos',null));$$('[data-hedit]',m).forEach(b=>b.onclick=()=>catEdit('hitos',HITOS_T.findIndex(x=>x.key===b.dataset.hedit)));on('#phNuevo',()=>catEdit('presu',null));$$('[data-phedit]',m).forEach(b=>b.onclick=()=>catEdit('presu',HITOS_P.findIndex(x=>x.k===b.dataset.phedit)));$$('[data-go][data-cat]',m).forEach(b=>b.onclick=()=>{state.cat=b.dataset.cat;state.screen='parametros';render()});$$('[data-mg]',m).forEach(b=>b.onclick=()=>{if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null}state.mapaG=b.dataset.mg;state.mapaSel='';render()});
  {const L=(state.screen==='mapa')?MAPA_F.filter(f=>{const g=state.mapaG===undefined?'mes':state.mapaG;return !g||f.g===g}):[];
-  const j=L.findIndex(x=>x.id===state.mapaSel);
+  const j=Math.max(0,L.findIndex(x=>x.id===state.mapaSel));
   const pv=$('#mpPrev',m);if(pv)pv.onclick=()=>{if(j>0){state.mapaSel=L[j-1].id;render()}};
   const nx=$('#mpNext',m);if(nx)nx.onclick=()=>{if(j<L.length-1){state.mapaSel=L[j+1].id;render()}};
   const pl=$('#mpPlay',m);if(pl)pl.onclick=()=>mapaPlay(L)}
- $$('[data-mf]',m).forEach(b=>b.onclick=()=>{state.mapaSel=state.mapaSel===b.dataset.mf?'':b.dataset.mf;render()});
+ $$('[data-mf]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf;render()});
  $$('[data-mf2]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf2;render()});
  $$('[data-mn]',m).forEach(b=>b.onclick=()=>{state.mapaSel=(state.mapaG==='norma'||state.mapaSel!==b.dataset.mn)?b.dataset.mn:'';render()});
  on('#tqGo',()=>{state.tq=$('#tq').value;render()});on('#tzCsv',exportTraza);on('#tzRep',()=>{state.rq=(state.tq||'').trim()||(afiliados[0]||{}).dni;state.screen='reporteAf';render()});
