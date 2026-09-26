@@ -800,6 +800,9 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .eco-hd{padding:26px 30px 14px;max-width:860px;animation:hdIn .34s ease}
 @keyframes hdIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .eco-hd p{margin:0;font:600 22px/1.38 var(--font-display);letter-spacing:-.018em;color:var(--ink)}
+.eco-hd p.ej{margin:11px 0 0;font:400 13.5px/1.55 var(--font-sans);letter-spacing:0;color:var(--ink-2)}
+.eco-hd p.ej b{display:inline-block;color:var(--ink-3);font-weight:600;font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;margin-right:8px;vertical-align:1px}
 .eco-hd b{color:var(--accent-2);font-weight:600}
 @media(max-width:1200px){.eco-hd{padding:20px 20px 10px}.eco-hd p{font-size:19px}}
 .eco-leg{display:flex;flex-wrap:wrap;gap:4px 18px;padding:10px 14px 4px;border-top:1px solid var(--border);
@@ -1861,6 +1864,23 @@ const COD_T={
  ISNT:['ISNT2701 y ISNT2801','Stock de afiliados del SNP sin cese al 31/01/2027 y al 31/01/2028.','ONP → SBS · intercambio transitorio','stock inicial']};
 const codTip=c=>COD_T[c]?`data-tip="<b>${COD_T[c][0]}</b><br>${COD_T[c][1]}<div class=&quot;tt-h&quot;>${COD_T[c][2]} · AAMM es el año y el mes del periodo: ISN12701 es enero de 2027</div>"`:'';
 // Cómo se nombra cada entidad dentro de una frase
+// Ejemplo de cada paso, con los datos del afiliado 90000001 del historial
+const MAPA_EJ={
+ isn1:'El DNI 90000001 cumple las cuatro condiciones, así que entra en el envío del mes junto con los demás.',
+ apert:'La SBS le asigna Profuturo y su cuenta especial queda abierta el 06/11/2026.',
+ osn1:'La ONP recibe: DNI 90000001 · EAF Profuturo · apertura 06/11/2026, y lo anota en su padrón de cuentas.',
+ isn2:'Si ese afiliado falleciera el 22/11/2026, iría en el archivo con motivo 01 y fecha 20261122.',
+ isnt:'El ISNT2701 lleva a todos los que seguían activos al 31/01/2027, el 90000001 entre ellos.',
+ reniec:'Si cambiara su número de DNI, el RENIEC lo informa y la SBS corrige la relación antes de remitirla.',
+ sbs_sunat:'De ese afiliado la SUNAT recibe: DNI 90000001 · cuenta desde el 06/11/2026 · sin cese.',
+ sunat_mef:'Sus boletas del ejercicio 2027 suman S/ 4,287.00, por debajo del tope de 8 UIT.',
+ mef_onp:'La ONP recibe una línea por persona: DNI 90000001 · base S/ 4,287.00.',
+ presu:'Para el pago del ejercicio 2027 el presupuesto alcanzó para el 89.98 % de lo calculado.',
+ eafx:'La ONP pregunta por el 90000001 y la SBS confirma que su cuenta sigue en Profuturo.',
+ eafr:'Si se hubiera trasladado a otra EAF, el pago se redirige a la nueva y no a Profuturo.',
+ pago:'Su aporte del 2027 es S/ 42.87 —el 1 % de S/ 4,287.00— y, con la prorrata, se transfieren S/ 38.57.',
+ acred:'Profuturo le acredita S/ 38.57 el 15/12/2028 y, con la regularización, su cuenta llega a S/ 42.87.',
+ pend:'Le quedaron S/ 4.30 pendientes, que se pagaron el 15/12/2029 con el presupuesto siguiente.'};
 const ART_N={onp:'La ONP',sbs:'La SBS',sunat:'La SUNAT',mef:'El MEF',reniec:'El RENIEC',eaf:'La EAF',afi:'El afiliado'};
 const MAPA_ACC={
  isn1:{de:'Selecciona a los afiliados con derecho y deposita el padrón del mes para la SBS.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
@@ -2059,7 +2079,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
  <div class="mapa"><div class="mapa-svg">${norma?`<div class="eco-hd"><p>Esto es lo que le corresponde hacer ${(ART_N[ns]||'').startsWith('El ')?'al':'a la'} <b>${MAPA_N[ns].t}</b> según el reglamento.</p></div>`
   :(F0?(()=>{const A=MAPA_ACC[F0.id]||{},fr=A.de||(MAPA_TIP[F0.id]||[F0.d])[0];
-   return `<div class="eco-hd" key="${F0.id}"><p><b>${ART_N[F0.de]||MAPA_N[F0.de].t}</b> ${fr.charAt(0).toLowerCase()+fr.slice(1)}</p></div>`})():'')}<svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.1"/></marker>
+   return `<div class="eco-hd" key="${F0.id}"><p><b>${ART_N[F0.de]||MAPA_N[F0.de].t}</b> ${fr.charAt(0).toLowerCase()+fr.slice(1)}</p>${MAPA_EJ[F0.id]?`<p class="ej"><b>Por ejemplo</b>${MAPA_EJ[F0.id]}</p>`:''}</div>`})():'')}<svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.1"/></marker>
    <marker id="pton" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.4"/></marker>
    <marker id="cv" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="21" markerHeight="21" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="8.6"/><path class="cvc" d="M9.2 7.6 L13 11 L9.2 14.4"/></marker>
    <marker id="cvon" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="23" markerHeight="23" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="9.2"/><path class="cvc" d="M9.2 7.5 L13.2 11 L9.2 14.5"/></marker></defs>${zonas}${trazos}${nodos}</svg>${(()=>{const cs=[...new Set(LST.filter(f=>f.cod).map(f=>f.cod))];
