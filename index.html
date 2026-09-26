@@ -1853,7 +1853,7 @@ const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
 // Cómo se nombra cada entidad dentro de una frase
 // Qué se ve dentro de cada intercambio: muestra de un registro
 const MAPA_MU={
- isn1:[[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_NACIMIENTO','19750213'],['FEC_AFILIACION','20010501']],'10 campos · 294 caracteres · un registro por afiliado'],
+ isn1:[[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_NACIMIENTO','19750213'],['FEC_AFILIACION','20010501']],'10 campos · 294 caracteres · un registro por afiliado que cumple las cuatro condiciones'],
  apert:[[['DNI','90000001'],['EAF asignada','Profuturo'],['Apertura','06/11/2026']],'La SBS dispone la apertura en la EAF'],
  osn1:[[['NUM_DOC','90000001'],['COD_EAF','PRO'],['FEC_APERTURA','20261106']],'3 campos · 19 caracteres · un registro por cuenta abierta'],
  isn2:[[['NUM_DOC','90000001'],['MOT_CESE','01 · fallecimiento'],['FEC_CESE','20261122'],['NUEVO_DNI','(en blanco)']],'9 campos · 154 caracteres · solo los que cesan o cambian'],
@@ -1870,7 +1870,7 @@ const MAPA_MU={
  pend:[[['DNI','90000001'],['Pendiente','S/ 4.30'],['Se paga en','2029']],'Informe al MEF · hasta el 31 de enero']};
 const ART_N={onp:'La ONP',sbs:'La SBS',sunat:'La SUNAT',mef:'El MEF',reniec:'El RENIEC',eaf:'La EAF',afi:'El afiliado'};
 const MAPA_ACC={
- isn1:{de:'Selecciona a los afiliados con derecho y deposita el padrón del mes para la SBS.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
+ isn1:{de:'Arma el padrón del mes para la SBS: afiliados al SNP con DNI válido, sin fallecimiento, sin pensión ni beneficio y menores de 65 años.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
  apert:{de:'Asigna la EAF que corresponde y dispone la apertura de la cuenta especial.',a:'Abre la cuenta especial a nombre del afiliado y queda lista para recibir el aporte.'},
  osn1:{de:'Informa a la ONP, por cada DNI, la EAF asignada y la fecha de apertura.',a:'Concilia la respuesta contra lo enviado y actualiza su padrón de cuentas.'},
  isn2:{de:'Informa los ceses del ejercicio y los cambios de datos de sus afiliados.',a:'Registra los ceses y actualiza los datos antes de remitir la relación a la SUNAT.'},
@@ -1900,7 +1900,7 @@ const MAPA_CTX={
    eaf:'Recibe el pago de la ONP y acredita el aporte en la cuenta especial de cada afiliado.',
    afi:'Ve acreditado el aporte del ejercicio en su cuenta especial y, si hubo prorrata, el saldo que queda pendiente.'}};
 const MAPA_TIP={
- isn1:['Afiliados al SNP con derecho, para que la SBS disponga la apertura de su cuenta','OSN1 · la EAF asignada y la fecha de apertura'],
+ isn1:['Afiliados al SNP con DNI válido, sin fallecimiento, sin pensión ni beneficio y menores de 65 años','OSN1 · la EAF asignada y la fecha de apertura'],
  osn1:['Por cada DNI, la EAF asignada y la fecha en que se abrió la cuenta',''],
  apert:['La SBS asigna la EAF y la cuenta queda abierta a nombre del afiliado',''],
  isn2:['Ceses del año —fallecimiento, pensión, 65 años— y cambios de datos',''],
