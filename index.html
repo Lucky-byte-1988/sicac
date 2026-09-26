@@ -800,8 +800,8 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mn{cursor:pointer}
 .mn:hover rect{stroke:var(--ink-3)}
 .mn.on rect{fill:var(--accent-soft);stroke:var(--accent)}
-.mnt{font:600 14px var(--font-sans);fill:var(--ink);text-anchor:middle}
-.mns{font:400 11px var(--font-sans);fill:var(--ink-3);text-anchor:middle}
+.mnt{font:600 16px var(--font-sans);fill:var(--ink);text-anchor:middle;letter-spacing:-.01em}
+.mns{font:400 11.5px var(--font-sans);fill:var(--ink-3);text-anchor:middle}
 .mf path{fill:none;stroke:var(--ink-3);stroke-width:1.4;opacity:.55}
 .mf .hit{stroke:transparent;stroke-width:18;cursor:pointer}
 .mf marker path,.mf path[marker-end]{marker-end:url(#ar)}
@@ -810,7 +810,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mfl{font:500 10.5px var(--font-sans);fill:var(--ink-3);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
 .mf.on .mfl{fill:var(--accent)}
 .mf:hover path:first-child{stroke:var(--ink-2);opacity:.9}
-.mf.on path:first-child{stroke:var(--accent);stroke-width:2.2;opacity:1}
+.mf.on path:first-child{stroke:var(--accent);stroke-width:2.2;opacity:1;filter:drop-shadow(0 1px 4px rgba(0,122,255,.3))}
 .mf.on .dot{fill:var(--accent);r:4.2}
 .mf.dim path:first-child{opacity:.12}
 .mp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);padding:16px 18px}
@@ -861,60 +861,16 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mp-steps.nm button.ro{cursor:default}
 .mp-steps.nm button.ro:hover{background:none}
 
-/* ---- Mapa del ecosistema · un paso a la vez ---- */
-.eco{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);overflow:hidden}
-.eco-c{max-width:960px;margin:0 auto;padding:14px 20px 0}
-.eco-c>svg{width:100%;height:auto;display:block}
-.eco-p{padding:0 24px 30px;text-align:center}
-.eco svg.i{width:15px;height:15px}
-.eco-nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0 20px}
-.eco-nav .rd{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--border);
-  background:var(--surface);color:var(--ink-2);display:grid;place-items:center;cursor:pointer}
-.eco-nav .rd:hover{background:var(--surface-2);color:var(--ink)}
-.eco-nav .rd:disabled{opacity:.3;cursor:default;background:var(--surface);color:var(--ink-2)}
-.eco-nav #mpPrev svg{transform:rotate(180deg)}
-.eco-nav .pl{margin-left:6px}
-.eco-nav .pl.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.dots{display:flex;align-items:center;gap:6px}
-.dots button{width:7px;height:7px;padding:0;border:0;border-radius:999px;background:var(--surface-3);
-  cursor:pointer;transition:width .22s ease,background .22s ease}
-.dots button:hover{background:var(--ink-3)}
-.dots button.on{width:22px;background:var(--accent)}
-.eco-cap{max-width:600px;margin:0 auto;animation:ecoIn .32s ease}
-@keyframes ecoIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.eco-cap .k{font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
-.eco-cap h3{font:600 21px/1.25 var(--font-display);letter-spacing:-.015em;margin:7px 0 0;color:var(--ink)}
-.eco-cap p{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:8px 0 0}
-.eco-cap .m{font-size:12px;color:var(--ink-3);margin-top:12px}
-.lnk{border:0;background:none;font:inherit;font-size:13px;font-weight:500;color:var(--accent);cursor:pointer;
-  display:inline-flex;align-items:center;gap:2px;margin-top:14px;padding:5px 10px;border-radius:8px}
-.lnk:hover{background:var(--accent-soft)}
-.eco-ch{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;padding:0 0 18px}
-.eco-ch .ch{border:1px solid var(--border);background:var(--surface);font:inherit;font-size:12px;
-  color:var(--ink-2);padding:4px 12px;border-radius:999px;cursor:pointer}
-.eco-ch .ch:hover{background:var(--surface-2);color:var(--ink)}
-.eco-ch .ch.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.eco-du{list-style:none;max-width:660px;margin:22px auto 0;padding:0;text-align:left}
-.eco-du li{display:flex;align-items:flex-start;gap:14px;padding:11px 12px;border-top:1px solid var(--border)}
-.eco-du li.cl{cursor:pointer}
-.eco-du li.cl:hover{background:var(--surface-2)}
-.eco-du .a{flex:none;width:44px;text-align:right;padding-top:2px;
-  font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
-.eco-du .t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
-.eco-du .t b{font-weight:500;font-size:13.5px}
-.eco-du .t span{font-size:11.5px;color:var(--ink-3)}
-.eco-du svg.ch{flex:none;margin-top:3px;color:var(--ink-3);opacity:0}
-.eco-du li.cl:hover svg.ch{opacity:1}
+/* ---- Mapa del ecosistema ---- */
 #ar path{fill:var(--ink-3);opacity:.5}
 #aron path{fill:var(--accent)}
 .mn .mini rect{fill:var(--surface-3)}
 .mn .mini text{fill:var(--ink-2)}
 .mn .mini.on rect{fill:var(--accent)}
 .mn .mini.on text{fill:#fff}
-.mn.off{opacity:.28}
-.mf.dim path:first-child{opacity:.09}
+.mn.off{opacity:.3}
+.mf.dim path:first-child{opacity:.1}
 .mf.dim .hit{display:none}
-@media(max-width:900px){.eco-c{padding:10px 12px 0}.eco-p{padding:0 16px 24px}}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -1823,13 +1779,13 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||E.t.
 // ======================= Mapa del ecosistema (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
- reniec:{x:800,y:70,t:'RENIEC',s:'nombres y DNI'},
- sunat:{x:140,y:450,t:'SUNAT',s:'boletas electrónicas'},
- mef:{x:450,y:450,t:'MEF',s:'presupuesto y relación'},
- onp:{x:450,y:250,t:'ONP',s:'PUA · este sistema',big:1},
- sbs:{x:800,y:250,t:'SBS',s:'abre las cuentas'},
- eaf:{x:1000,y:112,t:'EAF',s:'Profuturo · Prima · Integra · Habitat'},
- afi:{x:1000,y:445,t:'Afiliado',s:'cuenta por consumo'}};
+ sunat:{x:150,y:120,t:'SUNAT',s:'boletas electrónicas'},
+ mef:{x:150,y:420,t:'MEF',s:'presupuesto y relación'},
+ onp:{x:430,y:270,t:'ONP',s:'PUA · este sistema',big:1},
+ reniec:{x:830,y:80,t:'RENIEC',s:'nombres y DNI'},
+ sbs:{x:830,y:270,t:'SBS',s:'abre las cuentas'},
+ eaf:{x:1040,y:145,t:'EAF',s:'administran la cuenta'},
+ afi:{x:1040,y:430,t:'Afiliado',s:'cuenta por consumo'}};
 const MAPA_F=[
  {id:'isn1',de:'onp',a:'sbs',g:'mes',lb:'ISN1',t:'ISN1 · padrón mensual',d:'Afiliados al SNP que cumplen las cuatro condiciones, para que la SBS les abra la cuenta.',per:'Mensual · 5.º día hábil',len:'294 caracteres',mod:'padron'},
  {id:'osn1',de:'sbs',a:'onp',g:'mes',lb:'OSN1',t:'OSN1 · cuentas abiertas',d:'La SBS devuelve, por cada DNI, la EAF y la fecha de apertura de la cuenta.',per:'Mensual · cierre del 2.º mes',len:'19 caracteres',mod:'respuestas'},
@@ -1903,40 +1859,34 @@ function mapaPath(f,rev,off){const A=MAPA_N[rev?f.a:f.de],B=MAPA_N[rev?f.de:f.a]
   return [Math.round(px+vx*t),Math.round(py+vy*t)]};
  const [sx,sy]=cut(x1,y1),[ex,ey]=cut(x2,y2);
  return `M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
-M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const norma=g==='norma';const sel=state.mapaSel||'';
- const LST=MAPA_F.filter(f=>!g||f.g===g);
- const ns=norma?(ROLES[sel]?sel:'onp'):'';
- let i=LST.findIndex(x=>x.id===sel);if(!norma&&i<0)i=0;
- const cur=norma?null:LST[i];const hi=norma?ns:(cur?cur.id:'');
- const OFF=mapaOff(norma?MAPA_F:LST);
+M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f.g===g;const F=MAPA_F;
+ const norma=g==='norma';const LST=MAPA_F.filter(f=>!g||f.g===g);
+ const sel=norma?(state.mapaSel||''):(LST.some(x=>x.id===state.mapaSel)?state.mapaSel:(LST[0]?LST[0].id:''));
+ const ns=norma?(ROLES[state.mapaSel]?state.mapaSel:'onp'):'';const hi=norma?ns:sel;
  const INV=new Set();
  if(norma){INV.add(ns);MAPA_F.forEach(f=>{if(f.de===ns||f.a===ns){INV.add(f.de);INV.add(f.a)}})}
- else LST.forEach(f=>{INV.add(f.de);INV.add(f.a)});
- const viv=new Set(norma?[ns]:[cur.de,cur.a]);
- const vb=(()=>{const P=[...INV].map(k=>MAPA_N[k]);if(!P.length)return '0 0 1120 540';const pad=115,AR=2.55;
-  let x0=Math.min(...P.map(N=>N.x))-pad,x1=Math.max(...P.map(N=>N.x))+pad,y0=Math.min(...P.map(N=>N.y))-pad,y1=Math.max(...P.map(N=>N.y))+pad;
-  let w=x1-x0,h=y1-y0;if(w/h<AR){const nw=h*AR;x0-=(nw-w)/2;w=nw}else{const nh=w/AR;y0-=(nh-h)/2;h=nh}
-  return `${Math.round(x0)} ${Math.round(y0)} ${Math.round(w)} ${Math.round(h)}`})();
+ else if(g){LST.forEach(f=>{INV.add(f.de);INV.add(f.a)})}
+ const OFF=mapaOff(norma?MAPA_F:LST);
+ const F0x=MAPA_F.find(x=>x.id===sel);const viv=new Set(F0x?[F0x.de,F0x.a]:norma?[ns]:[]);
  const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k||viv.has(k);const w=N.big?150:134,h=on?62:52;
   const ini=!norma&&LST.length&&LST[0].de===k;
-  return `<g class="mn ${on?'on':''} ${INV.has(k)?'':'off'}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${on?N.y-5:N.y+5}">${N.t}</text>${on?`<text class="mns" x="${N.x}" y="${N.y+13}">${N.s}</text>`:''}${ini?`<g class="mini ${i===0?'on':''}"><rect x="${N.x-29}" y="${N.y-h/2-23}" width="58" height="17" rx="8.5"/><text x="${N.x}" y="${N.y-h/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
- const trazos=MAPA_F.map(f=>{const on=hi===f.id||(norma&&(f.de===ns||f.a===ns));const fuera=norma?!(f.de===ns||f.a===ns):!(!g||f.g===g);if(fuera&&!norma)return '';
-  const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
-  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);const act=!norma&&cur&&cur.id===f.id;
-  return `<g class="mf ${act?'on':''} ${fuera?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?`marker-start="url(#${act?'aron':'ar'})"`:`marker-end="url(#${act?'aron':'ar'})"`}/><path class="hit" d="${d}"/>${act?`<circle class="dot" r="4.2"><animateMotion dur="2.2s" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`:''}</g>`}).join('');
- const pie=norma?`<div class="eco-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
-  <div class="eco-cap"><div class="k">Según el reglamento</div><h3>${MAPA_N[ns].t}</h3><p>${MAPA_N[ns].s}</p></div>
-  <ol class="eco-du">${ROLES[ns].map(r=>`<li ${r[3]?`data-go="${r[3]}" class="cl"`:''}><span class="a">${r[0]}</span><span class="t"><b>${r[1]}</b><span>${r[2]}</span></span>${r[3]?ic('chev','i ch'):''}</li>`).join('')}</ol>`
- :`<div class="eco-nav"><button class="rd" id="mpPrev" ${i>0?'':'disabled'}>${ic('chev')}</button>
-   <div class="dots">${LST.map((x,k)=>`<button class="${k===i?'on':''}" data-mf2="${x.id}" data-tip="${x.t}"></button>`).join('')}</div>
-   <button class="rd" id="mpNext" ${i<LST.length-1?'':'disabled'}>${ic('chev')}</button>
-   <button class="rd pl ${MAPA_T?'on':''}" id="mpPlay" data-tip="${MAPA_T?'Detener':'Ver el recorrido'}">${ic(MAPA_T?'pause':'play')}</button></div>
-  <div class="eco-cap"><div class="k">Paso ${i+1} de ${LST.length} · ${g==='mes'?'cada mes':g==='anio'?'cada año':g==='calc'?'cálculo y pago':'el recorrido completo'}</div>
-   <h3>${cur.t}</h3><p>${cur.d}</p>
-   <div class="m">${MAPA_N[cur.de].t} → ${MAPA_N[cur.a].t} · ${cur.per}${cur.len?' · '+cur.len:''}</div>
-   ${cur.mod?`<button class="lnk" data-go="${cur.mod}">Ver el módulo ${ic('chev')}</button>`:''}</div>`;
+  return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-w/2}" y="${N.y-h/2}" width="${w}" height="${h}" rx="14"/><text class="mnt" x="${N.x}" y="${on?N.y-5:N.y+5}">${N.t}</text>${on?`<text class="mns" x="${N.x}" y="${N.y+13}">${N.s}</text>`:''}${ini?`<g class="mini"><rect x="${N.x-29}" y="${N.y-h/2-23}" width="58" height="17" rx="8.5"/><text x="${N.x}" y="${N.y-h/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
+ const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;const A=MAPA_N[f.de],B=MAPA_N[f.a];const horiz=Math.abs(B.x-A.x)>=Math.abs(B.y-A.y);
+  const rev=B.x<A.x;const d=mapaPath(f,rev,OFF[f.id]||0);const lab=f.lb&&!dim&&horiz&&on;
+  return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${d}" ${rev?`marker-start="url(#${on?'aron':'ar'})"`:`marker-end="url(#${on?'aron':'ar'})"`}/><path class="hit" d="${d}"/>${dim?'':`<circle class="dot" r="3.6"><animateMotion dur="${on?'2s':'3.4s'}" repeatCount="indefinite" ${rev?'keyPoints="1;0" keyTimes="0;1" calcMode="linear"':''}><mpath href="#p_${f.id}"/></animateMotion></circle>`}${lab?`<text class="mfl" dy="-16"><textPath href="#p_${f.id}" startOffset="50%" text-anchor="middle">${f.lb}</textPath></text>`:''}${dim||!np?'':(()=>{const M=mapaMid(f,OFF[f.id]||0);return `<g class="mnum"><circle cx="${M.x}" cy="${M.y}" r="10"/><text x="${M.x}" y="${M.y+3.5}">${np}</text></g>`})()}</g>`}).join('');
+ const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
+ const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}</div><div class="mp-d">${F0.d}</div><dl class="dl"><dt>Periodicidad</dt><dd>${F0.per}</dd>${F0.len?`<dt>Registro</dt><dd>${F0.len}</dd>`:''}</dl><button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button></div>`
+  :N0?`<div class="mp"><div class="mp-k">Entidad</div><div class="mp-t">${N0.t}</div><div class="mp-d">${N0.s}</div><div class="mp-l">${F.filter(x=>x.de===sel||x.a===sel).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de===sel?'o':'i'}">${x.de===sel?'envía':'recibe'}</span>${x.t}</button>`).join('')}</div></div>`
+  :'';
+ const roles=norma?`<div class="mp"><div class="mp-k">Según el reglamento</div><div class="mp-t">${MAPA_N[ns].t}</div>
+  <div class="mp-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
+  <ol class="mp-steps nm">${ROLES[ns].map(r=>`<li><button ${r[3]?`data-go="${r[3]}"`:'class="ro"'}><span class="art">${r[0]}</span><span class="st2"><b>${r[1]}</b><span>${r[2]}</span></span></button></li>`).join('')}</ol></div>`:'';
+ const idx=LST.findIndex(x=>x.id===sel);
+ const pasos=`<div class="mp"><div class="mp-k">${g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'Todo el ecosistema'}</div><div class="mp-t">${g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div>
+  <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
+  <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}${x.per?' · '+x.per:''}</span></span></button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="eco"><div class="eco-c"><svg viewBox="${vb}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div><div class="eco-p">${pie}</div></div>`};
+ <div class="mapa"><div class="mapa-svg"><svg viewBox="-10 -18 1140 496" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
 M.reglas=()=>{const lab=k=>{for(const g of NAV)for(const it of g[1])if(it[0]===k)return it[1];return k};return `${ph('Reglas del requerimiento','')}<div class="card"><div class="ch"><div><h3>${Object.keys(RULES).length} reglas en ${RSECS.length} bloques</h3><div class="sub">en el orden del proceso</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:90px">Código</th><th style="width:220px">Regla</th><th>Descripción</th><th style="width:190px">Módulo</th></tr></thead><tbody>${RSECS.map(([L,t,sub,ids])=>`<tr class="rsec"><td colspan="4"><b>${L} · ${t}</b>${sub?` <span class="muted">· ${sub}</span>`:''}</td></tr>${ids.map(k=>{const [t2,d,scr]=RULES[k];return `<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t2}</b></td><td class="muted" style="white-space:normal">${d}</td><td><button class="lnkb" data-go="${scr}">${lab(scr)}</button></td></tr>`}).join('')}`).join('')}</tbody></table></div></div>`};
 
 // ======================= Render =======================
