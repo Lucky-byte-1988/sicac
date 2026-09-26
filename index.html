@@ -2010,7 +2010,9 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
  MAPA_SEL=norma?'':sel;
  const bund=!norma&&!g;
  let DIB;
- if(norma)DIB=MAPA_F.map(f=>({f,ids:[f.id]}));
+ if(norma){const rel=MAPA_F.filter(f=>f.de===ns||f.a===ns),by={};
+  rel.forEach(f=>{const k=f.de+'>'+f.a;(by[k]=by[k]||[]).push(f)});
+  DIB=Object.values(by).map(fs=>({f:fs[0],ids:fs.map(x=>x.id)}))}
  else if(!bund)DIB=LST.map(f=>({f,ids:[f.id]}));
  else{const by={};LST.forEach(f=>{const k=f.de+'>'+f.a;(by[k]=by[k]||[]).push(f)});DIB=[];
   Object.values(by).forEach(fs=>{const sf=fs.find(x=>x.id===sel),rest=fs.filter(x=>x.id!==sel);
