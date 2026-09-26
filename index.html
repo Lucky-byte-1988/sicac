@@ -812,7 +812,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mf .hit{stroke:transparent;stroke-width:18;cursor:pointer}
 .mf:not(.on) path:first-child{opacity:.4}
 .mf:not(.on):hover path:first-child{opacity:.75}
-.mf marker path,.mf path[marker-end]{marker-end:url(#ar)}
+
 #ar path{fill:var(--ink-3)}
 .mf .dot{fill:var(--ink-3);opacity:.85}
 .mfl{font:500 10.5px var(--font-sans);fill:var(--ink-3);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
@@ -881,6 +881,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 /* ---- Mapa del ecosistema ---- */
 #ar path{fill:var(--ink-2);opacity:.8}
 #aron path{fill:var(--accent)}
+.mf.on{isolation:isolate}
 .mn .mini rect{fill:var(--surface-3);stroke:none;filter:none}
 .mn .mini text{fill:var(--ink-2)}
 .mn .mini.on rect{fill:var(--accent)}
@@ -1885,7 +1886,7 @@ function mapaOff(list){const G={},O={};
   const d0=fs[0].de, ida=fs.filter(f=>f.de===d0), vue=fs.filter(f=>f.de!==d0);
   const banda=(fl,sg)=>{const n=fl.length;
    fl.forEach((f,i)=>{const o=sg*(21+i*(alin?17:26));
-    O[f.id]={o, e:n===1?o:sg*(9+i*7)}})};
+    O[f.id]={o, e:n===1?o:sg*(7+i*(19/(n-1)))}})};
   if(!vue.length){const n=ida.length,st=alin?21:34;
    ida.forEach((f,i)=>{const o=(i-(n-1)/2)*st;O[f.id]={o, e:n<=2?o:(i-(n-1)/2)*8}})}
   else{banda(ida,-1);banda(vue,1)}});
@@ -1911,7 +1912,7 @@ function rcost(P,de,a){let c=0,L=0,b=0;
 function ruta(f,q){const off=q&&q.o||0, ep=q&&q.e||0;const A=MAPA_N[f.de],B=MAPA_N[f.a];const HX=98,HY=42;
  const sx=B.x>=A.x?1:-1, sy=B.y>=A.y?1:-1;
  const ax=A.x+sx*HX, bx=B.x-sx*HX, ay=A.y+sy*HY, by=B.y-sy*HY;
- const e=clamp(ep,-26,26), C=[];
+ const e=clamp(ep,-27,27), C=[];
  const alinH=Math.abs(B.y-A.y)<8, alinV=Math.abs(B.x-A.x)<8;
  if(alinH){const cap=Math.max(30,Math.abs(bx-ax)*.34),yt=A.y+clamp(off,-cap,cap),j=Math.min(26,Math.abs(bx-ax)/5)*sx;
   C.push(Math.abs(off-e)<2?[[ax,A.y+off],[bx,B.y+off]]
@@ -1975,7 +1976,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
   <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
   <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span></span>${x.cod?`<span class="cod">${x.cod}</span>`:''}</button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="mapa"><div class="mapa-svg"><svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0.6,1.2 L9.6,5 L0.6,8.8 L2.2,5 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="15" markerHeight="15" markerUnits="userSpaceOnUse" orient="auto"><path d="M0.6,1.2 L9.6,5 L0.6,8.8 L2.2,5 z"/></marker></defs>${zonas}${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
+ <div class="mapa"><div class="mapa-svg"><svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M1,1.7 L9.4,5 L1,8.3 L2.7,5 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9.2" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M1,1.7 L9.4,5 L1,8.3 L2.7,5 z"/></marker></defs>${zonas}${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
 M.reglas=()=>{const lab=k=>{for(const g of NAV)for(const it of g[1])if(it[0]===k)return it[1];return k};return `${ph('Reglas del requerimiento','')}<div class="card"><div class="ch"><div><h3>${Object.keys(RULES).length} reglas en ${RSECS.length} bloques</h3><div class="sub">en el orden del proceso</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:90px">Código</th><th style="width:220px">Regla</th><th>Descripción</th><th style="width:190px">Módulo</th></tr></thead><tbody>${RSECS.map(([L,t,sub,ids])=>`<tr class="rsec"><td colspan="4"><b>${L} · ${t}</b>${sub?` <span class="muted">· ${sub}</span>`:''}</td></tr>${ids.map(k=>{const [t2,d,scr]=RULES[k];return `<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t2}</b></td><td class="muted" style="white-space:normal">${d}</td><td><button class="lnkb" data-go="${scr}">${lab(scr)}</button></td></tr>`}).join('')}`).join('')}</tbody></table></div></div>`};
 
 // ======================= Render =======================
