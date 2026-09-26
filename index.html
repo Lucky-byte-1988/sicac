@@ -2139,20 +2139,12 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
    gr.onmouseleave=off});
   $$('.mn',m).forEach(gr=>{const k=gr.dataset.mn,N=MAPA_N[k];if(!N)return;
    const gg=state.mapaG===undefined?'mes':state.mapaG;
-   const etapa=(gg&&gg!=='norma')?MAPA_F.filter(x=>x.g===gg):MAPA_F;
-   const env=etapa.filter(x=>x.de===k).length,rec=etapa.filter(x=>x.a===k).length;
-   const deb=(ROLES[k]||[]).length;
    const cur=MAPA_F.find(x=>x.id===MAPA_SEL);
-   const np=cur?etapa.findIndex(x=>x.id===cur.id)+1:0;
-   const enPaso=cur&&np&&(cur.de===k||cur.a===k);
-   let cuerpo;
-   if(enPaso){const A=MAPA_ACC[cur.id]||{},T=(MAPA_TIP[cur.id]||[cur.t,''])[0];
-    cuerpo=`<div class="tt-p"><b>Paso ${np} · ${cur.de===k?'envía':'recibe'}</b><br>${(cur.de===k?A.de:A.a)||T}</div>`}
-   else cuerpo=(MAPA_CTX[gg]&&MAPA_CTX[gg][k])||N.d||N.s;
-   const nota=[(env+rec)?`Envía ${env} · recibe ${rec}`:'No interviene en esta etapa',
-     (cur&&np&&!enPaso&&(env+rec))?'En este paso no interviene':'',
-     deb?`${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''].filter(Boolean).join(' · ');
-   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${cuerpo}<div class="tt-h">${nota}</div>`);
+   const enPaso=cur&&(cur.de===k||cur.a===k);
+   const A=enPaso?(MAPA_ACC[cur.id]||{}):null;
+   const frase=enPaso?((cur.de===k?A.de:A.a)||(MAPA_TIP[cur.id]||[cur.t])[0])
+     :((MAPA_CTX[gg]&&MAPA_CTX[gg][k])||N.d||N.s);
+   gr.onmousemove=e=>pon(e,frase);
    gr.onmouseleave=off});
   $$('.mz',m).forEach(gr=>{const z=MAPA_Z.find(x=>x.t===gr.dataset.mz);if(!z||!z.d)return;
    gr.onmousemove=e=>pon(e,`<div class="tt-t">${z.t}</div>${z.d}`);gr.onmouseleave=off})}
