@@ -802,6 +802,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .nic{fill:none;stroke:var(--ink-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .mn.on .nic{stroke:var(--accent-2)}
 .mz rect{fill:rgba(0,0,0,.015);stroke:var(--border);stroke-width:1;stroke-dasharray:5 5}
+.mz:hover rect{stroke:var(--border-2)}
 .mzt{font:600 10px var(--font-sans);fill:var(--ink-3);letter-spacing:.09em;text-transform:uppercase}
 .mn{cursor:pointer}
 .mn:hover rect{stroke:var(--ink-3)}
@@ -1804,13 +1805,13 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||E.t.
 // ======================= Mapa del ecosistema (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
- sunat:{x:170,y:110,t:'SUNAT',s:'boletas electrónicas'},
- mef:{x:170,y:450,t:'MEF',s:'presupuesto anual'},
- onp:{x:490,y:280,t:'ONP',s:'PUA · este sistema',big:1},
- reniec:{x:850,y:110,t:'RENIEC',s:'nombres y DNI'},
- sbs:{x:850,y:280,t:'SBS',s:'abre las cuentas'},
- eaf:{x:1090,y:110,t:'EAF',s:'administra el fondo'},
- afi:{x:1090,y:450,t:'Afiliado',s:'cuenta por consumo'}};
+ sunat:{x:170,y:110,t:'SUNAT',s:'boletas electrónicas',d:'Suma el consumo con boleta electrónica de cada persona del ejercicio, descarta las boletas que no cuentan y entrega la base de cálculo al MEF.'},
+ mef:{x:170,y:450,t:'MEF',s:'presupuesto anual',d:'Estima el gasto del beneficio, lo incluye en la Ley de Presupuesto y traslada a la ONP la relación de personas con su base de cálculo.'},
+ onp:{x:490,y:280,t:'ONP',s:'PUA · este sistema',big:1,d:'Arma el padrón desde el PUA, informa ceses y cambios, calcula el 1 % de cada afiliado y paga a las EAF. Es el sistema que se está especificando.'},
+ reniec:{x:850,y:110,t:'RENIEC',s:'nombres y DNI',d:'Avisa a la SBS qué ciudadanos cambiaron de nombres o de número de DNI, para que la relación que va a la SUNAT esté correcta.'},
+ sbs:{x:850,y:280,t:'SBS',s:'abre las cuentas',d:'Recibe el padrón de la ONP, hace abrir la cuenta especial en la EAF que corresponde y devuelve a la ONP quién la tiene y desde cuándo.'},
+ eaf:{x:1090,y:110,t:'EAF',s:'administra el fondo',d:'Profuturo, Prima, Integra o Habitat: abren la cuenta especial, reciben el pago de la ONP y lo acreditan al afiliado.'},
+ afi:{x:1090,y:450,t:'Afiliado',s:'cuenta por consumo',d:'Persona del SNP con cuenta especial: recibe el 1 % de su consumo del año y ese saldo cuenta para su pensión.'}};
 const MAPA_F=[
  {id:'isn1',de:'onp',a:'sbs',g:'mes',cod:'ISN1',art:'73.6',t:'Padrón mensual de afiliados',d:'Afiliados al SNP que cumplen las cuatro condiciones, para que la SBS les abra la cuenta.',per:'Mensual · 5.º día hábil',len:'294 caracteres',mod:'padron'},
  {id:'apert',de:'sbs',a:'eaf',g:'mes',art:'73.1',t:'Apertura de la cuenta especial',d:'La SBS asigna la EAF y la cuenta queda abierta a nombre del afiliado.',per:'Mensual',mod:'afiliados'},
@@ -1831,9 +1832,9 @@ const MAPA_F=[
 const ART_T={'72.3':'El aporte por consumo se financia con cargo a los recursos del Tesoro Público, cuyo monto se consigna y autoriza en las leyes anuales de presupuesto del Sector Público del año siguiente al que se incurre en el gasto por consumo.','73.1':'Las EAF aperturan una cuenta especial e independiente de aportes voluntarios con fin previsional destinada a los aportes por consumo denominada “cuenta especial por consumo”.','73.4':'En el caso de los afiliados al SPP, la cuenta especial por consumo se abre en la EAF en la que se encuentren realizando el aporte obligatorio.','73.5':'En el caso de afiliados al SNP, estos solicitan la apertura de la cuenta especial por consumo a la EAF de su elección;','73.6':'La ONP remite periódicamente a la SBS el listado de afiliados al SNP que no eligieron a la EAF dentro del plazo que para ello se determine. La ONP y la SBS coordinan el procedimiento para la implementación de la apertura de la cuenta automática para los afiliados al SNP','73.7':'La SBS, remite mensualmente a la ONP información sobre los afiliados del SNP que abrieron una cuenta especial de aportes por consumo.','73.8':'Por la administración de los aportes por consumo, las EAF pueden efectuar el cobro de una comisión porcentual calculada sobre el saldo de los referidos aportes. La SBS evalúa la posibilidad de ejecutar licitaciones periódicas de las cuentas especiales de aporte por consumo.','73.9':'Las condiciones y plazos para la creación y funcionamiento de la cuenta especial por consumo son establecidas por la SBS, en el marco de sus competencias.','74.2':'Todo afiliado en el Sistema que tiene una cuenta especial por consumo puede trasladar sus aportes por consumo a una EAF distinta en los plazos que estime para ello la SBS.','76.1':'La SBS debe proporcionar a la SUNAT, por cada ejercicio fiscal por el que se realiza el cálculo del aporte al consumo, la información sobre los afiliados al Sistema que tengan una cuenta especial por consumo, conforme a lo siguiente: a.','76.3':'Mediante resolución de SUNAT, previa coordinación con la SBS, se establecen la forma y condiciones en que se proporciona la información a que se refiere el presente artículo.','77.1':'La SUNAT debe proporcionar al MEF por cada ejercicio fiscal la relación de las personas naturales cuyos gastos por consumo se deben considerar para efecto de la pensión por consumo, identificándolas con sus nombres y apellidos y el número de su DNI y señalando por cada una de ellas el monto al que corresponde aplicar el porcenta…','77.2':'La SUNAT considera únicamente la información que le proporciona la SBS y la que conste en sus sistemas hasta el 31 de enero del ejercicio fiscal siguiente a aquél por el que corresponde el cálculo del aporte por consumo.','78.1':'El aporte por consumo equivale al uno por ciento (1%) de la base de cálculo del aporte determinado conforme al artículo 75 del presente reglamento. El pago del Aporte por Consumo se encuentra a cargo de la ONP, la misma que realiza el pago del beneficio a las EAF para que acrediten dicho aporte a los afiliados al Sistema.','78.2':'Para realizar el cálculo y pago, el MEF traslada a la ONP la información remitida por la SUNAT a la que hace referencia el artículo 77 del presente reglamento, a fin de que la ONP pueda realizar el cálculo individual del beneficio, hasta el 31 de octubre de cada año.','78.3':'La ONP solicita a la SBS la actualización de la información remitida por el MEF respecto de la EAF en la que se encuentra la cuenta especial de los afiliados al Sistema.','78.4':'En caso el monto de los aportes por consumo supere los recursos autorizados en la respectiva ley de presupuesto, la distribución debe realizarse de manera prorrata identificando la diferencia de pago a cada afiliado al Sistema. Esta diferencia no genera intereses, moras ni multas.','78.5':'A través de la Ley de Presupuesto del año fiscal siguiente se deben considerar los montos pendientes de pago.','78.6':'La ONP remite los montos pendientes de pago al MEF hasta el 31 de enero de cada año para su consideración en la programación del Presupuesto del Sector Público del año siguiente. Este monto es excluyente al monto al que se refiere el numeral 72.3 del artículo 72 del presente reglamento.','78.7':'Las EAF, reciben el pago del aporte por consumo y son acreditados a las cuentas especiales de los afiliados al Sistema. Las EAF deben informar a los afiliados al Sistema el estado de su fondo de la cuenta especial, en la periodicidad que establezca la SBS.','79.1':'En el caso de los afiliados al SPP, una vez iniciado el trámite para el acceso de una prestación previsional, la EAF en la que se encuentran sus aportes obligatorios, solicita a la EAF que administra la cuenta especial, de ser esta diferente, que transfiera el saldo acumulado del aporte por consumo para que acceda a los benefici…','79.3':'El afiliado al SNP que inicia el proceso de acceso a una prestación previsional y no cuenta con la cantidad de aportes requeridos para una pensión, se considera el saldo acumulado en la cuenta especial por aportes por consumo, como parte de los aportes a tomar en cuenta para el conteo de UdAs a fin de cumplir con los requisitos.','79.4':'De corresponder, la ONP solicita a la EAF que administra la cuenta especial, la transferencia del monto correspondiente al FCR, para el posterior pago de la pensión correspondiente.','81.2':'La EAF no cierra la cuenta especial hasta se haya recibido el total del pago por todos los aportes por consumo del afiliado al Sistema. CAPÍTULO IV INCENTIVO AL AHORRO','76.1 b':'La SBS contrasta que el número de DNI que se consigne en la relación sea correcto y corresponda al afiliado, para lo cual el RENIEC provee a la SBS la información de todos aquellos ciudadanos que hayan realizado modificaciones en sus nombres y apellidos o en el número de su DNI.','76.1 e':'La SBS a fin de remitir la información a la SUNAT, de los afiliados al Sistema, solicita previamente a la ONP, la actualización de la información respecto de la condición de los afiliados al SNP, a fin de actualizar, de ser el caso, la fecha en que incurren en un supuesto de cese de beneficio.','75.3 b':'No se consideran las boletas de venta electrónicas: 1. Cuyos importes de venta, cesión en uso y/o servicio prestado sean superiores a setecientos y 00/100 soles (S/ 700), cualquiera sea el bien adquirido, la cesión en uso o el servicio prestado.','75.3 d':'En las boletas de venta electrónicas debe consignarse el o los nombres y apellidos del afiliado y su número de DNI. En caso de que los nombres y apellidos del afiliado que figuran en el DNI y los consignados en la boleta de venta electrónica no coincidan, se consideran los nombres y apellidos que figuran en el DNI.'};
 const artTip=k=>ART_T[k]?`data-tip="<b>Artículo ${k}</b><br>${ART_T[k]}"`:'';
 const MAPA_Z=[
- {x:58,y:44,w:224,h:468,t:'Base de cálculo y presupuesto'},
- {x:378,y:214,w:584,h:132,t:'Intercambio ONP ⇄ SBS'},
- {x:978,y:44,w:224,h:468,t:'Cuenta del afiliado'}];
+ {x:58,y:44,w:224,h:468,t:'Base de cálculo y presupuesto',d:'La SUNAT determina cuánto consumió cada persona y el MEF pone el dinero: de aquí salen el monto por afiliado y el presupuesto del año.'},
+ {x:378,y:214,w:584,h:132,t:'Intercambio ONP ⇄ SBS',d:'El circuito de archivos: la ONP informa quiénes tienen derecho y la SBS devuelve las cuentas abiertas y la EAF de cada una.'},
+ {x:978,y:44,w:224,h:468,t:'Cuenta del afiliado',d:'Donde termina el beneficio: la EAF acredita el aporte en la cuenta especial y el afiliado lo ve reflejado en su fondo.'}];
 // carriles libres por donde puede pasar un trazo sin cruzar una tarjeta
 const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
 const MAPA_TIP={
@@ -1973,7 +1974,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
    x2=Math.min(z.x+z.w,VB.x1+4),y2=Math.min(z.y+z.h,VB.y1+4);
   if(x2-x<130||y2-y<80)return '';
   const lab=(z.y-18>VB.y0&&z.x>VB.x0-2)?`<text class="mzt" x="${x+4}" y="${y-12}">${z.t}</text>`:'';
-  return `<g class="mz"><rect x="${x}" y="${y}" width="${x2-x}" height="${y2-y}" rx="18"/>${lab}</g>`}).join('');
+  return `<g class="mz" data-mz="${z.t}"><rect x="${x}" y="${y}" width="${x2-x}" height="${y2-y}" rx="18"/>${lab}</g>`}).join('');
  const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k||viv.has(k);
   const ini=!norma&&LST.length&&LST[0].de===k;
   if(!INV.has(k)&&(N.x-W/2<VB.x0+8||N.x+W/2>VB.x1-8||N.y-H/2-26<VB.y0+8||N.y+H/2>VB.y1-8))return '';
@@ -2017,7 +2018,20 @@ function dpRender(){const {y,m}=DP;const cur=dpParse(DP.inp.value);const t=new D
 function dpOpen(inp){if(DP.inp===inp)return;dpClose();DP.inp=inp;DP.dt=/hh:mm/.test(inp.placeholder||'')||/\d{2}:\d{2}$/.test(inp.value||'');const c=dpParse(inp.value)||(()=>{const t=new Date();return {d:t.getDate(),mo:t.getMonth()+1,y:t.getFullYear()}})();DP.y=c.y;DP.m=c.mo;const el=document.createElement('div');el.className='dp';document.body.appendChild(el);DP.el=el;dpRender();const r=inp.getBoundingClientRect();let left=r.left,top=r.bottom+6;if(left+262>window.innerWidth)left=window.innerWidth-270;if(top+300>window.innerHeight)top=r.top-306;el.style.left=left+'px';el.style.top=top+'px'}
 function bindDates(root){$$('input.in',root).forEach(i=>{const ph=i.placeholder||'';const isDate=/^dd\/mm\/aaaa/.test(ph)||/Fec$/.test(i.id||'')||i.dataset.hf==='fecha'||i.classList.contains('date');if(!isDate||i.dataset.dp)return;i.dataset.dp='1';i.autocomplete='off';if(!ph)i.placeholder='dd/mm/aaaa';i.addEventListener('focus',()=>dpOpen(i));i.addEventListener('click',()=>dpOpen(i));i.addEventListener('keydown',e=>{if(e.key==='Escape'||e.key==='Tab')dpClose()});i.addEventListener('input',()=>{const c=dpParse(i.value);if(c&&DP.inp===i){DP.y=c.y;DP.m=c.mo;dpRender()}})})}
 document.addEventListener('mousedown',e=>{if(DP.el&&!e.target.closest('.dp')&&e.target!==DP.inp)dpClose()},true);
-function bindTips(root){bindDates(root);$$('[data-tip]',root).forEach(el=>{if(!el.hasAttribute('tabindex')&&el.tagName!=='BUTTON')el.setAttribute('tabindex','0');el.onfocus=()=>el.onmouseenter();el.onblur=()=>el.onmouseleave&&el.onmouseleave();el.onmouseenter=()=>{const tip=$('#tip');tip.innerHTML=el.dataset.tip;tip.style.display='block';const r=el.getBoundingClientRect();tip.style.left=Math.min(r.left,window.innerWidth-400)+'px';tip.style.top=(r.bottom+6)+'px'};el.onmouseleave=()=>$('#tip').style.display='none'});$$('.rule',root).forEach(el=>{el.onmouseenter=()=>{const [t,d]=RULES[el.dataset.r];const tip=$('#tip');tip.innerHTML=`<b>RN-APC-${el.dataset.r} · ${t}</b><br>${d}`;tip.style.display='block';const r=el.getBoundingClientRect();tip.style.left=Math.min(r.left,window.innerWidth-380)+'px';tip.style.top=(r.bottom+6)+'px'};el.onmouseleave=()=>$('#tip').style.display='none'})}
+// muestra el globo y lo acomoda para que siempre quepa en la ventana
+function tipShow(html,r){const tip=$('#tip');tip.innerHTML=html;tip.style.display='block';
+ tip.style.left='0px';tip.style.top='0px';
+ const t=tip.getBoundingClientRect();
+ let L=Math.max(10,Math.min(r.left,window.innerWidth-t.width-14));
+ let T=r.bottom+6;if(T+t.height>window.innerHeight-10)T=Math.max(10,r.top-t.height-8);
+ tip.style.left=Math.round(L)+'px';tip.style.top=Math.round(T)+'px'}
+const tipHide=()=>$('#tip').style.display='none';
+function bindTips(root){bindDates(root);
+ $$('[data-tip]',root).forEach(el=>{if(!el.hasAttribute('tabindex')&&el.tagName!=='BUTTON')el.setAttribute('tabindex','0');
+  el.onfocus=()=>el.onmouseenter();el.onblur=()=>el.onmouseleave&&el.onmouseleave();
+  el.onmouseenter=()=>tipShow(el.dataset.tip,el.getBoundingClientRect());el.onmouseleave=tipHide});
+ $$('.rule',root).forEach(el=>{el.onmouseenter=()=>{const [t,d]=RULES[el.dataset.r];
+   tipShow(`<b>RN-APC-${el.dataset.r} · ${t}</b><br>${d}`,el.getBoundingClientRect())};el.onmouseleave=tipHide})}
 
 // ======================= Barra de menús (macOS) =======================
 const MENUS=[
@@ -2073,9 +2087,8 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
   const nx=$('#mpNext',m);if(nx)nx.onclick=()=>{if(j<L.length-1){state.mapaSel=L[j+1].id;render()}};
   const pl=$('#mpPlay',m);if(pl)pl.onclick=()=>mapaPlay(L)}
  $$('[data-mf]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf;render()});
- {const pon=(e,html)=>{const tip=$('#tip');tip.innerHTML=html;tip.style.display='block';
-   const w=tip.offsetWidth||300;tip.style.left=Math.max(8,Math.min(e.clientX+14,window.innerWidth-w-12))+'px';tip.style.top=(e.clientY+18)+'px'};
-  const off=()=>$('#tip').style.display='none';
+ {const pon=(e,html)=>tipShow(html,{left:e.clientX+14,right:e.clientX+14,top:e.clientY-10,bottom:e.clientY+16});
+  const off=tipHide;
   $$('.mf',m).forEach(gr=>{const ids=(gr.dataset.ids||'').split(',').filter(Boolean);
    const f=MAPA_F.find(x=>x.id===gr.dataset.mf);if(!f)return;
    let html;
@@ -2088,8 +2101,11 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
    gr.onmouseleave=off});
   $$('.mn',m).forEach(gr=>{const N=MAPA_N[gr.dataset.mn];if(!N)return;
    const env=MAPA_F.filter(x=>x.de===gr.dataset.mn).length,rec=MAPA_F.filter(x=>x.a===gr.dataset.mn).length;
-   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${N.s}<div class="tt-h">Envía ${env} · recibe ${rec}</div>`);
-   gr.onmouseleave=off})}
+   const deb=(ROLES[gr.dataset.mn]||[]).length;
+   gr.onmousemove=e=>pon(e,`<div class="tt-t">${N.t}</div>${N.d||N.s}<div class="tt-h">Envía ${env} · recibe ${rec}${deb?` · ${deb} ${deb===1?'deber':'deberes'} en el reglamento`:''}</div>`);
+   gr.onmouseleave=off});
+  $$('.mz',m).forEach(gr=>{const z=MAPA_Z.find(x=>x.t===gr.dataset.mz);if(!z||!z.d)return;
+   gr.onmousemove=e=>pon(e,`<div class="tt-t">${z.t}</div>${z.d}`);gr.onmouseleave=off})}
  $$('[data-mf2]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf2;render()});
  $$('[data-mn]',m).forEach(b=>b.onclick=()=>{state.mapaSel=(state.mapaG==='norma'||state.mapaSel!==b.dataset.mn)?b.dataset.mn:'';render()});
  on('#tqGo',()=>{state.tq=$('#tq').value;render()});on('#tzCsv',exportTraza);on('#tzRep',()=>{state.rq=(state.tq||'').trim()||(afiliados[0]||{}).dni;state.screen='reporteAf';render()});
