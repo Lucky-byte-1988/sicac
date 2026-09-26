@@ -2129,13 +2129,12 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
   const off=tipHide;
   $$('.mf',m).forEach(gr=>{const ids=(gr.dataset.ids||'').split(',').filter(Boolean);
    const f=MAPA_F.find(x=>x.id===gr.dataset.mf);if(!f)return;
-   let html;
+   let html='';
    if(ids.length>1){const fs=ids.map(i=>MAPA_F.find(x=>x.id===i));
-    html=`<div class="tt-t">${MAPA_N[f.de].t} → ${MAPA_N[f.a].t}</div>${ids.length} intercambios por este tramo<div class="tt-h">${fs.map(x=>x.t).join(' · ')}</div>`}
-   else{const T=MAPA_TIP[f.id]||[f.d,''];
-    const pie=[T[1]?'Regresa · '+T[1]:'',f.art?'Reglamento · art. '+f.art:''].filter(Boolean).map(x=>`<div class="tt-h">${x}</div>`).join('');
-    html=`<div class="tt-t">${MAPA_N[f.de].t} → ${MAPA_N[f.a].t}${f.cod?` <span class="cod">${f.cod}</span>`:''}</div>${T[0]}${pie}`}
-   gr.onmousemove=e=>pon(e,html);
+    html=`<b>${ids.length} intercambios por este tramo</b><br>${fs.map(x=>x.t).join(' · ')}`}
+   else if(f.id!==MAPA_SEL){const T=MAPA_TIP[f.id]||[f.d,''];
+    html=`<b>${f.t}</b><br>${T[0]}`}
+   gr.onmousemove=html?(e=>pon(e,html)):off;
    gr.onmouseleave=off});
   $$('.mn',m).forEach(gr=>{const k=gr.dataset.mn,N=MAPA_N[k];if(!N)return;
    const gg=state.mapaG===undefined?'mes':state.mapaG;
