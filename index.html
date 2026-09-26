@@ -879,7 +879,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mp-steps.nm button.ro:hover{background:none}
 
 /* ---- Mapa del ecosistema ---- */
-#ar path{fill:var(--ink-3);opacity:.5}
+#ar path{fill:var(--ink-2);opacity:.8}
 #aron path{fill:var(--accent)}
 .mn .mini rect{fill:var(--surface-3);stroke:none;filter:none}
 .mn .mini text{fill:var(--ink-2)}
@@ -1879,8 +1879,16 @@ const ROLES={
    ['78.7','Recibe de la EAF el estado de su cuenta','Según la SBS','afiliados'],
    ['79.3','Suma el saldo a sus aportes al pedir una pensión','Al tramitarla','']]};
 function mapaOff(list){const G={},O={};
- list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f.id)});
- Object.values(G).forEach(ids=>{const st=ids.length>4?42:44;ids.forEach((id,i)=>O[id]=(i-(ids.length-1)/2)*st)});
+ list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f)});
+ Object.values(G).forEach(fs=>{const A=MAPA_N[fs[0].de],B=MAPA_N[fs[0].a];
+  const alin=Math.abs(A.y-B.y)<8||Math.abs(A.x-B.x)<8;
+  const d0=fs[0].de, ida=fs.filter(f=>f.de===d0), vue=fs.filter(f=>f.de!==d0);
+  const banda=(fl,sg)=>{const n=fl.length;
+   fl.forEach((f,i)=>{const o=sg*(21+i*(alin?17:26));
+    O[f.id]={o, e:n===1?o:sg*(9+i*7)}})};
+  if(!vue.length){const n=ida.length,st=alin?21:34;
+   ida.forEach((f,i)=>{const o=(i-(n-1)/2)*st;O[f.id]={o, e:n<=2?o:(i-(n-1)/2)*8}})}
+  else{banda(ida,-1);banda(vue,1)}});
  return O}
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // une los puntos con tramos rectos y esquinas redondeadas
@@ -1900,16 +1908,16 @@ function rcost(P,de,a){let c=0,L=0,b=0;
   for(const k in MAPA_N){if(k===de||k===a)continue;const N=MAPA_N[k];
    if(Math.min(x1,x2)<N.x+96&&Math.max(x1,x2)>N.x-96&&Math.min(y1,y2)<N.y+40&&Math.max(y1,y2)>N.y-40)c++}}
  return c*1000+b*40+L}
-function ruta(f,off){const A=MAPA_N[f.de],B=MAPA_N[f.a];const HX=98,HY=42;
+function ruta(f,q){const off=q&&q.o||0, ep=q&&q.e||0;const A=MAPA_N[f.de],B=MAPA_N[f.a];const HX=98,HY=42;
  const sx=B.x>=A.x?1:-1, sy=B.y>=A.y?1:-1;
  const ax=A.x+sx*HX, bx=B.x-sx*HX, ay=A.y+sy*HY, by=B.y-sy*HY;
- const e=clamp(off*.26,-38,38), C=[];
+ const e=clamp(ep,-26,26), C=[];
  const alinH=Math.abs(B.y-A.y)<8, alinV=Math.abs(B.x-A.x)<8;
- if(alinH){const cap=Math.max(30,Math.abs(bx-ax)*.34),yt=A.y+clamp(off,-cap,cap),j=Math.min(34,Math.abs(bx-ax)/4)*sx;
-  C.push(Math.abs(off)<=24?[[ax,A.y+off],[bx,B.y+off]]
+ if(alinH){const cap=Math.max(30,Math.abs(bx-ax)*.34),yt=A.y+clamp(off,-cap,cap),j=Math.min(26,Math.abs(bx-ax)/5)*sx;
+  C.push(Math.abs(off-e)<2?[[ax,A.y+off],[bx,B.y+off]]
    :[[ax,A.y+e],[ax+j,A.y+e],[ax+j,yt],[bx-j,yt],[bx-j,B.y+e],[bx,B.y+e]])}
- if(alinV){const cap=Math.max(30,Math.abs(by-ay)*.34),xt=A.x+clamp(off,-cap,cap),j=Math.min(34,Math.abs(by-ay)/4)*sy;
-  C.push(Math.abs(off)<=56?[[A.x+off,ay],[B.x+off,by]]
+ if(alinV){const cap=Math.max(30,Math.abs(by-ay)*.34),xt=A.x+clamp(off,-cap,cap),j=Math.min(26,Math.abs(by-ay)/5)*sy;
+  C.push(Math.abs(off-e)<2?[[A.x+off,ay],[B.x+off,by]]
    :[[A.x+e,ay],[A.x+e,ay+j],[xt,ay+j],[xt,by-j],[B.x+e,by-j],[B.x+e,by]])}
  if(!alinH&&!alinV){
   [.5,.28,.72].forEach(k=>{const mx=ax+(bx-ax)*k+clamp(off*.42,-30,30);C.push([[ax,A.y+e],[mx,A.y+e],[mx,B.y+e],[bx,B.y+e]])});
@@ -1953,7 +1961,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
   const tx=N.x-W/2+48;
   return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-W/2}" y="${N.y-H/2}" width="${W}" height="${H}" rx="14"/><circle class="nib" cx="${N.x-W/2+27}" cy="${N.y}" r="16"/><svg class="nic" x="${N.x-W/2+18}" y="${N.y-9}" width="18" height="18" viewBox="0 0 24 24">${IC[NIC[k]||'grid']}</svg><text class="mnt" x="${tx}" y="${N.y-2}">${N.t}</text><text class="mns" x="${tx}" y="${N.y+14}">${N.s}</text>${ini?`<g class="mini"><rect x="${N.x-W/2}" y="${N.y-H/2-23}" width="62" height="17" rx="8.5"/><text x="${N.x-W/2+31}" y="${N.y-H/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
  const trazos=F.map(f=>{const on=sel===f.id;const dim=norma?!(f.de===ns||f.a===ns):!act(f);if(dim&&!norma)return '';const np=LST.findIndex(x=>x.id===f.id)+1;
-  const R=ruta(f,OFF[f.id]||0);const M=R.mid;
+  const R=ruta(f,OFF[f.id]);const M=R.mid;
   return `<g class="mf ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}"><path id="p_${f.id}" d="${R.d}" marker-end="url(#${on?'aron':'ar'})"/><path class="hit" d="${R.d}"/>${on?`<circle class="dot" r="4"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#p_${f.id}"/></animateMotion></circle>`:''}${dim||!np?'':`<g class="mnum"><circle cx="${Math.round(M.x)}" cy="${Math.round(M.y)}" r="10"/><text x="${Math.round(M.x)}" y="${Math.round(M.y)+3.5}">${np}</text></g>`}</g>`}).join('');
  const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
  const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}${F0.cod?`<span class="cod">${F0.cod}</span>`:''}</div><div class="mp-d">${(MAPA_TIP[F0.id]||[F0.d])[0]}</div><div class="mp-m">${F0.per}${F0.len?' · '+F0.len:''}${F0.art?`<span class="art-c" data-tip="Reglamento de la Ley 32123 · D.S. 189-2025-EF">art. ${F0.art}</span>`:''}</div>${F0.mod?`<button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button>`:''}</div>`
@@ -1967,7 +1975,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
   <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
   <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span></span>${x.cod?`<span class="cod">${x.cod}</span>`:''}</button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa del ecosistema','',rules('23','24'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
- <div class="mapa"><div class="mapa-svg"><svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,1 L9.5,5 L0,9 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,1 L9.5,5 L0,9 z"/></marker></defs>${zonas}${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
+ <div class="mapa"><div class="mapa-svg"><svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0.6,1.2 L9.6,5 L0.6,8.8 L2.2,5 z"/></marker><marker id="aron" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="15" markerHeight="15" markerUnits="userSpaceOnUse" orient="auto"><path d="M0.6,1.2 L9.6,5 L0.6,8.8 L2.2,5 z"/></marker></defs>${zonas}${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
 M.reglas=()=>{const lab=k=>{for(const g of NAV)for(const it of g[1])if(it[0]===k)return it[1];return k};return `${ph('Reglas del requerimiento','')}<div class="card"><div class="ch"><div><h3>${Object.keys(RULES).length} reglas en ${RSECS.length} bloques</h3><div class="sub">en el orden del proceso</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:90px">Código</th><th style="width:220px">Regla</th><th>Descripción</th><th style="width:190px">Módulo</th></tr></thead><tbody>${RSECS.map(([L,t,sub,ids])=>`<tr class="rsec"><td colspan="4"><b>${L} · ${t}</b>${sub?` <span class="muted">· ${sub}</span>`:''}</td></tr>${ids.map(k=>{const [t2,d,scr]=RULES[k];return `<tr><td class="mono">RN-APC-${k}</td><td><b style="font-weight:500">${t2}</b></td><td class="muted" style="white-space:normal">${d}</td><td><button class="lnkb" data-go="${scr}">${lab(scr)}</button></td></tr>`}).join('')}`).join('')}</tbody></table></div></div>`};
 
 // ======================= Render =======================
