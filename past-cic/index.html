@@ -333,6 +333,9 @@ table tbody tr:hover td.fz1,table tbody tr:hover td.fz2{background:var(--surface
 .stk{position:sticky;left:calc(var(--fzw,0px) + 8px);display:inline-block}
 .flsep{width:1px;align-self:stretch;background:var(--border);margin:0 4px}
 .fl label.cpl{color:var(--accent-2)}
+/* artículos del reglamento */
+.aref{border-bottom:1px dotted currentColor;cursor:pointer}
+.norma-t{font-size:13.5px;line-height:1.65;max-width:68ch;color:var(--ink)}
 /* reglas */
 .rncode{font-family:var(--font-mono);font-size:11.5px;font-weight:600}
 .ro{font-size:11px;color:var(--vio);font-weight:500}
@@ -359,6 +362,127 @@ table tbody tr:hover td.fz1,table tbody tr:hover td.fz2{background:var(--surface
   .modal{max-width:none;max-height:none;box-shadow:none;border:0}
   .mf,.mh .ib,.tabs{display:none} .mb{overflow:visible}
 }
+/* ---- Mapa de interoperabilidad (mismo diseño que SICAC) ---- */
+.mapa{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}
+.mapa-svg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);padding:6px}
+.mapa-svg>svg{width:100%;height:auto;display:block}
+.eco-hd{padding:26px 30px 14px;max-width:860px;animation:hdIn .34s ease}
+@keyframes hdIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.eco-hd p{margin:0;font:600 22px/1.38 var(--font-display);letter-spacing:-.018em;color:var(--ink)}
+.eco-hd b{color:var(--accent-2);font-weight:600}
+@media(max-width:1200px){.eco-hd{padding:20px 20px 10px}.eco-hd p{font-size:19px}}
+
+.mapa svg.i{width:15px;height:15px}
+.mn rect{fill:var(--surface);stroke:var(--border-2);stroke-width:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.07))}
+.mn .nib{fill:var(--surface-2);stroke:none}
+.mn.on .nib{fill:rgba(255,255,255,.8)}
+.nic{fill:none;stroke:var(--ink-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.mn.on .nic{stroke:var(--accent-2)}
+.mz rect{fill:rgba(0,0,0,.015);stroke:var(--border);stroke-width:1;stroke-dasharray:5 5}
+.mz:hover rect{stroke:var(--border-2)}
+.mzt{font:600 11px var(--font-sans);fill:var(--ink-2);letter-spacing:.075em;text-transform:uppercase;
+  paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
+.mn{cursor:pointer}
+.mn:hover rect{stroke:var(--ink-3)}
+.mn.on rect{fill:var(--accent-soft);stroke:var(--accent)}
+.mnt{font:600 15px var(--font-sans);fill:var(--ink);text-anchor:start;letter-spacing:-.01em}
+.mns{font:400 11.5px var(--font-sans);fill:var(--ink-3);text-anchor:start}
+.mfl path{fill:none;stroke:var(--ink-3);stroke-width:1.4;opacity:.55}
+.mfl .hit{stroke:transparent;stroke-width:18;cursor:pointer}
+.mfl:not(.on) path:first-child{opacity:.4}
+.mfl:not(.on):hover path:first-child{opacity:.75}
+
+#ar path{fill:var(--ink-3)}
+.mfl .dot{fill:var(--ink-3);opacity:.85}
+.mfl{font:500 10.5px var(--font-sans);fill:var(--ink-3);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.mfl.on .mfl{fill:var(--accent)}
+.mfl:hover path:first-child{stroke:var(--ink-2);opacity:.9}
+.mfl.on path:first-child{stroke:var(--accent);stroke-width:2.2;opacity:1;
+  stroke-dasharray:9 7;animation:mfdash 1.1s linear infinite}
+@keyframes mfdash{to{stroke-dashoffset:-16}}
+@media(prefers-reduced-motion:reduce){.mfl.on path:first-child{animation:none}.mfl .dot{display:none}}
+.mfl.on .dot{fill:var(--accent);r:4.2}
+.mfl.dim path:first-child{opacity:.12}
+.mp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh1);padding:16px 18px}
+.mp-k{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.mp-t{font-size:15px;font-weight:600;letter-spacing:-.01em;margin-top:3px}
+.mp-d{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-top:6px}
+.mp-m{font-size:11.5px;color:var(--ink-3);margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cod{font-family:var(--font-mono);font-size:10px;letter-spacing:.02em;color:var(--ink-2);
+  background:var(--surface-3);border-radius:5px;padding:2px 5px;margin-left:7px;vertical-align:1px}
+.mp-steps .cod{margin:2px 0 0 auto;flex:none}
+.art-c{margin-left:auto;color:var(--ink-3);border:1px solid var(--border);border-radius:999px;padding:1px 8px;font-size:10.5px;cursor:pointer}
+.art-c:hover{border-color:var(--border-2);color:var(--ink-2)}
+.mp-steps.nm .art{cursor:pointer}
+.mp-steps.nm .art:hover{color:var(--accent-2)}
+.norma-t{font-size:13.5px;line-height:1.6;color:var(--ink);max-width:70ch}
+.art-b{font-family:var(--font-mono);font-size:11px;color:var(--ink-2);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:2px 7px;margin-right:5px;cursor:pointer}
+.art-b:hover{background:var(--surface-3);color:var(--ink);border-color:var(--border-2)}
+.mp .btn{margin-top:14px}
+.mp .dl{margin-top:10px}
+.mp .btn{margin-top:12px}
+.mp-l{display:flex;flex-direction:column;gap:4px;margin-top:10px}
+.mp-f{display:flex;align-items:center;gap:8px;border:0;background:none;font:inherit;font-size:12.5px;color:var(--ink);
+  text-align:left;padding:6px 8px;border-radius:8px;cursor:pointer}
+.mp-f:hover{background:var(--surface-2)}
+.mp-f .pill{flex:none}
+@media(max-width:1100px){.mapa{grid-template-columns:1fr}}
+.mp-col{display:flex;flex-direction:column;gap:12px}
+.mapa{align-items:start}
+.mnum circle{fill:var(--surface);stroke:var(--border-2);stroke-width:1;cursor:help}
+.mfl:hover .mnum circle{stroke:var(--ink-3)}
+.mnum text{font:600 10.5px var(--font-sans);fill:var(--ink-2);text-anchor:middle}
+.mfl.on .mnum circle{fill:var(--accent);stroke:var(--accent)}
+.mfl.on .mnum text{fill:#fff}
+.mp-ctl{display:flex;gap:6px;margin-top:12px}
+.mp-ctl .btn{flex:1;justify-content:center}
+.mp-ctl #mpPrev svg{transform:rotate(180deg)}
+.mp-steps{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:2px;
+  max-height:432px;overflow-y:auto}
+.mp-steps.nm{max-height:none;overflow:visible}
+.mn.off{opacity:.35}
+.mn .mini rect{fill:var(--accent)}
+.mn .mini text{fill:#fff;font:600 9px var(--font-sans);letter-spacing:.07em;text-anchor:middle}
+.mp-steps button{display:flex;align-items:flex-start;gap:9px;width:100%;border:0;background:none;font:inherit;
+  text-align:left;padding:7px 8px;border-radius:9px;cursor:pointer;color:var(--ink)}
+.mp-steps button:hover{background:var(--surface-2)}
+.mp-steps li.on button{background:var(--accent-soft)}
+.mp-steps .sn{flex:none;width:20px;height:20px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);
+  font-size:11px;font-weight:600;display:grid;place-items:center;margin-top:1px}
+.mp-steps li.on .sn{background:var(--accent);color:#fff}
+.mp-steps .st2{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mp-steps .st2 b{font-weight:500;font-size:12.5px}
+.mp-steps .st2 span{font-size:11.5px;color:var(--ink-3)}
+.mp-ch{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.mp-ch .ch{border:1px solid var(--border);background:var(--surface);font:inherit;font-size:11.5px;
+  color:var(--ink-2);padding:3px 9px;border-radius:999px;cursor:pointer}
+.mp-ch .ch:hover{background:var(--surface-2)}
+.mp-ch .ch.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.mp-steps.nm{margin-top:10px}
+.mp-steps.nm .art{flex:none;min-width:38px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);
+  text-align:right;padding-top:2px}
+.mp-steps.nm button.ro{cursor:default}
+.mp-steps.nm button.ro:hover{background:none}
+
+/* ---- Mapa de interoperabilidad ---- */
+.mgr rect{fill:var(--surface);stroke:var(--border-2);stroke-width:1}
+.mgr text{font:600 10.5px var(--font-sans);fill:var(--ink-3);text-anchor:middle}
+.mfl:hover .mgr rect{stroke:var(--ink-3)}
+#pt circle{fill:var(--ink-3)}
+#pton circle{fill:var(--accent)}
+#cv .cvb{fill:var(--surface);stroke:var(--border-2);stroke-width:1}
+#cv .cvc{fill:none;stroke:var(--ink-2);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#cvon .cvb{fill:var(--accent);stroke:none}
+#cvon .cvc{fill:none;stroke:#fff;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.mfl.on{isolation:isolate}
+.mn .mini rect{fill:var(--surface-3);stroke:none;filter:none}
+.mn .mini text{fill:var(--ink-2)}
+.mn .mini.on rect{fill:var(--accent)}
+.mn .mini.on text{fill:#fff}
+.mn.off{opacity:.3}
+.mfl.dim path:first-child{opacity:.1}
+.mfl.dim .hit{display:none}
 </style>
 <div id="login"><form class="box" id="loginForm">
  <div class="brand"><span class="past">PAST</span><span class="pastsub">Plataforma de<br>Afiliación Segura<br>y Transparente</span></div>
@@ -772,13 +896,12 @@ function simCts(ls){let n=0;ls.forEach(L=>{if(estKey(L)==='verif'){const pend=L.
 
 // ======================= Navegación (misma que la PAST) =======================
 const NAV=[
- ['General',[['inicio','Inicio','home']]],
+ ['General',[['inicio','Inicio','home'],['mapa','Mapa de interoperabilidad','ext']]],
  ['Registro Masivo',[['transfer','Registrar Transferencia CIC','updown']]],
  ['Gestión de Solicitudes de Traslado',[['personas','Solicitudes del SPP al SNP','users']]],
  ['Control',[['reportes','Reportes','chart','Nuevo']]],
- ['Requerimiento',[['brechas','PAST actual y complemento','flow'],['campos','Campos: actual y nuevo','list'],['interfaz','Intercambio SISREC ↔ PAST','updown'],['modelo','Modelo de datos del negocio','db'],['reglas','Reglas del requerimiento','book']]],
  ['Administración',[['parametros','Parámetros','sliders'],['auditoria','Auditoría','list']]]];
-const TITLES={inicio:['Inicio',''],transfer:['Registro de Transferencia CIC','Pantalla actual · complementada'],constancias:['Constancias de traslado','Nueva · RN-TRA-01 a 03'],personas:['Solicitudes del SPP al SNP','Pantalla actual · complementada'],reportes:['Reportes de control','Nueva · RN-TRA-28'],parametros:['Parámetros',''],auditoria:['Auditoría',''],reglas:['Reglas del requerimiento','RN-TRA-01 a RN-TRA-28 · RO de traslados'],brechas:['PAST actual y complemento','Manual INI 3124 · capturas de QA · RN-TRA'],campos:['Campos: actual y nuevo','Grillas, carga y estructuras · RO de traslados'],interfaz:['Intercambio SISREC ↔ PAST','Mensajes entre sistemas · RN-TRA'],modelo:['Modelo de datos del negocio','Entidades y campos · Anexos 03, 04 y 05 del RO']};
+const TITLES={mapa:['Mapa de interoperabilidad','EAF · PAST · SISREC · Reglamento Operativo de traslados'],inicio:['Inicio',''],transfer:['Registro de Transferencia CIC','Pantalla actual · complementada'],constancias:['Constancias de traslado','Nueva · RN-TRA-01 a 03'],personas:['Solicitudes del SPP al SNP','Pantalla actual · complementada'],reportes:['Reportes de control','Nueva · RN-TRA-28'],parametros:['Parámetros',''],auditoria:['Auditoría',''],reglas:['Reglas del requerimiento','RN-TRA-01 a RN-TRA-28 · RO de traslados'],brechas:['PAST actual y complemento','Manual INI 3124 · capturas de QA · RN-TRA'],campos:['Campos: actual y nuevo','Grillas, carga y estructuras · RO de traslados'],interfaz:['Intercambio SISREC ↔ PAST','Mensajes entre sistemas · RN-TRA'],modelo:['Modelo de datos del negocio','Entidades y campos · Anexos 03, 04 y 05 del RO']};
 const M={};
 const state={fTpa:'',screen:'inicio',ef:'',vista:'seg',vP:'comp',bg:'todas',hl:true,cf:'todos',tabT:'arch',fT:{q:'',est:'',tipo:''},fP:{tdoc:'',ndoc:'',lote:'',sol:'',sit:''},fC:'todas',rep:{tipo:'eaf',desde:'',hasta:''},rg:'todas',aq:''};
 const EAF_SCREENS=new Set(['inicio','transfer','personas','personas','reportes']);
@@ -988,7 +1111,7 @@ const REGLAS=[
 M.reglas=()=>{const ls=REGLAS.filter(r=>state.rg==='todas'||(state.rg==='obs'&&r[5]!=='Conforme.')||(state.rg==='ok'&&r[5]==='Conforme.'));const n=REGLAS.filter(r=>r[5]!=='Conforme.').length;
  return `<div style="margin-bottom:12px"><div class="seg" id="rg"><button data-v="todas" class="${state.rg==='todas'?'on':''}">Todas · ${REGLAS.length}</button><button data-v="obs" class="${state.rg==='obs'?'on':''}">Con observación · ${n}</button><button data-v="ok" class="${state.rg==='ok'?'on':''}">Conformes · ${REGLAS.length-n}</button></div></div>
  <div class="card"><div class="tw"><table><thead><tr><th>Regla</th><th>Etapa</th><th>Qué pide</th><th>RO</th><th>Observación</th><th>Dónde se ve</th></tr></thead><tbody>
- ${ls.map(r=>`<tr><td class="rncode">RN-TRA-${r[0]}</td><td class="muted wrap" style="min-width:110px">${r[1]}</td><td class="wrap" style="min-width:260px">${r[2]}</td><td class="ro">${r[3]}</td><td class="wrap ${r[5]==='Conforme.'?'faint':''}" style="min-width:380px">${r[5]}</td><td class="wrap" style="min-width:120px"><button class="lnk" data-go="${r[4]}" style="text-align:left">${TITLES[r[4]][0]}</button></td></tr>`).join('')}</tbody></table></div></div>`};
+ ${ls.map(r=>`<tr><td class="rncode">RN-TRA-${r[0]}</td><td class="muted wrap" style="min-width:110px">${r[1]}</td><td class="wrap" style="min-width:260px">${r[2]}</td><td class="ro">${artRef(r[3])}</td><td class="wrap ${r[5]==='Conforme.'?'faint':''}" style="min-width:380px">${r[5]}</td><td class="wrap" style="min-width:120px"><button class="lnk" data-go="${r[4]}" style="text-align:left">${TITLES[r[4]][0]}</button></td></tr>`).join('')}</tbody></table></div></div>`};
 
 
 // ======================= PAST actual (Manual INI 3124 v1.0 y capturas de QA) =======================
@@ -1130,7 +1253,7 @@ M.campos=()=>{const f=state.cf||'todos';const all=CAMPOS.flatMap(([g,r])=>r);con
  return `<div class="kpis">${kpi('Campos revisados',fmt(all.length),'grillas, carga y estructuras')}${kpi('Existen en la PAST',fmt(n('Existe')),'se mantienen')}${kpi('Se modifican',fmt(n('Modifica')),'existen y cambian')}${kpi('Nuevos',fmt(n('Nuevo')),'los pide el requerimiento')}${kpi('Propuestos',fmt(n('Propuesto')),'sugeridos en la revisión')}</div>
  <div style="margin-bottom:12px"><div class="seg" id="cf">${[['todos','Todos'],['Existe','Existen'],['Modifica','Se modifican'],['Nuevo','Nuevos'],['Propuesto','Propuestos']].map(([k,t])=>`<button data-v="${k}" class="${f===k?'on':''}">${t} · ${n(k)}</button>`).join('')}</div></div>
  ${CAMPOS.map(([g,rows])=>{const ls=rows.filter(r=>f==='todos'||r[1]===f);if(!ls.length)return '';return `<div class="card"><div class="hd"><h3>${g}</h3><span class="s">${ls.length} campo(s)</span></div><div class="tw"><table><thead><tr><th>Campo</th><th>Situación</th><th>Qué pide el requerimiento</th><th>Regla</th><th>RO</th><th>Evidencia en la PAST</th></tr></thead><tbody>
-  ${ls.map(r=>`<tr><td class="wrap" style="min-width:230px;max-width:280px"><b>${r[0]}</b></td><td>${st(r[1],SITC[r[1]])}</td><td class="wrap" style="min-width:320px">${r[2]}</td><td class="rncode wrap" style="min-width:90px">${r[3]}</td><td class="ro wrap" style="min-width:70px">${r[4]}</td><td class="wrap faint sm" style="min-width:150px">${r[5]}</td></tr>`).join('')}</tbody></table></div></div>`}).join('')}`};
+  ${ls.map(r=>`<tr><td class="wrap" style="min-width:230px;max-width:280px"><b>${r[0]}</b></td><td>${st(r[1],SITC[r[1]])}</td><td class="wrap" style="min-width:320px">${r[2]}</td><td class="rncode wrap" style="min-width:90px">${r[3]}</td><td class="ro wrap" style="min-width:70px">${artRef(r[4])}</td><td class="wrap faint sm" style="min-width:150px">${r[5]}</td></tr>`).join('')}</tbody></table></div></div>`}).join('')}`};
 M.interfaz=()=>{const n=k=>MSGS.filter(m=>m[6]===k).length;
  const ida=MSGS.filter(m=>m[0].startsWith('PAST')).length;
  return `<div class="kpis">${kpi('Mensajes',fmt(MSGS.length),`${ida} de la PAST · ${MSGS.length-ida} de SISREC`)}${kpi('Existen en parte',fmt(n('Parcial')),'se complementan')}${kpi('No existen',fmt(n('No existe')),'se implementan')}</div>
@@ -1147,7 +1270,7 @@ const leyenda=()=>`<span class="faint sm">Resaltar</span><div class="seg" id="hl
 
 // ======================= Ayuda · cómo funciona, modelo de datos y plazos del reglamento =======================
 function comoFunciona(){
- const col=(t,s,items)=>`<div class="box" style="margin:0"><div class="bh">${t}<span class="sp"></span><span class="faint" style="font-weight:400">${s}</span></div><div class="bb"><ol class="steps">${items.map(([b,d,r])=>`<li><div><b>${b}</b>${r?` <span class="ro">${r}</span>`:''}<div class="muted sm">${d}</div></div></li>`).join('')}</ol></div></div>`;
+ const col=(t,s,items)=>`<div class="box" style="margin:0"><div class="bh">${t}<span class="sp"></span><span class="faint" style="font-weight:400">${s}</span></div><div class="bb"><ol class="steps">${items.map(([b,d,r])=>`<li><div><b>${b}</b>${r?` <span class="ro">${artRef(r)}</span>`:''}<div class="muted sm">${d}</div></div></li>`).join('')}</ol></div></div>`;
  modal('Cómo funciona el sistema','Del registro de la constancia de traslado a la Constancia de Transferencia del saldo de la CIC',
  `<div class="grid3">
   ${col('Por cada constancia','SBS → PAST → SISREC',[['Constancia de traslado','La SBS la emite el día en que la EAF registra la conformidad','23.1'],['Registro en la PAST','Automático, sin intervención de la EAF','RN-TR-02'],['Envío a SISREC','Inicia el control de la transferencia','RN-TRA-01'],['Recepción por la EAF','La EAF registra la fecha; corren 5 días hábiles','RN-TRA-02 · 24.2'],['Incorporación al SNP','Al día siguiente calendario de la emisión','23.2']])}
@@ -1170,7 +1293,7 @@ const PLAZOS=[
  ['Transferencia de aportes recuperados','Mes siguiente','Mes en que se identifican o recuperan','EAF','25.1','Registrar Transferencia CIC']];
 function guiaPlazos(){
  modal('Plazos del reglamento','Reglamento Operativo de traslados · arts. 20 a 25 · feriados de Parámetros',`<div class="tw"><table><thead><tr><th>Hito</th><th>Plazo</th><th>Desde</th><th>Responsable</th><th>RO</th><th>Se controla en</th></tr></thead><tbody>
- ${PLAZOS.map(p=>`<tr><td class="wrap" style="min-width:230px"><b>${p[0]}</b></td><td class="mono">${p[1]}</td><td class="wrap muted" style="min-width:200px">${p[2]}</td><td>${p[3]}</td><td class="ro">${p[4]}</td><td>${p[5]==='Fuera del alcance'?'<span class="faint">Fuera del alcance</span>':p[5]}</td></tr>`).join('')}</tbody></table></div>`,`<button class="btn" id="aPar">${ic('sliders')}Parámetros</button><span class="sp"></span><button class="btn p" id="mcan">Cerrar</button>`,{wide:true});
+ ${PLAZOS.map(p=>`<tr><td class="wrap" style="min-width:230px"><b>${p[0]}</b></td><td class="mono">${p[1]}</td><td class="wrap muted" style="min-width:200px">${p[2]}</td><td>${p[3]}</td><td class="ro">${artRef(p[4])}</td><td>${p[5]==='Fuera del alcance'?'<span class="faint">Fuera del alcance</span>':p[5]}</td></tr>`).join('')}</tbody></table></div>`,`<button class="btn" id="aPar">${ic('sliders')}Parámetros</button><span class="sp"></span><button class="btn p" id="mcan">Cerrar</button>`,{wide:true});
  $('#aPar').onclick=()=>go('parametros')}
 
 // ======================= Modelo de datos del negocio =======================
@@ -1199,51 +1322,49 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||(E.t
 
 // ======================= Grillas de la PAST: columnas actuales + complemento al costado =======================
 // Las columnas actuales se muestran tal como están hoy en la PAST (Manual INI 3124 y capturas de QA).
-// Lo que pide el segundo requerimiento se agrega a la derecha, agrupado por etapa y con su regla.
+// A la derecha, solo lo que pide el segundo requerimiento para seguir cada caso; el detalle está en la trazabilidad.
 const H=(t,sub,cls='',tip)=>`<th class="${cls}"${tip?` data-tip="${esc(tip)}"`:''}>${t}${sub?`<span class="hsub">${sub}</span>`:''}</th>`;
 const cp=(v,cls='')=>`<td class="cp ${cls}">${v}</td>`;
 const pend=t=>`<span class="faint">${t||'Pendiente'}</span>`;
+const band=(n,t)=>`<th colspan="${n}" class="cmpb"><span class="stk">${t}</span></th>`;
+// validación de la ONP en una sola lectura
+function valTxt(l){if(!l.envio)return l.prev.pend?dot('Validación no completada','warn'):l.prev.obs.length?dot('Observado en la PAST','crit'):dash;
+ if(l.res)return l.res.est==='C'?dot('Conforme','ok'):dot('Observado','crit');const pv=plazoValid(l);
+ return pv.st[1]==='crit'?dot('Sin respuesta · vencido','crit'):dot('En validación','info')}
+function plazoTxt(pt){if(!pt)return dash;return `<span data-tip="${pt.st[0]} · vence ${fd(pt.vence)}">${dot(`${pt.dc} de ${pt.lim} dc`,pt.st[1])}</span>`}
+function depTxt(l){const d=lastDep(l);if(!d)return l.tr?dot('Falta cargar','warn'):dash;if(!d.ver)return dot('Por verificar','info');return d.ver.est==='V'?dot('Verificado','ok'):dot('Observado','crit')}
+function ctsTxt(l){const n=Object.keys(l.cts).length;if(n)return dot(n===l.afs.length?'Emitida':`${n} de ${l.afs.length}`,'ok');return ['verif'].includes(estKey(l))?pend('En el cierre del mes'):dash}
+function accion(L){if(!esEAF()||L.eaf!==user.eaf)return dash;const k=estKey(L);const b=(a,t)=>`<button class="btn sm p" data-act="${a}" data-id="${L.id}">${t}</button>`;
+ if(k==='obsS'||k==='obsP')return b('subsanar','Subsanar');if(k==='noval')return b('reintentar','Reintentar');
+ if(k==='porT'||k==='venc')return b('transf','Registrar transferencia');if(k==='sindep'||k==='depobs')return b('dep','Cargar depósito');
+ if(L.tr&&!Object.keys(L.cte).length)return `<button class="btn sm" data-act="cte" data-id="${L.id}">Constancias EAF</button>`;return dash}
 
 // ---------- Registro de Transferencia CIC ----------
 M.transfer=()=>{
  const f=state.fT;const rech=DB.rech.filter(r=>esEAF()?r.eaf===user.eaf:(!state.ef||r.eaf===state.ef));
  const tabs=`<div class="seg" id="tabT"><button data-v="arch" class="${state.tabT==='arch'?'on':''}">Archivos · ${visibles().length}</button><button data-v="rech" class="${state.tabT==='rech'?'on':''}">Cargas rechazadas · ${rech.length}</button></div>`;
- if(state.tabT==='rech')return `<div style="margin-bottom:12px">${tabs}</div><div class="card"><div class="tw"><table><thead><tr><th>Fecha y hora</th><th>Cabecera</th><th>Detalle</th><th>Regla</th><th>Motivo del rechazo</th><th>Usuario</th></tr></thead><tbody>
-  ${rech.length?[...rech].reverse().map(r=>`<tr><td class="mono">${fdt(r.dt)}</td><td class="mono">${r.cab}</td><td class="mono">${r.det}</td><td class="rncode">${r.mot[0][0]}</td><td class="wrap" data-tip="${esc(r.mot.map(m=>m[1]).join(' · '))}">${esc(r.mot[0][1])}${r.mot.length>1?` <span class="faint">+${r.mot.length-1}</span>`:''}</td><td class="mono sm">${r.usr}</td></tr>`).join(''):`<tr><td colspan="6"><div class="empty">${ic('check')}<b>Sin cargas rechazadas</b></div></td></tr>`}</tbody></table></div></div>`;
+ if(state.tabT==='rech')return `<div style="margin-bottom:12px">${tabs}</div><div class="card"><div class="tw"><table><thead><tr><th>Fecha y hora</th><th>Cabecera</th><th>Regla</th><th>Motivo del rechazo</th><th>Usuario</th></tr></thead><tbody>
+  ${rech.length?[...rech].reverse().map(r=>`<tr><td class="mono">${fdt(r.dt)}</td><td class="mono">${r.cab}</td><td class="rncode">${r.mot[0][0]}</td><td class="wrap" data-tip="${esc(r.mot.map(m=>m[1]).join(' · '))}">${esc(r.mot[0][1])}${r.mot.length>1?` <span class="faint">+${r.mot.length-1}</span>`:''}</td><td class="mono sm">${r.usr}</td></tr>`).join(''):`<tr><td colspan="5"><div class="empty">${ic('check')}<b>Sin cargas rechazadas</b></div></td></tr>`}</tbody></table></div></div>`;
  const ls=visibles().filter(l=>{const k=estKey(l);const [ea]=estActual(l);
   if(f.q&&!(l.cab+l.det).toLowerCase().includes(f.q.toLowerCase()))return false;
-  if(f.pa&&ea!==f.pa)return false;if(f.tipo&&l.tipo!==f.tipo)return false;
-  if(f.est){const g={obsS:['obsS'],obsP:['obsP','noval'],val:['val'],porT:['porT','venc'],venc:['venc'],sindep:['sindep','depobs'],depver:['depver'],verif:['verif','cul'],cul:['cul'],subs:['subs']}[f.est]||[f.est];if(!g.includes(k))return false}
+  if(f.pa&&ea!==f.pa)return false;
+  if(f.est){const g={obsS:['obsS','obsP','noval'],val:['val'],porT:['porT','venc'],venc:['venc'],sindep:['sindep','depobs'],depver:['depver'],verif:['verif'],cul:['cul']}[f.est]||[f.est];if(!g.includes(k))return false}
   return true}).sort((a,b)=>a.carga<b.carga?1:-1);
- const estOpts=[['','Todos'],['val','En validación'],['obsP','Observado en PAST'],['obsS','Observado por la ONP'],['subs','Subsanado'],['porT','Por transferir'],['venc','Por transferir · vencido'],['sindep','Falta depósito'],['depver','Depósito por verificar'],['verif','Depósito verificado'],['cul','Culminado']];
- const head=`<tr class="grp"><th colspan="10" class="actb"><span class="stk">PAST actual · Registro de Transferencia CIC</span></th>
-  <th colspan="5" class="cmpb"><span class="stk">Recepción del archivo · RN-TRA-03 a 05</span></th><th colspan="5" class="cmpb"><span class="stk">Validación de la ONP · RN-TRA-10 a 13, 20 y 21</span></th><th colspan="3" class="cmpb"><span class="stk">Ticket de pago · RN-TRA-14 y 15</span></th><th colspan="3" class="cmpb"><span class="stk">Transferencia · RN-TRA-17 y 19</span></th><th colspan="2" class="cmpb"><span class="stk">Depósito · RN-TRA-18</span></th><th class="cmpb"><span class="stk">Constancia · RN-TRA-24</span></th><th colspan="2" class="cmpb"><span class="stk">Control · RN-TRA-16</span></th></tr>
+ const estOpts=[['','Todos'],['obsS','Por subsanar'],['val','En validación'],['porT','Por transferir'],['venc','Plazo de transferencia vencido'],['sindep','Falta o se observó el depósito'],['depver','Depósito por verificar'],['verif','Constancia ONP por emitir'],['cul','Culminado']];
+ const head=`<tr class="grp"><th colspan="10" class="actb"><span class="stk">PAST actual · Registro de Transferencia CIC</span></th>${band(2,'Envío · RN-TRA-04')}${band(1,'Validación · 24.2.a')}${band(1,'Ticket · 24.3')}${band(2,'Transferencia · 24.4')}${band(1,'Depósito · 24.6')}${band(1,'Constancia · 24.6')}${band(1,'EAF')}</tr>
  <tr>${H('Ítem','','fz1')}${H('Nombre del archivo','','fz2')}${H('Código lote','','n')}${H('Fecha de carga')}${H('Total de registros','','n')}${H('Cant. válidas','','n')}${H('Cant. obs.','','n')}${H('Estado')}${H('Fecha de envío')}${H('Usuario')}
-  ${H('SEC_ENV','Anexo 05','sep')}${H('Tipo','24.2 · 25.1')}${H('Afiliados','RN-TRA-16','n')}${H('Recepción en SISREC','fecha y hora')}${H('Subsana al lote','RN-TRA-05')}
-  ${H('Resultado','24.2.a','sep')}${H('Fecha y hora','del resultado')}${H('Días hábiles','','n')}${H('Plazo','máx. '+P.plzValid+' dh')}${H('Subsanación','días hábiles','n')}
-  ${H('N° ticket','24.3','sep')}${H('Conformidad','fecha')}${H('Importe S/','','n')}
-  ${H('Fecha efectiva','24.4','sep')}${H('Días','calendario','n')}${H('Plazo','máx. '+P.plzTransf+' dc')}
-  ${H('Constancia de depósito','N° de operación','sep')}${H('Verificación','SISREC · 24.6')}
-  ${H('Emitidas','24.6 · mensual','sep n')}
-  ${H('Estado del control','','sep')}${H('')}</tr>`;
+  ${H('SEC_ENV','','sep')}${H('Tipo','','','Inicial (24.2) o aportes recuperados (25.1)')}${H('Validación de la ONP','máx. '+P.plzValid+' día hábil','sep')}${H('N° ticket','conformidad','sep','La fecha del ticket es la conformidad de la ONP: desde ese día corren '+P.plzTransf+' días calendario')}${H('Fecha de transferencia','','sep')}${H('Plazo','máx. '+P.plzTransf+' días calendario')}${H('Constancia de depósito','verificación','sep')}${H('Constancia de Transferencia','de la ONP','sep')}${H('Siguiente paso','','sep')}</tr>`;
  const rows=ls.map((l,k)=>{const [ta,ca]=estActual(l);const nObs=new Set([...l.prev.obs,...(l.res?l.res.obs:[])].map(o=>o.af)).size;const val=l.res&&l.res.est==='C'?l.afs.length:(nObs?l.afs.length-nObs:0);
-  const e=estL(l),pv=plazoValid(l),pt=plazoTransf(l),ps=plazoSubs(l),d=lastDep(l);const sb=l.subsana?loteById(l.subsana):null;const ncts=Object.keys(l.cts).length;
   return `<tr class="click" data-lote="${l.id}"><td class="n fz1">${k+1}</td><td class="mono fz2">${l.cab}</td><td class="n">${l.id}</td><td class="mono">${fd(l.carga)}</td><td class="n">${l.afs.length}</td><td class="n">${val}</td><td class="n">${nObs}</td><td>${st(ta,ca)}</td><td class="mono">${fd(l.carga)}</td><td class="mono sm">${l.usr}</td>
-   ${cp(`<span class="mono">${z2(l.sec)}</span>`,'sep')}${cp(tipoTxt(l.tipo))}${cp(l.afs.length,'n')}${cp(l.envio?`<span class="mono">${fdt(l.envio)}</span>`:pend('No enviado'))}${cp(sb?`<span class="mono">${sb.id}</span>`:pend('No aplica'))}
-   ${cp(l.res?(l.res.est==='C'?dot('Conforme','ok'):dot('Observado','crit')):(l.envio?dot('En validación','info'):dash),'sep')}${cp(l.res?`<span class="mono">${fdt(l.res.dt)}</span>`:dash)}${cp(pv?pv.dh:dash,'n')}${cp(pv?`<span data-tip="Vence ${fd(pv.vence)}">${dot(pv.st[0],pv.st[1])}</span>`:dash)}${cp(ps?ps.dh:dash,'n')}
-   ${cp(l.tk?`<span class="mono">${l.tk.num}</span>`:dash,'sep')}${cp(l.tk?`<span class="mono">${fd(l.tk.dt)}</span>`:dash)}${cp(l.tk?`<b>${m2(l.tk.monto)}</b>`:dash,'n')}
-   ${cp(l.tr?`<span class="mono">${fd(l.tr.fecha)}</span>`:dash,'sep')}${cp(pt?pt.dc:dash,'n')}${cp(pt?`<span data-tip="Vence ${fd(pt.vence)}">${dot(pt.st[0],pt.st[1])}</span>`:dash)}
-   ${cp(d?`<span class="mono">${d.num}</span>`:(l.tr?dot('Falta','warn'):dash),'sep')}${cp(d?(d.ver?(d.ver.est==='V'?dot('Verificado','ok'):dot('Observado','crit')):dot('Por verificar','info')):dash)}
-   ${cp(ncts?`${ncts} de ${l.afs.length}`:dash,'sep n')}
-   ${cp(st(e.t,e.c),'sep')}${cp(`<div class="acts-c">${nextAction(l)}</div>`)}</tr>`}).join('');
+   ${cp(`<span class="mono">${z2(l.sec)}</span>`,'sep')}${cp(tipoTxt(l.tipo))}${cp(valTxt(l),'sep')}${cp(l.tk?`<span class="mono" data-tip="Conformidad ${fd(l.tk.dt)} · ${soles(l.tk.monto)}">${l.tk.num}</span>`:dash,'sep')}
+   ${cp(l.tr?`<span class="mono">${fd(l.tr.fecha)}</span>`:dash,'sep')}${cp(plazoTxt(plazoTransf(l)))}${cp(depTxt(l),'sep')}${cp(ctsTxt(l),'sep')}${cp(accion(l),'sep')}</tr>`}).join('');
  return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">${tabs}<span style="flex:1"></span><span class="lgd"><i class="la"></i>PAST actual</span><span class="lgd"><i class="lc"></i>Complemento · segundo requerimiento</span></div>
  <div class="card"><div class="fl">
   <label>Nombre de archivo<input class="in" id="fq" style="width:240px" placeholder="Buscar…" value="${esc(f.q)}"></label>
   <label>Estado<select class="in" id="fpa" style="width:130px">${['','Procesado','Observado','Procesando'].map(v=>`<option value="${v}" ${f.pa===v?'selected':''}>${v||'Todos'}</option>`).join('')}</select></label>
   <span class="flsep"></span>
-  <label class="cpl">Tipo<select class="in" id="ftipo" style="width:130px"><option value="">Todos</option><option value="I" ${f.tipo==='I'?'selected':''}>Inicial</option><option value="R" ${f.tipo==='R'?'selected':''}>Recuperado</option></select></label>
-  <label class="cpl">Estado del control<select class="in" id="fest" style="width:210px">${estOpts.map(([v,t])=>`<option value="${v}" ${f.est===v?'selected':''}>${t}</option>`).join('')}</select></label>
-  <span class="sp"></span><span class="faint sm">${fmt(ls.length)} archivo(s) · desplace a la derecha para ver el complemento</span></div>
+  <label class="cpl">Seguimiento<select class="in" id="fest" style="width:230px">${estOpts.map(([v,t])=>`<option value="${v}" ${f.est===v?'selected':''}>${t}</option>`).join('')}</select></label>
+  <span class="sp"></span><span class="faint sm">${fmt(ls.length)} archivo(s)</span></div>
   ${ls.length?`<div class="tw xtw wide"><table class="${ls.length>10?'zb':''}" data-wide="1" style="--fzw:300px"><thead>${head}</thead><tbody>${rows}</tbody></table></div>`:`<div class="empty">${ic('inbox')}<b>Sin archivos</b>${visibles().length?'Ningún archivo cumple el filtro':'Use Realizar carga para remitir el primer archivo CIC'}</div>`}
  </div>`};
 
@@ -1254,21 +1375,19 @@ M.personas=()=>{
   if(f.tdoc&&a.tdoc!==f.tdoc)return false;if(f.ndoc&&!a.ndoc.includes(f.ndoc))return false;if(f.sol&&!a.numSol.toLowerCase().includes(f.sol.toLowerCase()))return false;
   if(f.onp&&!a.numSolOnp.toLowerCase().includes(f.onp.toLowerCase()))return false;
   if(f.lote&&!s.ls.some(l=>String(l.id)===f.lote.trim()))return false;if(f.sit&&s.t!==f.sit)return false;return true}).sort((x,y)=>x[0].fecCon<y[0].fecCon?1:-1);
- const head=`<tr class="grp"><th colspan="20" class="actb"><span class="stk">PAST actual · Gestión de solicitudes de Traslado: Solicitudes del SPP al SNP</span></th>
-  <th colspan="3" class="cmpb"><span class="stk">Constancia de traslado · RN-TRA-01 a 03</span></th><th colspan="6" class="cmpb"><span class="stk">Transferencia de la CIC · RN-TRA-22</span></th><th colspan="4" class="cmpb"><span class="stk">Constancias y comunicación · RN-TRA-24 a 26</span></th><th class="cmpb"><span class="stk">Historial · RN-TRA-23</span></th></tr>
- <tr>${H('Ítem','','fz1')}${H('N° solicitud EAF','','fz2')}${H('Fecha solicitud EAF')}${H('N° solicitud ONP')}${H('Fecha solicitud ONP')}${H('Tipo de documento')}${H('Número de documento')}${H('Solicitud pdf','','c')}${H('RESIT-SPP')}${H('RESIT-SNP')}${H('Decisión del afiliado')}${H('Fecha decisión afiliado')}${H('Constancia de traslado')}${H('Régimen previsional','','c')}${H('Transf. CIC')}${H('Ticket transf. CIC')}${H('Constancia de depósito')}${H('Constancia de transferencia','','',esEAF()?'':'Hoy la PAST la genera el mismo día en que se carga el depósito (Manual, pág. 36)')}${H('Días transcurridos solicitud','','n')}${H('Estado solicitud')}
-  ${H('Recepción por la EAF','fecha · 24.2','sep')}${H('Envío a SISREC','fecha y hora')}${H('Remisión del archivo','máx. '+P.plzRemision+' dh')}
-  ${H('Situación','RN-TRA-22','sep')}${H('Lote · SEC_ENV','archivo CIC')}${H('Monto transferido S/','24.7','n')}${H('Fecha efectiva','24.4')}${H('Días','calendario','n')}${H('Plazo','máx. '+P.plzTransf+' dc')}
-  ${H('Constancia EAF','24.5','sep')}${H('Constancia ONP','24.6 · 24.7')}${H('Emisión','mensual')}${H('Comunicación','24.8 · RN-TRA-26')}
-  ${H('Transferencias','inicial y recuperados','sep n')}</tr>`;
- const body=rows.map(([a,s],k)=>{const c=s.cur;const d=c&&lastDep(c);const r=plazoRemision(a);const cts=c&&c.cts[a.id];const cte=c&&c.cte[a.id];
+ const head=`<tr class="grp"><th colspan="20" class="actb"><span class="stk">PAST actual · Gestión de solicitudes de Traslado: Solicitudes del SPP al SNP</span></th>${band(2,'Constancia de traslado · 24.2')}${band(3,'Transferencia de la CIC · 24.4')}${band(2,'Constancia de Transferencia · 24.6 y 24.8')}</tr>
+ <tr>${H('Ítem','','fz1')}${H('N° solicitud EAF','','fz2')}${H('Fecha solicitud EAF')}${H('N° solicitud ONP')}${H('Fecha solicitud ONP')}${H('Tipo de documento')}${H('Número de documento')}${H('Solicitud pdf','','c')}${H('RESIT-SPP')}${H('RESIT-SNP')}${H('Decisión del afiliado')}${H('Fecha decisión afiliado')}${H('Constancia de traslado')}${H('Régimen previsional','','c')}${H('Transf. CIC')}${H('Ticket transf. CIC')}${H('Constancia de depósito','','','Con el requerimiento se carga una vez por lote, en Registro de Transferencia CIC (RN-TRA-18)')}${H('Constancia de transferencia','','','Con el requerimiento la recibe la PAST de SISREC después de verificar el depósito (RN-TRA-24)')}${H('Días transcurridos solicitud','','n')}${H('Estado solicitud')}
+  ${H('Recepción por la EAF','','sep')}${H('Envío del archivo CIC','máx. '+P.plzRemision+' días hábiles')}
+  ${H('Situación','','sep')}${H('Monto transferido S/','','n')}${H('Fecha de transferencia')}
+  ${H('N° de constancia','','sep')}${H('Comunicación al afiliado','correo y SMS')}</tr>`;
+ const body=rows.map(([a,s],k)=>{const c=s.cur;const d=c&&lastDep(c);const r=plazoRemision(a);const cts=c&&c.cts[a.id];
+  const env=r.L?dot(r.st[0]==='Remitido en plazo'?'Enviado en plazo':'Enviado fuera de plazo',r.st[1]):(r.dh===null?dash:`<span data-tip="Vence ${fd(r.vence)}">${dot(`${r.dh} de ${r.lim} dh`,r.st[1])}</span>`);
   return `<tr class="click" data-af="${a.id}"><td class="n fz1">${k+1}</td><td class="mono fz2">${a.numSol}</td><td class="mono">${fd(a.fecSol)}</td><td class="mono">${a.numSolOnp}</td><td class="mono">${fd(a.fecSolOnp)}</td><td data-tip="${a.tdoc==='00'?'Documento Nacional de Identidad':'Carné de Extranjería'}">${a.tdoc==='00'?'DNI':'Carné de extranjería'}</td><td class="mono">${a.ndoc}</td>
    <td class="c">${ic('down')}</td><td>${dot('Conforme','ok')}</td><td class="mono">${fd(a.resitSnp)}</td><td>${dot('Conforme','ok')}</td><td class="mono">${fd(a.fecDecision)}</td><td class="mono">${fd(a.fecCon)}</td><td class="c"><b>SNP</b></td>
    <td>${c&&c.res&&c.res.est==='C'?'Registrado':pend()}</td><td>${c&&c.tk?dot('Recibido','ok'):pend()}</td><td class="mono">${d?fd(d.dt):pend()}</td><td class="mono">${d?fd(d.dt):pend()}</td><td class="n">${dcBetween(a.fecCon,HOY)}</td><td>${dot(a.tramite,'ok')}</td>
-   ${cp(a.recep?`<span class="mono">${fd(a.recep)}</span>`:(esEAF()?`<button class="btn sm p" data-act="recep" data-af="${a.id}">Registrar</button>`:dot('Sin registrar','crit')),'sep')}${cp(`<span class="mono">${fdt(a.envSis)}</span>`)}${cp(`<span data-tip="${r.dh===null?'Sin fecha de recepción':r.dh+' día(s) hábil(es)'}">${dot(r.st[0],r.st[1])}</span>`)}
-   ${cp(st(s.t,s.c),'sep')}${cp(c?`<span class="mono">${c.id} · ${z2(c.sec)}</span>`:dash)}${cp(s.trM?`<b>${m2(s.trM)}</b>`:dash,'n')}${cp(c&&c.tr?`<span class="mono">${fd(c.tr.fecha)}</span>`:dash)}${cp(s.pt?s.pt.dc:dash,'n')}${cp(s.pt?dot(s.pt.st[0],s.pt.st[1]):dash)}
-   ${cp(cte?`<span class="mono">${cte.num}</span>`:dash,'sep')}${cp(cts?`<span class="mono">${cts.num}</span>`:dash)}${cp(cts?`<span class="mono">${fd(cts.fecha)}</span>`:dash)}${cp(cts?dot(cts.com.est,cts.com.est==='Enviada'?'ok':'crit'):dash)}
-   ${cp(s.ls.length||dash,'sep n')}</tr>`}).join('');
+   ${cp(a.recep?`<span class="mono">${fd(a.recep)}</span>`:(esEAF()?`<button class="btn sm p" data-act="recep" data-af="${a.id}">Registrar</button>`:dot('Sin registrar','crit')),'sep')}${cp(env)}
+   ${cp(st(s.t,s.c),'sep')}${cp(s.trM?`<b>${m2(s.trM)}</b>`:dash,'n')}${cp(c&&c.tr?`<span class="mono">${fd(c.tr.fecha)}</span>`:dash)}
+   ${cp(cts?`<span class="mono">${cts.num}</span>`:dash,'sep')}${cp(cts?dot(cts.com.est,cts.com.est==='Enviada'?'ok':'crit'):dash)}</tr>`}).join('');
  return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><span style="flex:1"></span><span class="lgd"><i class="la"></i>PAST actual</span><span class="lgd"><i class="lc"></i>Complemento · segundo requerimiento</span></div>
  <div class="card"><div class="fl">
   <label>Tipo doc.<select class="in" id="pTdoc" style="width:105px"><option value="">Todos</option>${Object.entries(TDOC).map(([k,v])=>`<option value="${k}" ${f.tdoc===k?'selected':''}>${v}</option>`).join('')}</select></label>
@@ -1282,10 +1401,258 @@ M.personas=()=>{
   <span class="sp"></span><span class="faint sm">${fmt(rows.length)} solicitud(es)</span></div>
  ${rows.length?`<div class="tw xtw wide"><table class="${rows.length>10?'zb':''}" data-wide="1" style="--fzw:180px"><thead>${head}</thead><tbody>${body}</tbody></table></div>`:`<div class="empty">${ic('users')}<b>Sin solicitudes</b>Ninguna cumple el filtro</div>`}</div>`};
 
+const ART_T={"5.3": "En caso el afiliado con un trámite de traslado falleciera antes de la fecha de incorporación en el régimen de destino, mantiene su permanencia en el régimen de origen y corresponde disponer la culminación del trámite. Si una vez producido el traslado, se identifica que el fallecimiento del afiliado fue con anterioridad a la fecha de incorporación, mantendrá su permanencia en el régimen de origen. En caso se haya transferido la CIC al SNP, la ONP gestiona su transferencia al SPP.", "20.1": "El registro de la información de las solicitudes en la PAST es realizado por la EAF debidamente autenticada, conforme a los mecanismos de seguridad e identificación establecidos en la PAST, y que permitan generar interoperabilidad e interconexión.", "20.2": "La EAF realiza el registro individual o masivo de la información de las solicitudes en la PAST, utilizando la estructura de datos del formato del Anexo N° 04. a) La PAST realiza validaciones automáticas destinadas a verificar la identidad, supervivencia del afiliado y el cumplimiento del periodo mínimo de permanencia en el régimen previsional de origen, para la continuación del trámite. b) Como resultado de las validaciones, si se determina que alguna solicitud recibida por la EAF no cumple con las condiciones para el traslado o presenta errores en su registro, la PAST informa los motivos del incumplimiento, sin generar el registro del trámite, ni afectar el tratamiento de la información de las demás solicitudes registradas, de corresponder.", "20.3": "La EAF realiza la carga de la información del RESIT-SPP en la PAST, en consideración de la estructura de datos del formato del Anexo N° 03. a) La PAST realiza validaciones automáticas destinadas a verificar la consistencia u omisiones del RESIT-SPP. b) Como resultado de las validaciones, si se determina que el RESIT-SPP presenta inconsistencias u omisiones en la información, la PAST informa las observaciones detectadas para su subsanación y continuidad del trámite de la solicitud.", "20.4": "El plazo para la carga simultánea, progresiva o subsanación de la información a los que se refieren los numerales 20.2 y 20.3 es de ocho (8) días hábiles, contados a partir de la fecha de presentación de la solicitud del afiliado ante la EAF.", "20.5": "La PAST confirma el registro de la información de las solicitudes a la EAF para su constancia y seguimiento.", "20.6": "La EAF comunica al afiliado el envío de la información a la ONP a través de la PAST, como parte del proceso de traslado, para su conocimiento, constancia y seguimiento del trámite.", "21.1": "La ONP verifica y valida la equivalencia de UdAs remitida por la EAF y, de corresponder, procede a su reconocimiento y registro en la historia previsional del afiliado.", "21.2": "Como resultado del procedimiento de reconocimiento y equivalencia, la ONP genera el RESIT-SNP, el cual contiene el detalle de las UdAs reconocidas en el SNP y el SPP, así como la información previsional correspondiente.", "21.3": "La ONP remite mediante la PAST a la EAF el RESIT-SNP en un plazo máximo de treinta (30) días hábiles contados desde la recepción del RESIT-SPP.", "22.1": "La EAF comunica al afiliado dicho reporte dentro del plazo máximo de cinco (5) días hábiles contados desde su recepción.", "22.2": "El afiliado manifiesta ante la EAF su conformidad o no conformidad respecto de la información contenida en el RESIT-SNP, dentro del plazo máximo de treinta (30) días hábiles contados desde su comunicación.", "22.3": "En caso el afiliado manifieste su conformidad para continuar con el proceso de traslado, la EAF debe actualizar el estado del trámite en la PAST dentro del plazo máximo de cinco (5) días hábiles de comunicada dicha manifestación, continuando el proceso correspondiente hasta la emisión de la constancia de traslado por parte de la SBS.", "22.4": "En caso el afiliado manifieste su no conformidad, la EAF debe actualizar el estado del trámite en la PAST y poner en conocimiento del afiliado en el plazo máximo de cinco (5) días hábiles de comunicada dicha manifestación, con lo cual no se produce el traslado, y se mantiene en el régimen del SPP, con lo cual se da por finalizado el trámite.", "22.5": "Una vez transcurrido el plazo indicado en el punto 22.2 si el afiliado no comunica su conformidad del RESIT-SNP se da por finalizado el trámite y no se produce el traslado.", "23.1": "La SBS, el mismo día en que la EAF registra la conformidad del afiliado en la PAST, debe: a) Emitir la constancia de traslado y remitir la información de la misma a la EAF y a la ONP a través de los mecanismos habilitados para tal efecto. b) Ejecutar la baja del afiliado en el SPP al culminar el día de la emisión de la constancia de traslado.", "23.2": "La ONP con la información disponible en la PAST incorpora al afiliado al SNP, al día siguiente calendario de emitida la constancia de traslado, a partir de lo cual el nuevo estado en el SIPP queda actualizado.", "23.3": "La EAF en un plazo máximo de cinco (5) días hábiles de recibida la constancia de traslado, comunica al afiliado mediante los mecanismos habilitados para tal efecto.", "24.1": "Emitida la constancia de traslado del SPP al SNP, la EAF debe efectuar la transferencia del cien por ciento (100 %) del saldo acumulado de la Cuenta Individual de Capitalización (CIC) correspondiente a los aportes obligatorios, a favor del Fondo Consolidado de Reservas Previsionales – Fondo FCR del Decreto Ley N° 19990.", "24.2": "Recibida la constancia de traslado, la EAF remite a la ONP, a través de la PAST, la información para la transferencia de la CIC en un plazo máximo de cinco (5) días hábiles, en consideración del formato del Anexo N° 05 (APT – SPP), para lo cual previamente debe cerrar la CIC y transferir los recursos a una cuenta por pagar, conforme a las disposiciones que emita la SBS para dicho fin. Para ello: a) La ONP valida la consistencia de la información remitida por la EAF dentro del plazo máximo de un (1) día hábil, de haberla recibido. b) En caso se identifiquen observaciones, la ONP devuelve la información a la EAF para su revisión y subsanación, de corresponder.", "24.3": "Validada la información, la ONP comunica a la EAF a través de la PAST, que el monto se encuentra habilitado para la transferencia mediante las entidades bancarias correspondientes.", "24.4": "Recibida la conformidad de la ONP para la transferencia, la EAF cuenta con un plazo máximo de quince (15) días calendario para realizar la transferencia de la CIC.", "24.5": "La EAF emite y comunica la constancia de la transferencia de la CIC al afiliado y a la ONP, conforme con las disposiciones normativas que emita la SBS.", "24.6": "Efectuada la transferencia de los recursos por la EAF y verificado el monto efectivamente depositado, la ONP emite las Constancias de Transferencia del saldo de la CIC y las registra en la PAST mensualmente.", "24.7": "La Constancia de Transferencia del saldo de la CIC acredita la transferencia de los recursos derivados del traslado y contiene, como mínimo, la información relativa al monto transferido de la CIC, las Unidades de Aporte (UdAs) reconocidas y, cuando corresponda, el valor del Bono de Reconocimiento, así como la información referida a los aportes voluntarios con fines previsionales.", "24.8": "La Constancia de Transferencia del saldo de la CIC se pone a disposición de la EAF a través de la PAST y se comunica al afiliado mediante los medios de contacto que este tenga registrados o haya dispuesto.", "24.9": "El saldo acumulado en la CIC proveniente de aportes voluntarios con fin previsional no es objeto de transferencia al FCR-SPP y permanece bajo administración de la EAF hasta el momento de la jubilación del afiliado, conforme a la normativa vigente.", "25.1": "Los aportes identificados o recuperados por las EAF, incluidos los intereses moratorios, posteriores al cierre de la cuenta, son transferidos a la ONP en consideración del formato del Anexo N° 05 (APT – SPP), donde se consigna el estado de aporte con el código 2 (identificados o recuperados). La transferencia debe efectuarse dentro del mes siguiente a aquel en que los aportes fueron identificados o recuperados, siempre que el afiliado permanezca incorporado al SNP al momento de realizarse dicha transferencia.", "25.2": "Para dicho efecto, previamente la EAF determina las UdAs efectivas equivalentes, elabora el archivo de transferencia conforme con el Anexo N° 05 (APT – SPP) para remitirlo a la ONP a través de los mecanismos de comunicación habilitados para tal efecto.", "25.3": "Los aportes identificados o recuperados con posterioridad al traslado son acreditados por la ONP mediante los mecanismos que para tal fin disponga.", "24.2.a": "La ONP valida la consistencia de la información remitida por la EAF dentro del plazo máximo de un (1) día hábil, de haberla recibido.", "24.2.b": "En caso se identifiquen observaciones, la ONP devuelve la información a la EAF para su revisión y subsanación, de corresponder.", "23.1.a": "Emitir la constancia de traslado y remitir la información de la misma a la EAF y a la ONP a través de los mecanismos habilitados para tal efecto.", "23.1.b": "Ejecutar la baja del afiliado en el SPP al culminar el día de la emisión de la constancia de traslado.", "20.2.a": "La PAST realiza validaciones automáticas destinadas a verificar la identidad, supervivencia del afiliado y el cumplimiento del periodo mínimo de permanencia en el régimen previsional de origen, para la continuación del trámite.", "20.2.b": "Como resultado de las validaciones, si se determina que alguna solicitud recibida por la EAF no cumple con las condiciones para el traslado o presenta errores en su registro, la PAST informa los motivos del incumplimiento, sin generar el registro del trámite, ni afectar el tratamiento de la información de las demás solicitudes registradas, de corresponder.", "20.3.a": "La PAST realiza validaciones automáticas destinadas a verificar la consistencia u omisiones del RESIT-SPP.", "20.3.b": "Como resultado de las validaciones, si se determina que el RESIT-SPP presenta inconsistencias u omisiones en la información, la PAST informa las observaciones detectadas para su subsanación y continuidad del trámite de la solicitud."};
+
+// ======================= Mapa de interoperabilidad (mismo diseño que SICAC) =======================
+// Entidades del control de la transferencia de la CIC · coordenadas en el lienzo del mapa
+const MAPA_N={
+ sbs:{x:170,y:110,t:'SBS',s:'emite la constancia',d:'Supervisa el SPP: el mismo día en que la EAF registra la conformidad del afiliado emite la constancia de traslado y la remite a la EAF y a la ONP; al culminar el día da de baja al afiliado en el SPP (23.1).'},
+ eaf:{x:170,y:450,t:'EAF',s:'representante · AFP',d:'Administra la CIC: cierra la cuenta, remite el archivo APT-SPP por la PAST, transfiere el saldo al Fondo FCR, carga la constancia de depósito y comunica su constancia de transferencia (24.2 a 24.5).'},
+ past:{x:490,y:280,t:'PAST',s:'plataforma de traslados',big:1,d:'Canal único del trámite: recibe la constancia y el archivo CIC, los prevalida, los envía a SISREC, registra la transferencia y el depósito, y comunica al afiliado la Constancia de Transferencia.'},
+ sisrec:{x:850,y:280,t:'SISREC',s:'ONP · recaudación',d:'Controla la recaudación: valida el archivo en 1 día hábil, emite el ticket de pago, verifica el monto depositado y emite cada mes las Constancias de Transferencia del saldo de la CIC (24.2.a a 24.6).'},
+ reniec:{x:850,y:110,t:'RENIEC · Migraciones',s:'supervivencia',d:'Confirma la supervivencia del afiliado: si falleció antes de la incorporación al SNP mantiene su permanencia en el SPP y no corresponde transferir (5.3).'},
+ banco:{x:1090,y:110,t:'Banco · Fondo FCR',s:'cuenta recaudadora',d:'Recibe la transferencia del saldo de la CIC en la cuenta del Fondo Consolidado de Reservas Previsionales (24.1 y 24.4).'},
+ afi:{x:1090,y:450,t:'Afiliado',s:'constancias',d:'Titular del traslado: recibe la constancia de transferencia de la EAF y la Constancia de Transferencia del saldo de la CIC por sus medios de contacto (24.5 y 24.8).'}};
+const MAPA_Z=[
+ {x:58,y:44,w:224,h:468,t:'Origen del traslado',d:'Donde nace la transferencia: la SBS emite la constancia de traslado y la EAF prepara el archivo con el saldo de la CIC.'},
+ {x:378,y:214,w:584,h:132,t:'Intercambio PAST ⇄ SISREC',d:'El control de la transferencia: la PAST lleva el archivo y los documentos a SISREC, y SISREC responde con la validación, el ticket y las constancias.'},
+ {x:978,y:44,w:224,h:468,t:'Pago y afiliado',d:'Donde termina el recorrido: el saldo llega al Fondo FCR y el afiliado recibe sus constancias.'}];
+const LANE_Y=[185,368,26,534], LANE_X=[330,660,970];
+const MAPA_F=[
+ {id:'con',de:'sbs',a:'past',g:'con',art:'23.1',t:'Constancia de traslado',d:'La SBS emite la constancia y la PAST la registra automáticamente, sin intervención de la EAF.',per:'El día de la conformidad',mod:'personas'},
+ {id:'con_eaf',de:'past',a:'eaf',g:'con',art:'23.1',t:'Constancia disponible para la EAF',d:'La EAF consulta la constancia en la PAST; desde su recepción corren 5 días hábiles para remitir el archivo.',per:'El mismo día',mod:'personas'},
+ {id:'rec',de:'eaf',a:'past',g:'con',art:'24.2',t:'Fecha de recepción de la constancia',d:'La EAF registra en qué fecha recibió la constancia; la PAST guarda además la fecha y hora del registro.',per:'Al recibirla',mod:'personas'},
+ {id:'con_sis',de:'past',a:'sisrec',g:'con',art:'24.1',t:'Inicio del control',d:'La PAST pone a disposición de SISREC los datos de la constancia y de la solicitud para iniciar el control de la transferencia.',per:'Automático',mod:'personas'},
+ {id:'apt',de:'eaf',a:'past',g:'arch',art:'24.2',t:'Archivo CIC (APT-SPP)',d:'La EAF cierra la CIC y remite la cabecera APTC y el detalle APTD con su SEC_ENV.',per:'Hasta 5 días hábiles',len:'Anexo 05',mod:'transfer'},
+ {id:'sup',de:'past',a:'reniec',g:'arch',art:'5.3',t:'Consulta de supervivencia',d:'La PAST consulta si el afiliado vive y, si falleció, en qué fecha.',per:'En la carga',mod:'transfer'},
+ {id:'sup_r',de:'reniec',a:'past',g:'arch',art:'5.3',t:'Resultado de supervivencia',d:'Si el fallecimiento es anterior a la incorporación al SNP, el archivo se observa y se alerta a la ONP.',per:'En la carga',mod:'transfer'},
+ {id:'env',de:'past',a:'sisrec',g:'arch',art:'24.2',t:'Archivo prevalidado',d:'Superadas las prevalidaciones de la PAST, el archivo se envía a SISREC con su fecha y hora.',per:'Al superar la prevalidación',mod:'transfer'},
+ {id:'res',de:'sisrec',a:'past',g:'arch',art:'24.2.a',t:'Resultado de la validación',d:'SISREC valida la consistencia y responde conforme u observado, con sus observaciones.',per:'1 día hábil',mod:'transfer'},
+ {id:'obs',de:'past',a:'eaf',g:'arch',art:'24.2.b',t:'Observaciones para subsanar',d:'La EAF ve el log de errores y remite la subsanación como un nuevo envío.',per:'Al observarse',mod:'transfer'},
+ {id:'tk',de:'sisrec',a:'past',g:'pago',art:'24.3',t:'Ticket de pago',d:'Validada la información, la ONP comunica que el monto está habilitado para transferir.',per:'Al quedar conforme',mod:'transfer'},
+ {id:'tk_eaf',de:'past',a:'eaf',g:'pago',art:'24.3',t:'Monto habilitado',d:'La EAF recibe el ticket en la bandeja del archivo; desde ese día corren 15 días calendario.',per:'El mismo día',mod:'transfer'},
+ {id:'trf',de:'eaf',a:'banco',g:'pago',art:'24.4',t:'Transferencia de la CIC',d:'La EAF transfiere el 100 % del saldo de aportes obligatorios al Fondo FCR.',per:'Hasta 15 días calendario',mod:'transfer'},
+ {id:'dep',de:'eaf',a:'past',g:'pago',art:'24.4',t:'Fecha efectiva y constancia de depósito',d:'La EAF registra la fecha efectiva y carga la constancia de depósito del lote.',per:'Al transferir',mod:'transfer'},
+ {id:'dep_sis',de:'past',a:'sisrec',g:'pago',art:'24.6',t:'Depósito para verificar',d:'La PAST remite a SISREC el lote, el ticket, la fecha, el importe y la constancia de depósito.',per:'Al cargar la constancia',mod:'transfer'},
+ {id:'abono',de:'banco',a:'sisrec',g:'pago',art:'24.6',t:'Abono en la cuenta del FCR',d:'SISREC verifica el monto efectivamente depositado contra el ticket.',per:'Al verificar',mod:'transfer'},
+ {id:'cte',de:'eaf',a:'afi',g:'pago',art:'24.5',t:'Constancia de transferencia de la EAF',d:'La EAF emite su constancia y la comunica al afiliado y a la ONP.',per:'Según normas de la SBS',mod:'personas'},
+ {id:'cts',de:'sisrec',a:'past',g:'pago',art:'24.6',t:'Constancia de Transferencia del saldo',d:'La ONP emite las Constancias de Transferencia y las registra en la PAST.',per:'Mensual',mod:'personas'},
+ {id:'com',de:'past',a:'afi',g:'pago',art:'24.8',t:'Comunicación al afiliado',d:'La PAST comunica la Constancia de Transferencia por correo y SMS, con el mismo servicio del Kit de Bienvenida.',per:'Al registrarse la constancia',mod:'personas'},
+ {id:'rcp',de:'eaf',a:'past',g:'pago',art:'25.1',t:'Aportes recuperados',d:'Los aportes identificados después del cierre se remiten con EST_DE_APO = 2 y siguen el mismo flujo.',per:'Mes siguiente a su identificación',len:'Anexo 05',mod:'transfer'}];
+const MAPA_G=[['','Todo el proceso'],['con','Constancia de traslado'],['arch','Archivo y validación'],['pago','Pago y constancias'],['norma','Quién hace qué']];
+const MAPA_GT={'':['Todo el proceso','De la constancia a la Constancia de Transferencia'],con:['Constancia de traslado','Se inicia el control de cada afiliado'],arch:['Archivo y validación','Del archivo de la EAF al resultado de la ONP'],pago:['Pago y constancias','Del ticket de pago a la comunicación al afiliado']};
+const MAPA_TIP={};MAPA_F.forEach(f=>{MAPA_TIP[f.id]=[f.d,'']});
+const MAPA_ACC={
+ con:{de:'Emite la constancia de traslado el mismo día en que la EAF registra la conformidad del afiliado.',a:'Registra la constancia automáticamente, sin que la EAF la cargue.'},
+ con_eaf:{de:'Pone la constancia a disposición de la EAF.',a:'Recibe la constancia; desde ahí tiene 5 días hábiles para remitir el archivo CIC.'},
+ rec:{de:'Registra la fecha en que recibió la constancia.',a:'Guarda la fecha y la hora del registro y calcula el plazo de remisión.'},
+ con_sis:{de:'Envía a SISREC los datos de la constancia y de la solicitud.',a:'Inicia el control de la transferencia del afiliado.'},
+ apt:{de:'Cierra la CIC, pasa los recursos a una cuenta por pagar y remite el archivo APT-SPP.',a:'Recibe la cabecera y el detalle y verifica nombre, SEC_ENV y fechas.'},
+ sup:{de:'Consulta la supervivencia de cada afiliado del archivo.',a:'Informa si el afiliado vive o la fecha de fallecimiento.'},
+ sup_r:{de:'Devuelve el resultado de la consulta.',a:'Observa el archivo si el fallecimiento es anterior a la incorporación y alerta a la ONP.'},
+ env:{de:'Envía a SISREC el archivo que superó las prevalidaciones.',a:'Recibe el archivo; desde ahí corre 1 día hábil para validarlo.'},
+ res:{de:'Valida la consistencia del archivo y responde conforme u observado.',a:'Registra el resultado con su fecha y hora y actualiza el estado del archivo.'},
+ obs:{de:'Muestra el log de errores del archivo observado.',a:'Corrige y remite la subsanación con el SEC_ENV siguiente.'},
+ tk:{de:'Emite el ticket de pago con el monto habilitado.',a:'Registra el número, la fecha y el importe del ticket en el archivo.'},
+ tk_eaf:{de:'Muestra el ticket en la bandeja del archivo.',a:'Tiene 15 días calendario para transferir.'},
+ trf:{de:'Transfiere el 100 % del saldo de aportes obligatorios.',a:'Recibe el abono en la cuenta del Fondo FCR.'},
+ dep:{de:'Registra la fecha efectiva y carga la constancia de depósito del lote.',a:'Vincula el depósito al lote, al ticket y a los afiliados.'},
+ dep_sis:{de:'Remite el depósito y sus datos a SISREC.',a:'Recibe el depósito para verificarlo.'},
+ abono:{de:'Refleja el abono en la cuenta del FCR.',a:'Compara el importe depositado con el ticket.'},
+ cte:{de:'Emite y comunica su constancia de transferencia.',a:'Recibe la constancia de la EAF.'},
+ cts:{de:'Emite las Constancias de Transferencia del mes y las registra en la PAST.',a:'Guarda la constancia vinculada al afiliado, al ticket y a la transferencia.'},
+ com:{de:'Comunica la constancia por correo y SMS y guarda el estado de la entrega.',a:'Recibe la Constancia de Transferencia del saldo de su CIC.'},
+ rcp:{de:'Remite los aportes recuperados con EST_DE_APO = 2.',a:'Los identifica como recuperados y aplica el mismo flujo de control.'}};
+const MAPA_MU={
+ con:[['NUM_CON_TRA','CTR-2026-0000481'],['FEC_GEN_CON','13072026 · 13/07/2026'],['Incorporación al SNP','14/07/2026']],
+ rec:[['NUM_CON_TRA','CTR-2026-0000481'],['Recepción por la EAF','13/07/2026'],['Registrada el','13/07/2026 10:42']],
+ apt:[['SEC_ENV','01'],['NUM_SOL','HAB202610000137'],['FEC_GEN','15072026'],['MON_TOT_CIC','14,418.22'],['REN','1,522.61']],
+ res:[['Resultado','Conforme'],['Fecha y hora','16/07/2026 09:06'],['Plazo','1 día hábil · en plazo']],
+ tk:[['N° ticket','TK-2026-00031'],['Fecha','16/07/2026'],['Importe','S/ 61,885.92']],
+ dep:[['Fecha efectiva','22/07/2026'],['N° de operación','OP-2026-000701'],['Importe','S/ 61,885.92']],
+ cts:[['N° de constancia','CTS-202607-00091'],['Monto transferido','S/ 14,418.22'],['UdAs reconocidas','42.00']],
+ com:[['Canal','Correo y SMS'],['Servicio','Kit de Bienvenida'],['Estado','Enviada · 31/07/2026 19:05']]};
+const MAPA_CTX={};
+const ART_N={sbs:'La SBS',eaf:'La EAF',past:'La PAST',sisrec:'SISREC',reniec:'El RENIEC o Migraciones',banco:'El banco',afi:'El afiliado'};
+// Deberes de cada entidad según el Reglamento Operativo de traslados · [artículo, deber, plazo, módulo]
+const ROLES={
+ eaf:[['23.3','Comunica al afiliado la constancia de traslado','5 días hábiles',''],
+  ['24.1','Transfiere el 100 % del saldo de aportes obligatorios de la CIC al Fondo FCR','Emitida la constancia',''],
+  ['24.2','Cierra la CIC y remite por la PAST el archivo APT-SPP (Anexo 05)','5 días hábiles','transfer'],
+  ['24.2.b','Revisa y subsana la información observada por la ONP','De corresponder','transfer'],
+  ['24.4','Transfiere la CIC después de la conformidad de la ONP','15 días calendario','transfer'],
+  ['24.5','Emite y comunica la constancia de transferencia al afiliado y a la ONP','Según normas SBS','personas'],
+  ['25.1','Transfiere los aportes identificados o recuperados con EST_DE_APO = 2','Mes siguiente','transfer'],
+  ['25.2','Determina las UdAs efectivas equivalentes de los aportes recuperados','Antes del envío','transfer']],
+ sisrec:[['23.2','Incorpora al afiliado al SNP con la información de la PAST','Día siguiente calendario','personas'],
+  ['24.2.a','Valida la consistencia de la información remitida por la EAF','1 día hábil','transfer'],
+  ['24.2.b','Devuelve a la EAF la información observada','Al validar','transfer'],
+  ['24.3','Comunica por la PAST que el monto está habilitado','Al validar','transfer'],
+  ['24.6','Verifica el monto depositado y emite las Constancias de Transferencia','Mensual','personas'],
+  ['24.8','Pone la constancia a disposición de la EAF y la comunica al afiliado','Al emitirla','personas'],
+  ['25.3','Acredita los aportes identificados o recuperados','Según disponga','']],
+ sbs:[['23.1','Emite la constancia de traslado y la remite a la EAF y a la ONP','El mismo día','personas'],
+  ['23.1.b','Da de baja al afiliado en el SPP al culminar el día de la emisión','Mismo día','']],
+ past:[['20.5','Confirma a la EAF el registro de la información','Al registrar',''],
+  ['24.2','Recibe el archivo CIC que remite la EAF','5 días hábiles','transfer'],
+  ['24.3','Es el canal por el que la ONP comunica el monto habilitado','Al validar','transfer'],
+  ['24.6','Registra las Constancias de Transferencia emitidas por la ONP','Mensual','personas'],
+  ['24.8','Pone la constancia a disposición de la EAF','Al registrarla','personas']],
+ afi:[['24.5','Recibe la constancia de transferencia de la EAF','Según normas SBS',''],
+  ['24.8','Recibe la Constancia de Transferencia del saldo de la CIC','Por sus medios de contacto','personas']],
+ reniec:[['5.3','Fallecimiento antes de la incorporación: el afiliado se mantiene en el SPP','En la validación','transfer']]};
+const ART_TIT={'5.3':'Numeral 5.3 · Fallecimiento durante el trámite'};
+const artTip=k=>ART_T[k]?`data-tip="<b>${ART_TIT[k]||'Numeral '+k}</b><br>${esc(ART_T[k])}" data-art="${k}"`:'';
+function verArt(k){if(!ART_T[k])return;modal(ART_TIT[k]||'Numeral '+k,'Reglamento Operativo de traslados entre el SNP y el SPP',`<div class="norma-t">${esc(ART_T[k])}</div>`,`<span class="sp"></span><button class="btn p" id="mcan">Cerrar</button>`)}
+// referencia a un artículo: se lee al pasar el cursor y se abre con un clic
+const artRef=txt=>String(txt).split(/\s*·\s*/).map(p=>{const k=p.replace(/^Art\.\s*/,'').trim();return ART_T[k]?`<span class="aref" ${artTip(k)}>${p}</span>`:p}).join(' · ');
+
+function mapaOff(list){const G={},O={};
+ list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f)});
+ Object.values(G).forEach(fs=>{const A=MAPA_N[fs[0].de],B=MAPA_N[fs[0].a];
+  const alin=Math.abs(A.y-B.y)<8||Math.abs(A.x-B.x)<8;
+  const d0=fs[0].de, ida=fs.filter(f=>f.de===d0), vue=fs.filter(f=>f.de!==d0);
+  const banda=(fl,sg)=>{const n=fl.length;
+   fl.forEach((f,i)=>{const o=sg*(21+i*(alin?17:26));
+    O[f.id]={o, e:n===1?o:sg*(7+i*(19/(n-1)))}})};
+  if(!vue.length){const n=ida.length,st=alin?21:34;
+   ida.forEach((f,i)=>{const o=(i-(n-1)/2)*st;O[f.id]={o, e:n<=2?o:(i-(n-1)/2)*8}})}
+  else{banda(ida,-1);banda(vue,1)}});
+ return O}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// une los puntos con tramos rectos y esquinas redondeadas
+function rline(P,r){const Q=[];P.forEach(p=>{const q=Q[Q.length-1];if(!q||Math.abs(q[0]-p[0])>1.5||Math.abs(q[1]-p[1])>1.5)Q.push(p)});
+ if(Q.length<3)return `M ${Q[0][0]} ${Q[0][1]} L ${Q[Q.length-1][0]} ${Q[Q.length-1][1]}`;
+ let d=`M ${Q[0][0]} ${Q[0][1]}`;
+ for(let i=1;i<Q.length-1;i++){const [px,py]=Q[i-1],[cx,cy]=Q[i],[nx,ny]=Q[i+1];
+  const l1=Math.hypot(cx-px,cy-py)||1,l2=Math.hypot(nx-cx,ny-cy)||1,rr=Math.min(r,l1/2,l2/2);
+  d+=` L ${(cx-(cx-px)/l1*rr).toFixed(1)} ${(cy-(cy-py)/l1*rr).toFixed(1)} Q ${cx} ${cy} ${(cx+(nx-cx)/l2*rr).toFixed(1)} ${(cy+(ny-cy)/l2*rr).toFixed(1)}`}
+ const e=Q[Q.length-1];return d+` L ${e[0]} ${e[1]}`}
+function rmid(P){let L=0;const seg=[];for(let i=1;i<P.length;i++){const l=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);seg.push(l);L+=l}
+ let t=L/2;for(let i=0;i<seg.length;i++){if(t<=seg[i]){const k=seg[i]?t/seg[i]:0;return {x:P[i][0]+(P[i+1][0]-P[i][0])*k,y:P[i][1]+(P[i+1][1]-P[i][1])*k}}t-=seg[i]}
+ return {x:P[P.length-1][0],y:P[P.length-1][1]}}
+// cuántas tarjetas atraviesa un recorrido
+function rcost(P,de,a){let c=0,L=0,b=0;
+ for(let i=1;i<P.length;i++){const [x1,y1]=P[i-1],[x2,y2]=P[i];L+=Math.hypot(x2-x1,y2-y1);if(i>1)b++;
+  for(const k in MAPA_N){if(k===de||k===a)continue;const N=MAPA_N[k];
+   if(Math.min(x1,x2)<N.x+96&&Math.max(x1,x2)>N.x-96&&Math.min(y1,y2)<N.y+40&&Math.max(y1,y2)>N.y-40)c++}}
+ return c*1000+b*40+L}
+function ruta(f,q){const off=q&&q.o||0, ep=q&&q.e||0;const A=MAPA_N[f.de],B=MAPA_N[f.a];const HX=106,HY=50;
+ const sx=B.x>=A.x?1:-1, sy=B.y>=A.y?1:-1;
+ const ax=A.x+sx*HX, bx=B.x-sx*HX, ay=A.y+sy*HY, by=B.y-sy*HY;
+ const e=clamp(ep,-27,27), C=[];
+ const alinH=Math.abs(B.y-A.y)<8, alinV=Math.abs(B.x-A.x)<8;
+ if(alinH){const cap=Math.max(30,Math.abs(bx-ax)*.34),yt=A.y+clamp(off,-cap,cap),j=Math.min(26,Math.abs(bx-ax)/5)*sx;
+  C.push(Math.abs(off-e)<2?[[ax,A.y+off],[bx,B.y+off]]
+   :[[ax,A.y+e],[ax+j,A.y+e],[ax+j,yt],[bx-j,yt],[bx-j,B.y+e],[bx,B.y+e]])}
+ if(alinV){const cap=Math.max(30,Math.abs(by-ay)*.34),xt=A.x+clamp(off,-cap,cap),j=Math.min(26,Math.abs(by-ay)/5)*sy;
+  C.push(Math.abs(off-e)<2?[[A.x+off,ay],[B.x+off,by]]
+   :[[A.x+e,ay],[A.x+e,ay+j],[xt,ay+j],[xt,by-j],[B.x+e,by-j],[B.x+e,by]])}
+ if(!alinH&&!alinV){
+  [.5,.28,.72].forEach(k=>{const mx=ax+(bx-ax)*k+clamp(off*.42,-30,30);C.push([[ax,A.y+e],[mx,A.y+e],[mx,B.y+e],[bx,B.y+e]])});
+  [.5,.28,.72].forEach(k=>{const my=ay+(by-ay)*k+clamp(off*.42,-30,30);C.push([[A.x+e,ay],[A.x+e,my],[B.x+e,my],[B.x+e,by]])});
+  LANE_Y.forEach(ly=>{if(Math.abs(ly-A.y)<60||Math.abs(ly-B.y)<60)return;
+   C.push([[A.x+e,A.y+(ly<A.y?-HY:HY)],[A.x+e,ly+off*.3],[B.x+e,ly+off*.3],[B.x+e,B.y+(ly<B.y?-HY:HY)]])});
+  LANE_X.forEach(lx=>{if(Math.abs(lx-A.x)<130||Math.abs(lx-B.x)<130)return;
+   C.push([[A.x+(lx<A.x?-HX:HX),A.y+e],[lx+off*.3,A.y+e],[lx+off*.3,B.y+e],[B.x+(lx<B.x?-HX:HX),B.y+e]])})}
+ let best=C[0],bc=Infinity;
+ C.forEach(P=>{const c=rcost(P,f.de,f.a);if(c<bc){bc=c;best=P}});
+ const P=best.map(p=>[Math.round(p[0]),Math.round(p[1])]);
+ return {d:rline(P,14),mid:rmid(P)}}
+let MAPA_T=null,MAPA_SEL='';
+function mapaPlay(list){if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null;render();return}
+ let i=list.findIndex(x=>x.id===state.mapaSel);if(i<0||i>=list.length-1)i=-1;
+ const paso=()=>{i++;if(i>=list.length){clearInterval(MAPA_T);MAPA_T=null;render();return}state.mapaSel=list[i].id;render()};
+ MAPA_T=setInterval(paso,2600);paso()}
+
+M.mapa=()=>{const g=state.mapaG===undefined?'arch':state.mapaG;const act=f=>!g||f.g===g;const F=MAPA_F;
+ const norma=g==='norma';const LST=MAPA_F.filter(f=>!g||f.g===g);
+ const sel=norma?(state.mapaSel||''):(LST.some(x=>x.id===state.mapaSel)?state.mapaSel:(LST[0]?LST[0].id:''));
+ const ns=norma?(ROLES[state.mapaSel]?state.mapaSel:'eaf'):'';const hi=norma?ns:sel;
+ const INV=new Set();
+ if(norma){INV.add(ns);MAPA_F.forEach(f=>{if(f.de===ns||f.a===ns){INV.add(f.de);INV.add(f.a)}})}
+ else LST.forEach(f=>{INV.add(f.de);INV.add(f.a)});
+ MAPA_SEL=norma?'':sel;
+ const bund=!norma&&!g;
+ let DIB;
+ if(norma){const rel=MAPA_F.filter(f=>f.de===ns||f.a===ns),by={};
+  rel.forEach(f=>{const k=f.de+'>'+f.a;(by[k]=by[k]||[]).push(f)});
+  DIB=Object.values(by).map(fs=>({f:fs[0],ids:fs.map(x=>x.id)}))}
+ else if(!bund)DIB=LST.map(f=>({f,ids:[f.id]}));
+ else{const by={};LST.forEach(f=>{const k=f.de+'>'+f.a;(by[k]=by[k]||[]).push(f)});DIB=[];
+  Object.values(by).forEach(fs=>{const sf=fs.find(x=>x.id===sel),rest=fs.filter(x=>x.id!==sel);
+   if(sf)DIB.push({f:sf,ids:[sf.id]});
+   if(rest.length)DIB.push({f:rest[0],ids:rest.map(x=>x.id)})})}
+ const OFF=mapaOff(DIB.map(d=>d.f));
+ const VB=(()=>{const P=(INV.size?[...INV]:Object.keys(MAPA_N)).map(k=>MAPA_N[k]);const pad=118,AR=2.02;
+  let x0=Math.min(...P.map(N=>N.x))-pad,x1=Math.max(...P.map(N=>N.x))+pad,y0=Math.min(...P.map(N=>N.y))-pad,y1=Math.max(...P.map(N=>N.y))+pad;
+  let w=x1-x0,h=y1-y0;if(w/h<AR){const nw=h*AR;x0-=(nw-w)/2;w=nw}else{const nh=w/AR;y0-=(nh-h)/2;h=nh}
+  return {v:`${Math.round(x0)} ${Math.round(y0)} ${Math.round(w)} ${Math.round(h)}`,x0,y0,x1:x0+w,y1:y0+h}})();
+ const F0x=MAPA_F.find(x=>x.id===sel);const viv=new Set(F0x?[F0x.de,F0x.a]:norma?[ns]:[]);
+ const NIC={sbs:'shield',eaf:'db',past:'grid',sisrec:'calc',reniec:'book',banco:'bank',afi:'user'};
+ const W=176,H=60;
+ const zonas=MAPA_Z.map(z=>{const x=Math.max(z.x,VB.x0-4),y=Math.max(z.y,VB.y0-4),
+   x2=Math.min(z.x+z.w,VB.x1+4),y2=Math.min(z.y+z.h,VB.y1+4);
+  if(x2-x<130||y2-y<80)return '';
+  const lab=(z.y-18>VB.y0&&z.x>VB.x0-2)?`<text class="mzt" x="${x+4}" y="${y-12}">${z.t}</text>`:'';
+  return `<g class="mz" data-mz="${z.t}"><rect x="${x}" y="${y}" width="${x2-x}" height="${y2-y}" rx="18"/>${lab}</g>`}).join('');
+ const nodos=Object.entries(MAPA_N).map(([k,N])=>{const on=hi===k||viv.has(k);
+  const ini=!norma&&LST.length&&LST[0].de===k;
+  if(!INV.has(k)&&(N.x-W/2<VB.x0+8||N.x+W/2>VB.x1-8||N.y-H/2-26<VB.y0+8||N.y+H/2>VB.y1-8))return '';
+  const tx=N.x-W/2+48;
+  return `<g class="mn ${on?'on':''} ${INV.size&&!INV.has(k)?'off':''}" data-mn="${k}"><rect x="${N.x-W/2}" y="${N.y-H/2}" width="${W}" height="${H}" rx="14"/><circle class="nib" cx="${N.x-W/2+27}" cy="${N.y}" r="16"/><svg class="nic" x="${N.x-W/2+18}" y="${N.y-9}" width="18" height="18" viewBox="0 0 24 24">${IC[NIC[k]||'grid']}</svg><text class="mnt" x="${tx}" y="${N.y-2}">${N.t}</text><text class="mns" x="${tx}" y="${N.y+14}">${N.s}</text>${ini?`<g class="mini"><rect x="${N.x-W/2}" y="${N.y-H/2-23}" width="62" height="17" rx="8.5"/><text x="${N.x-W/2+31}" y="${N.y-H/2-11}">EMPIEZA</text></g>`:''}</g>`}).join('');
+ const trazos=DIB.map(d=>{const f=d.f;const multi=d.ids.length>1;const on=!multi&&sel===f.id;
+  const dim=norma?!(f.de===ns||f.a===ns):false;
+  const np=multi?0:LST.findIndex(x=>x.id===f.id)+1;
+  const R=ruta(f,OFF[f.id]);const M=Math.round(R.mid.x),My=Math.round(R.mid.y);
+  const marca=multi?`<g class="mgr"><rect x="${M-17}" y="${My-9.5}" width="34" height="19" rx="9.5"/><text x="${M}" y="${My+3.5}">+${d.ids.length}</text></g>`
+   :(dim||!np?'':`<g class="mnum"><circle cx="${M}" cy="${My}" r="10"/><text x="${M}" y="${My+3.5}">${np}</text></g>`);
+  return `<g class="mfl ${on?'on':''} ${dim?'dim':''}" data-mf="${f.id}" data-ids="${d.ids.join(',')}"><path id="p_${f.id}" d="${R.d}" marker-start="url(#${on?'pton':'pt'})" marker-end="url(#${on?'cvon':'cv'})"/><path class="hit" d="${R.d}"/>${on?`<circle class="dot" r="4"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#p_${f.id}"/></animateMotion></circle>`:''}${marca}</g>`}).join('');
+ const F0=F.find(x=>x.id===sel);const N0=MAPA_N[sel];
+ const panel=F0?`<div class="mp"><div class="mp-k">${MAPA_N[F0.de].t} → ${MAPA_N[F0.a].t}</div><div class="mp-t">${F0.t}</div><div class="mp-d">${(MAPA_TIP[F0.id]||[F0.d])[0]}</div><div class="mp-m">${F0.per}${F0.len?' · '+F0.len:''}${F0.art?`<span class="art-c" ${artTip(F0.art)}>art. ${F0.art}</span>`:''}</div>${F0.mod?`<button class="btn p sm" data-go="${F0.mod}">Ver el módulo ${ic('chev')}</button>`:''}</div>`
+  :N0?`<div class="mp"><div class="mp-k">Entidad</div><div class="mp-t">${N0.t}</div><div class="mp-d">${N0.s}</div><div class="mp-l">${F.filter(x=>x.de===sel||x.a===sel).map(x=>`<button class="mp-f" data-mf2="${x.id}"><span class="pill ${x.de===sel?'o':'i'}">${x.de===sel?'envía':'recibe'}</span>${x.t}</button>`).join('')}</div></div>`
+  :'';
+ const roles=norma?`<div class="mp"><div class="mp-k">Según el reglamento</div><div class="mp-t">${MAPA_N[ns].t}</div>
+  <div class="mp-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
+  <ol class="mp-steps nm">${ROLES[ns].map(r=>`<li><button ${r[3]?`data-go="${r[3]}"`:'class="ro"'}><span class="art" ${artTip(r[0])}>${r[0]}</span><span class="st2"><b>${r[1]}</b><span>${r[2]}</span></span></button></li>`).join('')}</ol></div>`:'';
+ const idx=LST.findIndex(x=>x.id===sel);
+ const pasos=`<div class="mp"><div class="mp-k">${(MAPA_GT[g]||MAPA_GT[''])[0]}</div><div class="mp-t">${(MAPA_GT[g]||MAPA_GT[''])[1]}</div>
+  <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
+  <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span></span></button></li>`).join('')}</ol></div>`;
+ return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap"><div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div><span style="flex:1"></span><span class="faint sm">Pase el cursor por un trazo o una entidad · clic en un numeral para leerlo</span></div>
+ <div class="mapa"><div class="mapa-svg">${norma?`<div class="eco-hd"><p>Esto es lo que le corresponde hacer ${(ART_N[ns]||'').startsWith('El ')?'al':'a la'} <b>${MAPA_N[ns].t}</b> según el reglamento.</p></div>`
+  :(F0?(()=>{const A=MAPA_ACC[F0.id]||{},fr=A.de||(MAPA_TIP[F0.id]||[F0.d])[0];
+   return `<div class="eco-hd" key="${F0.id}"><p><b>${ART_N[F0.de]||MAPA_N[F0.de].t}</b> ${fr.charAt(0).toLowerCase()+fr.slice(1)}</p></div>`})():'')}<svg viewBox="${VB.v}" preserveAspectRatio="xMidYMid meet"><defs><marker id="pt" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.1"/></marker>
+   <marker id="pton" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><circle cx="5" cy="5" r="3.4"/></marker>
+   <marker id="cv" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="21" markerHeight="21" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="8.6"/><path class="cvc" d="M9.2 7.6 L13 11 L9.2 14.4"/></marker>
+   <marker id="cvon" viewBox="0 0 22 22" refX="11" refY="11" markerWidth="23" markerHeight="23" markerUnits="userSpaceOnUse" orient="auto"><circle class="cvb" cx="11" cy="11" r="9.2"/><path class="cvc" d="M9.2 7.5 L13.2 11 L9.2 14.5"/></marker></defs>${zonas}${trazos}${nodos}</svg></div><div class="mp-col">${norma?roles:panel+pasos}</div></div>`};
+
+// ======================= Eventos del mapa (mismos que SICAC) =======================
+function wireMapa(m){if(state.screen!=='mapa')return;
+ $$('[data-mg]',m).forEach(b=>b.onclick=()=>{if(MAPA_T){clearInterval(MAPA_T);MAPA_T=null}state.mapaG=b.dataset.mg;state.mapaSel='';render()});
+ const g=state.mapaG===undefined?'arch':state.mapaG;const L=MAPA_F.filter(f=>!g||f.g===g);
+ const j=Math.max(0,L.findIndex(x=>x.id===state.mapaSel));
+ const pv=$('#mpPrev',m);if(pv)pv.onclick=()=>{if(j>0){state.mapaSel=L[j-1].id;render()}};
+ const nx=$('#mpNext',m);if(nx)nx.onclick=()=>{if(j<L.length-1){state.mapaSel=L[j+1].id;render()}};
+ const pl=$('#mpPlay',m);if(pl)pl.onclick=()=>mapaPlay(L);
+ $$('[data-mf]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf;render()});
+ $$('[data-mf2]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mf2;render()});
+ $$('[data-mn]',m).forEach(b=>b.onclick=()=>{state.mapaSel=b.dataset.mn;render()});
+ const pon=(e,html)=>tipShow(html,{left:e.clientX+14,right:e.clientX+14,top:e.clientY-10,bottom:e.clientY+16});const off=tipHide;
+ $$('.mfl',m).forEach(gr=>{const ids=(gr.dataset.ids||'').split(',').filter(Boolean);const f=MAPA_F.find(x=>x.id===gr.dataset.mf);if(!f)return;
+  let html='';if(ids.length>1){const fs=ids.map(i=>MAPA_F.find(x=>x.id===i));html=`<b>${ids.length} intercambios por este tramo</b><br>${fs.map(x=>x.t).join(' · ')}`}
+  else if(f.id!==MAPA_SEL){html=`<b>${f.t}</b><br>${(MAPA_TIP[f.id]||[f.d])[0]}`}
+  gr.onmousemove=e=>{if(e.target.closest('.mnum,.mgr'))return;html?pon(e,html):off()};gr.onmouseleave=off;
+  const nm=gr.querySelector('.mnum');const MU=MAPA_MU[f.id];
+  if(nm&&ids.length===1&&MU){const hm=`<div class="tt-t">${f.t}</div><table class="tt">${MU.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table><div class="tt-h">Ejemplo de un registro</div>`;nm.onmousemove=e=>{e.stopPropagation();pon(e,hm)};nm.onmouseleave=off}});
+ $$('.mn',m).forEach(gr=>{const k=gr.dataset.mn,N=MAPA_N[k];if(!N)return;const cur=MAPA_F.find(x=>x.id===MAPA_SEL);const enPaso=cur&&(cur.de===k||cur.a===k);const A=enPaso?(MAPA_ACC[cur.id]||{}):null;
+  const frase=enPaso?((cur.de===k?A.de:A.a)||cur.d):N.d;gr.onmousemove=e=>pon(e,`<b>${N.t}</b><br>${frase}`);gr.onmouseleave=off});
+ $$('.mz',m).forEach(gr=>{const z=MAPA_Z.find(x=>x.t===gr.dataset.mz);if(!z)return;gr.onmousemove=e=>{if(e.target.closest('.mn,.mfl'))return;pon(e,`<b>${z.t}</b><br>${z.d}`)};gr.onmouseleave=off})}
+
 
 // ======================= Trazabilidad del archivo =======================
 const loteById=id=>DB.lotes.find(l=>l.id===+id);
-const li=(cls,h,rn,d,m)=>`<li class="${cls}"><div class="h">${h}${rn?`<span class="r">${rn}</span>`:''}</div>${d?`<div class="d">${d}</div>`:''}${m?`<div class="m">${m}</div>`:''}</li>`;
+const li=(cls,h,rn,d,m)=>`<li class="${cls}"><div class="h">${h}${rn?`<span class="r">${artRef(rn)}</span>`:''}</div>${d?`<div class="d">${d}</div>`:''}${m?`<div class="m">${m}</div>`:''}</li>`;
 function tlLote(L){const o=[];const pv=plazoValid(L),pt=plazoTransf(L);const S=L.subsana?loteById(L.subsana):null;
  o.push(li('','Archivo cargado en la PAST','RN-TRA-03',`${fmt(L.aptd.length)} registros · ${L.afs.length} afiliado(s) · ${soles(montoL(L))}${S?` · subsana al lote ${S.id}`:''}`,`${fdt(L.carga)} · ${L.usr}`));
  if(L.prev.pend)o.push(li('warn','Validación no completada','RN-TRA-06','La consulta de supervivencia no respondió; el archivo espera para enviarse a SISREC',fdt(L.carga)));
@@ -1331,9 +1698,6 @@ function openLote(id,tab='seg'){const L=loteById(id);if(!L)return;const e=estL(L
   ${L.aptd.map(d=>{const a=afById(d.af);const df=r2(d.apo-d.ref);return `<tr><td class="mono">${a.tdoc} · ${a.ndoc}</td><td class="mono">${d.per}</td><td class="mono" data-tip="${esc(d.enom)}">${d.etd} · ${d.edoc}</td><td class="n">${d.lab}</td><td class="n">${m2(d.ram)}</td><td class="n"><b>${m2(d.apo)}</b></td><td class="n">${m2(d.ref)}</td><td class="n">${Math.abs(df)>0.004?m2(df):dash}</td><td>${d.est} · ${d.est==='1'?'Acreditado':'Recuperado'}</td><td>${d.jus==='00'?'<span class="faint">00 · Conforme</span>':`<span data-tip="${esc((P.codJus.find(c=>c[0]===d.jus)||[])[1]||'')}${d.jus==='99'&&L.just?' · '+esc(L.just.txt):''}">${d.jus} · ${(P.codJus.find(c=>c[0]===d.jus)||['',''])[1]}</span>`}</td></tr>`}).join('')}</tbody></table></div>`}
  if(tab==='obs'){body+=`<div class="tw"><table><thead><tr><th class="n">#</th><th>Origen</th><th>Regla</th><th>Afiliado</th><th>Observación</th><th>Fecha y hora</th></tr></thead><tbody>${obs.map((o,k)=>{const a=o.af?afById(o.af):null;return `<tr><td class="n">${k+1}</td><td>${o.org}</td><td class="rncode">${o.rn}</td><td class="mono">${a?a.numSol:dash}</td><td class="wrap" style="min-width:420px">${esc(o.txt)}</td><td class="mono">${fdt(o.dt)}</td></tr>`}).join('')}</tbody></table></div>`}
  const k=e.k;const own=esEAF()&&L.eaf===user.eaf;const f=[`<button class="btn" id="lPrint">${ic('print')}Exportar trazabilidad (PDF)</button>`,'<span class="sp"></span>'];
- if(k==='val')f.push(`<button class="btn sim" data-sim="C">Simular SISREC · conforme</button><button class="btn sim" data-sim="O">Simular SISREC · observado</button>`);
- if(k==='depver')f.push(`<button class="btn sim" data-sim="V">Simular SISREC · verificar depósito</button>`);
- if(k==='verif')f.push(`<button class="btn sim" data-sim="CTS">Simular SISREC · emitir constancias</button>`);
  if(own){if(k==='obsS'||k==='obsP')f.push(`<button class="btn p" data-act="subsanar" data-id="${L.id}">Registrar subsanación (nuevo envío)</button>`);
   if(k==='noval')f.push(`<button class="btn p" data-act="reintentar" data-id="${L.id}">Reintentar validación</button>`);
   if(k==='porT'||k==='venc')f.push(`<button class="btn p" data-act="transf" data-id="${L.id}">Registrar transferencia</button>`);
@@ -1385,7 +1749,7 @@ function openAf(id,tab='res'){const a=afById(id);if(!a)return;const s=afSit(a);c
   ${rows.map(r=>`<tr><td class="mono">${r.per}</td><td class="mono" data-tip="${esc(r.enom)}">20 · ${r.edoc}</td><td class="n">${m2(r.ram)}</td><td class="n">${r.apo===null?dash:`<b>${m2(r.apo)}</b>`}</td><td class="n">${m2(r.ref)}</td><td class="n">${r.apo!==null&&Math.abs(r.apo-r.ref)>0.004?m2(r.apo-r.ref):dash}</td><td>${r.est?(r.est==='1'?'1 · Acreditado':'2 · Recuperado'):dash}</td><td class="mono">${r.jus||dash}</td><td class="n mono">${r.sec?z2(r.sec):dash}</td><td>${dot(r.sit[0],r.sit[1])}</td></tr>`).join('')}</tbody></table></div>`}
  if(tab==='cts'){const docs=[`<div class="doc">${ic('file')}<div class="t"><div>Constancia de traslado <span class="mono">${a.conTra}</span></div><div class="m">SBS · ${fd(a.fecCon)} · Art. 23.1</div></div><button class="btn sm" data-dl="${a.conTra}.pdf">Ver</button></div>`];
   ls.forEach(l=>{const e=l.cte[id];if(e)docs.push(`<div class="doc">${ic('doc')}<div class="t"><div>Constancia de transferencia de la EAF <span class="mono">${e.num}</span></div><div class="m">${EAF[l.eaf]} · ${fd(e.fecha)} · Art. 24.5 · comunicación ${e.com.est.toLowerCase()}</div></div><button class="btn sm" data-dl="${e.num}.pdf">Ver</button></div>`);
-   const c2=l.cts[id];if(c2)docs.push(`<div class="doc">${ic('shield')}<div class="t"><div>Constancia de Transferencia del saldo de la CIC <span class="mono">${c2.num}</span></div><div class="m">ONP · ${fd(c2.fecha)} · Art. 24.6 · ${soles(l.aptc[id].mon)} · comunicación ${c2.com.est.toLowerCase()}</div></div>${c2.com.est!=='Enviada'?st('No entregada','crit'):''}<button class="btn sm" data-cts="${l.id}|${id}">Ver</button></div>`)});
+   const c2=l.cts[id];if(c2)docs.push(`<div class="doc">${ic('shield')}<div class="t"><div>Constancia de Transferencia del saldo de la CIC <span class="mono">${c2.num}</span></div><div class="m">ONP · ${fd(c2.fecha)} · Art. 24.6 · ${soles(l.aptc[id].mon)}</div></div><button class="btn sm" data-cts="${l.id}|${id}">Ver</button></div><div class="doc">${ic('mail')}<div class="t"><div>Comunicación al afiliado · servicio del Kit de Bienvenida</div><div class="m">${a.email} · ${a.cel} · ${fdt(c2.com.dt)} · Art. 24.8 · RN-TRA-26</div></div>${st(c2.com.est,c2.com.est==='Enviada'?'ok':'crit')}${c2.com.est!=='Enviada'?`<button class="btn sm" data-reenv="${l.id}|${id}">Reenviar</button>`:''}</div>`)});
   body+=`<div class="box">${docs.join('')}</div>${!cts.length?`<div class="callout">${ic('clock')}<span>La Constancia de Transferencia de la ONP se emite en el registro mensual, después de verificar el depósito · Art. 24.6</span></div>`:''}`}
  modal(`${nomAf(a)}${st(s.t,s.c)}`,`${a.numSol} · ${a.tdoc} · ${a.ndoc} · ${EAF[a.eaf]}`,body,`<button class="btn" id="aPrint">${ic('print')}Exportar expediente (PDF)</button><span class="sp"></span><button class="btn" id="mcan">Cerrar</button>`,{xwide:true,keep:true});
  $$('#atabs button').forEach(b=>b.onclick=()=>openAf(id,b.dataset.t));wireModal(()=>openAf(id,tab));$('#aPrint').onclick=()=>imprimir()}
@@ -1399,6 +1763,8 @@ function wireModal(back){const m=$('#modal');
  $$('[data-af]',m).forEach(el=>{if(el.tagName==='TR')el.onclick=()=>openAf(el.dataset.af)});
  $$('[data-lote]',m).forEach(el=>el.onclick=()=>openLote(el.dataset.lote));
  $$('[data-log]',m).forEach(el=>el.onclick=()=>openLog(el.dataset.log,back));
+ $$('[data-art]',m).forEach(el=>el.onclick=e=>{e.stopPropagation();verArt(el.dataset.art)});
+ $$('[data-reenv]',m).forEach(el=>el.onclick=e=>{e.stopPropagation();const [l,a]=el.dataset.reenv.split('|');const c=loteById(l).cts[a];c.com={...c.com,dt:ahora(),est:'Enviada'};log('Reenvío de la Constancia de Transferencia',c.num,'Correo y SMS · servicio del Kit de Bienvenida');toast('Constancia reenviada al afiliado');render();openAf(a,'cts')});
  $$('[data-cts]',m).forEach(el=>el.onclick=()=>{const [l,a]=el.dataset.cts.split('|');openCts(l,a)});
  $$('[data-dl]',m).forEach(el=>el.onclick=e=>{e.stopPropagation();toast(`Descarga simulada · ${el.dataset.dl}`)});
  $$('[data-act]',m).forEach(el=>el.onclick=e=>{e.stopPropagation();doAct(el.dataset.act,el.dataset.id||el.dataset.af)})}
@@ -1503,7 +1869,7 @@ const MENUS=[
  ['Transferencia CIC',[{t:'Realizar carga…',fn:'carga',eaf:1},{sep:1},{t:'Registrar Transferencia CIC',s:'transfer'},{t:'Solicitudes del SPP al SNP',s:'personas'}]],
  ['Control',[{t:'Inicio',s:'inicio'},{t:'Reportes',s:'reportes'},{t:'Auditoría',s:'auditoria'}]],
  ['Simulación SISREC',[{t:'Validar archivos en espera · conforme',fn:'simVal'},{t:'Verificar depósitos cargados',fn:'simDep'},{t:'Emitir Constancias de Transferencia del mes',fn:'simCts'}]],
- ['Ayuda',[{t:'Cómo funciona el sistema',fn:'como',ic:'book'},{t:'Mapa de interoperabilidad SISREC ↔ PAST',s:'interfaz',ic:'updown'},{t:'Modelo de datos del negocio',s:'modelo',ic:'db'},{t:'Reglas del requerimiento',s:'reglas',ic:'book'},{t:'PAST actual y complemento',s:'brechas',ic:'flow'},{t:'Campos: actual y nuevo',s:'campos',ic:'list'},{t:'Plazos del reglamento',fn:'plazos',ic:'clock'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1,ic:'doc'}]]];
+ ['Ayuda',[{t:'Cómo funciona el sistema',fn:'como',ic:'book'},{t:'Mapa de interoperabilidad',s:'mapa',ic:'ext'},{t:'Modelo de datos del negocio',s:'modelo',ic:'db'},{t:'Reglas del requerimiento',s:'reglas',ic:'book'},{t:'PAST actual y complemento',s:'brechas',ic:'flow'},{t:'Campos: actual y nuevo',s:'campos',ic:'list'},{t:'Plazos del reglamento',fn:'plazos',ic:'clock'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1,ic:'doc'}]]];
 function drawMbar(){const d=D(HOY);$('#mbar').innerHTML=`<button class="mi" style="padding:3px 6px">${ic('side')}</button>${MENUS.map(([t],k)=>`<button class="mi" data-mi="${k}">${t}</button>`).join('')}<span class="sp"></span><span class="clk">${['dom','lun','mar','mié','jue','vie','sáb'][d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}</span>`;
  $$('#mbar [data-mi]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMenu(b)})}
 function openMenu(b){closeMenu();const [,items]=MENUS[+b.dataset.mi];b.classList.add('on');const m=document.createElement('div');m.className='menu';m.id='menu';
@@ -1568,6 +1934,8 @@ function wirePage(){const pg=$('#page');
  $$('#cf button',pg).forEach(b=>b.onclick=()=>{state.cf=b.dataset.v;render()});
  $$('#vP button',pg).forEach(b=>b.onclick=()=>{state.vP=b.dataset.v;render()});
  $$('#bg button',pg).forEach(b=>b.onclick=()=>{state.bg=b.dataset.v;render()});
+ wireMapa(pg);
+ $$('[data-art]',pg).forEach(b=>{if(!b.closest('.mn,.mfl'))b.onclick=e=>{e.stopPropagation();verArt(b.dataset.art)}});
  // reglas
  $$('#rg button',pg).forEach(b=>b.onclick=()=>{state.rg=b.dataset.v;render()});
  // auditoría
