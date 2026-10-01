@@ -343,6 +343,18 @@ table tbody tr:hover td.fz1,table tbody tr:hover td.fz2{background:var(--surface
 .norma-t{font-size:13.5px;line-height:1.65;max-width:68ch;color:var(--ink)}
 td.clamp{display:table-cell}
 table.aud td.clamp{max-width:420px}
+
+/* referencias a artículos en cabeceras de grupo: tooltip con la norma y el texto literal */
+.gart{border-bottom:1px dotted currentColor;cursor:help;border-radius:2px}
+.gart:hover,.gart:focus-visible{background:rgba(0,122,255,.12)}
+.gart:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#atip{position:fixed;display:none;z-index:96;width:max-content;max-width:min(440px,calc(100vw - 20px));max-height:min(48vh,340px);overflow:auto;overscroll-behavior:contain;box-sizing:border-box;background:rgba(255,255,255,.98);border:1px solid rgba(0,0,0,.1);border-left:3px solid var(--vio);border-radius:9px;box-shadow:var(--sh3);padding:9px 12px 10px;font-size:12px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:normal;font-weight:400;text-align:left;white-space:normal}
+#atip .at-n{font-weight:600;font-size:12px}
+#atip .at-r{color:var(--ink-3);font-size:11px}
+#atip .at-c{margin:6px 0 4px;font-size:11.5px;color:var(--vio);font-weight:600}
+#atip .at-t{font-size:12.5px;line-height:1.55}
+#atip .at-t span{display:block;margin-top:3px;padding-left:10px}
+#atip .at-v{font-style:italic;color:var(--ink-2)}
 /* reglas */
 .rncode{font-family:var(--font-mono);font-size:11.5px;font-weight:600}
 .ro{font-size:11px;color:var(--vio);font-weight:500}
@@ -364,7 +376,7 @@ table.aud td.clamp{max-width:420px}
   .foot{flex-direction:column;gap:2px;padding:7px 16px}
 }
 @media print{
-  #app,#tip,#toast,#login{display:none!important}
+  #app,#tip,#atip,#toast,#login{display:none!important}
   #overlay{display:block!important;position:static;background:none;padding:0;opacity:1}
   .modal{max-width:none;max-height:none;box-shadow:none;border:0}
   .mf,.mh .ib,.tabs{display:none} .mb{overflow:visible}
@@ -490,6 +502,59 @@ table.aud td.clamp{max-width:420px}
 .mn.off{opacity:.3}
 .mfl.dim path:first-child{opacity:.1}
 .mfl.dim .hit{display:none}
+/* ---- ayuda didáctica: recorrido, «Qué hago aquí», glosario de estados, línea de vida ---- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tbar>div:first-child{min-width:0}
+.aqui{font-size:12px;color:var(--ink-2);margin-top:1px;max-width:780px}
+.aqui b{color:var(--accent-2);font-weight:600;margin-right:4px}
+.gl-q{display:inline-grid;place-items:center;width:15px;height:15px;margin-left:4px;padding:0;border:1px solid var(--border-2);border-radius:50%;background:var(--surface);color:var(--ink-3);font:600 10px/1 var(--font-sans);cursor:help;vertical-align:middle;flex:none}
+.gl-q:hover,.gl-q:focus-visible{background:var(--accent-soft);color:var(--accent-2);border-color:var(--accent)}
+.gl-q:focus-visible,.glt:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#gltip{position:fixed;display:none;z-index:97;width:max-content;max-width:min(340px,calc(100vw - 20px));background:rgba(255,255,255,.98);border:1px solid rgba(0,0,0,.1);border-left:3px solid var(--accent);border-radius:9px;box-shadow:var(--sh3);padding:9px 11px;font-size:12px;line-height:1.45;white-space:normal;font-weight:400;text-align:left}
+#gltip b{font-weight:600}
+#gltip .g-m{color:var(--ink-2);margin-top:3px}
+#gltip .g-m b{color:var(--ink)}
+/* línea de vida */
+.vida{margin-bottom:12px}
+.vida>.hd{flex-wrap:wrap;padding-bottom:6px}
+.vida .vsel{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-2)}
+.vsteps{list-style:none;margin:0;padding:6px 16px 14px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.vsteps li{position:relative;padding-right:8px;min-width:0;border-radius:8px}
+.vsteps li::after{content:"";position:absolute;left:30px;right:6px;top:11px;height:2px;border-radius:2px;background:var(--border-2)}
+.vsteps li:last-child::after{display:none}
+.vsteps li.done::after{background:var(--ok)}
+.vm{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;background:var(--surface-3);color:var(--ink-2)}
+.vm .i{width:12px;height:12px;stroke-width:2.6}
+.vsteps li.done .vm{background:var(--ok);color:#fff}
+.vsteps li.cur .vm{background:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-soft)}
+.vsteps li.cur.warn .vm{background:#ff9f0a;box-shadow:0 0 0 4px var(--warn-soft)}
+.vsteps li.cur.crit .vm{background:#ff3b30;box-shadow:0 0 0 4px var(--crit-soft)}
+.vsteps li.cur.ok .vm{background:var(--ok);box-shadow:0 0 0 4px var(--ok-soft)}
+.vt{font-size:12px;font-weight:600;margin-top:6px;line-height:1.25}
+.vsteps li.pend .vt{color:var(--ink-2);font-weight:500}
+.vs{font-size:11px;color:var(--ink-3)}
+.vst{margin-top:5px;display:flex;align-items:center}
+.vnext{padding:0 16px 12px;font-size:12px;color:var(--ink-2)}.vnext b{color:var(--ink)}
+tr.sel-row>td{background-image:linear-gradient(rgba(0,122,255,.07),rgba(0,122,255,.07))}
+tr.sel-row>td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+tbody tr.click:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* recorrido guiado: no bloquea la pantalla */
+#tour{position:fixed;right:18px;bottom:42px;width:350px;max-width:calc(100vw - 20px);z-index:45;background:var(--surface);border:1px solid var(--border-2);border-radius:var(--r2);box-shadow:var(--sh3);padding:14px 16px 12px;animation:fin .18s ease-out}
+#tour .tr-hd{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+#tour .tr-hd .lnk{font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;border-radius:5px;padding:1px 4px}
+#tour h3{font-family:var(--font-display);font-size:15px;font-weight:600;margin:6px 0 4px}
+#tour p{margin:0 0 8px;font-size:12.5px;color:var(--ink);line-height:1.5}
+#tour .tr-flow{margin-bottom:10px}
+#tour .tr-ft{display:flex;align-items:center;gap:6px}
+#tour .tr-dots{display:flex;gap:5px;flex:1;justify-content:center}
+#tour .tr-dots i{width:7px;height:7px;border-radius:50%;background:var(--surface-3)}
+#tour .tr-dots i.on{background:var(--accent)}
+#tour .tr-sub{display:flex;gap:10px;margin-top:8px;font-size:11.5px;flex-wrap:wrap}
+#tour button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#nav a.tour-hl{background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent)}
+@media (max-width:760px){.vsteps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}.vsteps li::after{display:none}#tour{left:10px;right:10px;width:auto}}
+@media (prefers-reduced-motion:reduce){#tour{animation:none}}
+@media print{#tour,#gltip,.vida{display:none!important}}
 </style>
 <div id="login"><form class="box" id="loginForm">
  <div class="brand"><span class="past">PAST</span><span class="pastsub">Plataforma de<br>Afiliación Segura<br>y Transparente</span></div>
@@ -1010,7 +1075,7 @@ const pick=a=>a[Math.floor(rnd()*a.length)];
 function toast(t,bad){const e=$('#toast');e.className=bad?'bad':'';e.innerHTML=ic(bad?'alert':'check')+'<span>'+t+'</span>';requestAnimationFrame(()=>e.classList.add('show'));clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove('show'),3400)}
 let _mLock=0,_mT=null,_closeT=null;
 function modal(title,sub,body,foot,opts={}){clearTimeout(_closeT);clearTimeout(_mT);const o=$('#overlay'),m=$('#modal');o.classList.remove('out');m.classList.toggle('wide',!!opts.wide);m.classList.toggle('xwide',!!opts.xwide);const open=o.classList.contains('on');const h0=open?m.offsetHeight:0,st0=open?$('.mb',m)?.scrollTop||0:0;
- m.innerHTML=`<div class="mh"><div><h3>${title}</h3>${sub?`<p>${sub}</p>`:''}</div><button class="ib" id="mclose">${ic('x')}</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;o.classList.add('on');$('#mclose').onclick=closeModal;siglas(m);bindTips(m);const c=$('#mcan');if(c)c.onclick=closeModal;
+ m.innerHTML=`<div class="mh"><div><h3>${title}</h3>${sub?`<p>${sub}</p>`:''}</div><button class="ib" id="mclose">${ic('x')}</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;o.classList.add('on');$('#mclose').onclick=closeModal;siglas(m);bindTips(m);estadosHelp(m);const c=$('#mcan');if(c)c.onclick=closeModal;
  if(open&&opts.keep){const VH=window.innerHeight;m.style.height='';const h1=m.offsetHeight;const target=Math.min(Math.max(h1,h0,_mLock),Math.round(VH*.92));_mLock=target;m.style.minHeight=target+'px';const mb=$('.mb',m);if(mb)mb.scrollTop=st0}else{_mLock=0;m.style.minHeight='';m.style.height=''}}
 function closeModal(){const o=$('#overlay');if(!o.classList.contains('on'))return;o.classList.add('out');clearTimeout(_closeT);_closeT=setTimeout(()=>{o.classList.remove('on','out');const m=$('#modal');m.innerHTML='';m.style.minHeight='';_mLock=0},150)}
 function tipShow(html,r,cls){const tip=$('#tip');tip.className=cls||'';tip.innerHTML=html;tip.style.display='block';tip.style.left='0px';tip.style.top='0px';const t=tip.getBoundingClientRect();let L=Math.max(10,Math.min(r.left,window.innerWidth-t.width-14));let T=r.bottom+6;if(T+t.height>window.innerHeight-10)T=Math.max(10,r.top-t.height-8);tip.style.left=Math.round(L)+'px';tip.style.top=Math.round(T)+'px'}
@@ -1415,7 +1480,7 @@ M.transfer=()=>{
   ${rech.length?[...rech].reverse().map(r=>`<tr>${eafCol()?`<td class="mono">${r.eaf}</td>`:''}<td class="mono">${fdt(r.dt)}</td><td>${fileCell(r.cab)}</td><td>${fileCell(r.det)}</td><td class="rncode">${r.mot[0][0]}</td><td class="wrap" data-tip="${esc(r.mot.map(m=>m[1]).join(' · '))}">${esc(r.mot[0][1])}${r.mot.length>1?` <span class="faint">+${r.mot.length-1}</span>`:''}</td><td class="mono sm">${r.usr}</td></tr>`).join(''):`<tr><td colspan="7">${`<div class="empty">${ic('check')}<b>Sin cargas rechazadas</b></div>`}</td></tr>`}</tbody></table></div></div>`;
  const estOpts=[['','Todos'],['val','En validación'],['obsP','Observado en PAST'],['obsS','Observado por la ONP'],['subs','Subsanado'],['porT','Pendiente de transferencia'],['venc','Vencido'],['nopag','No pagado'],['pag','Pagado']];
  const seg=state.vista==='seg',act=state.vista==='act';
- const head=seg?`<tr class="grp"><th colspan="${eafCol()?4:3}">Archivo CIC (APT-SPP)</th><th colspan="2" class="sep">Validación ONP · 24.2.a</th><th colspan="2" class="sep">Ticket de pago · 24.3</th><th colspan="3" class="sep">Transferencia · 24.4</th><th class="sep">Pago</th><th class="sep">Control</th><th></th></tr>
+ const head=seg?`<tr class="grp"><th colspan="${eafCol()?4:3}">Archivo CIC (APT-SPP)</th><th colspan="2" class="sep">${gA('Validación ONP · 24.2.a')}</th><th colspan="2" class="sep">${gA('Ticket de pago · 24.3')}</th><th colspan="3" class="sep">${gA('Transferencia · 24.4')}</th><th class="sep">Pago</th><th class="sep">Control</th><th></th></tr>
   <tr>${eafCol()?'<th>EAF</th>':''}<th>SEC_ENV</th><th data-tip="Cabecera APTC · el detalle APTD lleva el mismo nombre con DET">Nombre del archivo</th><th>Tipo</th><th class="sep">Resultado</th><th data-tip="1 día hábil desde la recepción en SISREC (RN-TRA-20)">Plazo</th><th class="sep">N° de Ticket de pago</th><th data-tip="Fecha en que la ONP comunica por la PAST que el monto está habilitado (RN-TRA-16)">Conformidad</th><th class="sep" data-tip="Fecha efectiva de la transferencia (RN-TRA-17)">Fecha</th><th class="n" data-tip="Días calendario desde la conformidad (RN-TRA-19)">Días</th><th data-tip="15 días calendario · Art. 24.4 del RO">Plazo</th><th class="sep" data-tip="Archivo de deuda pagado por el monto total (RN-TRA-18)">Pago</th><th class="sep">Estado</th><th></th></tr>`
  :`<tr class="grp"><th colspan="${eafCol()?4:3}">Archivo CIC (APT-SPP)</th><th colspan="3" class="sep">Contenido</th><th colspan="2" class="sep">Recepción</th><th colspan="2" class="sep">Subsanación · RN-TRA-05, 21</th><th class="sep"></th><th></th></tr>
   <tr>${eafCol()?'<th>EAF</th>':''}<th>Código lote</th><th>SEC_ENV</th><th>Nombre del archivo</th><th class="n sep">Afiliados</th><th class="n">Registros</th><th class="n">Importe S/</th><th class="sep" data-tip="Momento en que la EAF registra y remite el archivo (RN-TRA-16)">Carga en PAST</th><th data-tip="Campo actual Fecha de envío, ahora con hora (RN-TRA-03)">Envío a SISREC</th><th class="sep" data-tip="Lote observado que este archivo corrige">Subsana al lote</th><th class="n" data-tip="Días hábiles entre la observación y el nuevo envío">Días</th><th class="sep">Usuario</th><th></th></tr>`;
@@ -1449,7 +1514,7 @@ M.constancias=()=>{
  const n=k=>as.filter(g[k]).length;const ls=as.filter(g[state.fC]);
  return `<div style="margin-bottom:12px;display:flex;gap:10px;align-items:center"><div class="seg" id="fC">${[['todas','Todas'],['por','Por remitir'],['venc','Remisión vencida'],['sin','Sin fecha de recepción'],['rem','Remitidas']].map(([k,t])=>`<button data-v="${k}" class="${state.fC===k?'on':''}">${t} · ${n(k)}</button>`).join('')}</div><span style="flex:1"></span>${leyenda()}</div>
  <div class="card">${ls.length?`<div class="tw xtw"><table class="${ls.length>10?'zb':''}" data-mk="e e e n n n n n n e"><thead>
-  <tr class="grp"><th colspan="${eafCol()?3:2}">Constancia de Traslado · SBS</th><th colspan="2" class="sep">Afiliado</th><th colspan="2" class="sep">Recepción por la EAF · RN-TRA-02</th><th class="sep">SISREC · RN-TRA-01</th><th colspan="3" class="sep">Archivo CIC · ${P.plzRemision} días hábiles · 24.2</th></tr>
+  <tr class="grp"><th colspan="${eafCol()?3:2}">Constancia de Traslado · SBS</th><th colspan="2" class="sep">Afiliado</th><th colspan="2" class="sep">Recepción por la EAF · RN-TRA-02</th><th class="sep">SISREC · RN-TRA-01</th><th colspan="3" class="sep">${gA(`Archivo CIC · ${P.plzRemision} días hábiles · 24.2`)}</th></tr>
   <tr>${eafCol()?'<th>EAF</th>':''}<th>N° constancia</th><th data-tip="Incorporación al SNP al día siguiente calendario (23.2)">Emisión</th><th class="sep">Documento</th><th>Afiliado</th><th class="sep">Fecha</th><th data-tip="Fecha y hora registradas automáticamente por la PAST">Registrada el</th><th class="sep" data-tip="Puesta a disposición automática para iniciar el control">Enviada el</th><th class="n sep">Días</th><th>Estado</th><th></th></tr></thead><tbody>
   ${ls.map(([a,r])=>`<tr class="click" data-af="${a.id}">${eafCol()?`<td class="mono">${a.eaf}</td>`:''}<td class="mono">${a.conTra}</td><td class="mono">${fd(a.fecCon)}</td><td class="sep mono">${a.tdoc} · ${a.ndoc}</td><td class="nm" style="max-width:205px" data-tip="${esc(nomAf(a))}">${nomAf(a)}</td>
    <td class="sep mono">${recepDe(a)?fd(recepDe(a)):dash}</td><td class="mono">${a.recepReg?fdt(a.recepReg):dash}</td><td class="sep mono">${fdt(a.envSis)}</td>
@@ -1497,7 +1562,7 @@ M.reportes=()=>{const t=state.rep.tipo;const d=repData();const r=state.rep;
  if(t==='eaf')tb=`<thead><tr class="grp"><th></th><th colspan="2" class="sep">Recepción</th><th colspan="2" class="sep">Validación</th><th colspan="4" class="sep">Transferencia · 15 días calendario</th><th colspan="2" class="sep">Resultado</th></tr><tr><th>EAF</th><th class="n sep">Constancias de Traslado</th><th class="n">Archivos CIC</th><th class="n sep">Observados</th><th class="n">Conformes</th><th class="n sep">Dentro de plazo</th><th class="n">Fuera de plazo</th><th class="n">Pendientes de transferencia</th><th class="n">Vencidos</th><th class="n sep">Pagado S/</th><th class="n">Constancias de Transferencia</th></tr></thead><tbody>
   ${d.map(x=>`<tr><td>${EAF[x.e]}</td><td class="n sep">${x.as}</td><td class="n">${x.ls}</td><td class="n sep">${x.obs}</td><td class="n">${x.conf}</td><td class="n sep">${x.dentro}</td><td class="n">${x.fuera}</td><td class="n">${x.pend}</td><td class="n">${x.venc}</td><td class="n sep"><b>${m2(x.monto)}</b></td><td class="n">${x.cts}</td></tr>`).join('')}
   ${d.length>1?`<tr class="tot"><td>Total</td><td class="n sep">${sum('as')}</td><td class="n">${sum('ls')}</td><td class="n sep">${sum('obs')}</td><td class="n">${sum('conf')}</td><td class="n sep">${sum('dentro')}</td><td class="n">${sum('fuera')}</td><td class="n">${sum('pend')}</td><td class="n">${sum('venc')}</td><td class="n sep">${m2(sum('monto'))}</td><td class="n">${sum('cts')}</td></tr>`:''}</tbody>`;
- if(t==='plazos')tb=`<thead><tr class="grp"><th></th><th colspan="2" class="sep">Remisión del archivo · 5 dh · 24.2</th><th colspan="2" class="sep">Validación ONP · 1 dh · 24.2.a</th><th colspan="4" class="sep">Transferencia · 15 dc · 24.4</th></tr><tr><th>EAF</th><th class="n sep">En plazo</th><th class="n">Fuera o vencida</th><th class="n sep">En plazo</th><th class="n">Fuera o vencida</th><th class="n sep">Dentro de plazo</th><th class="n">Fuera de plazo</th><th class="n">Pendientes de transferencia</th><th class="n">Vencidos</th></tr></thead><tbody>
+ if(t==='plazos')tb=`<thead><tr class="grp"><th></th><th colspan="2" class="sep">${gA('Remisión del archivo · 5 dh · 24.2')}</th><th colspan="2" class="sep">${gA('Validación ONP · 1 dh · 24.2.a')}</th><th colspan="4" class="sep">${gA('Transferencia · 15 dc · 24.4')}</th></tr><tr><th>EAF</th><th class="n sep">En plazo</th><th class="n">Fuera o vencida</th><th class="n sep">En plazo</th><th class="n">Fuera o vencida</th><th class="n sep">Dentro de plazo</th><th class="n">Fuera de plazo</th><th class="n">Pendientes de transferencia</th><th class="n">Vencidos</th></tr></thead><tbody>
   ${d.map(x=>`<tr><td>${EAF[x.e]}</td><td class="n sep">${x.remOk}</td><td class="n">${x.remF}</td><td class="n sep">${x.valOk}</td><td class="n">${x.valF}</td><td class="n sep">${x.dentro}</td><td class="n">${x.fuera}</td><td class="n">${x.pend}</td><td class="n">${x.venc}</td></tr>`).join('')}
   ${d.length>1?`<tr class="tot"><td>Total</td><td class="n sep">${sum('remOk')}</td><td class="n">${sum('remF')}</td><td class="n sep">${sum('valOk')}</td><td class="n">${sum('valF')}</td><td class="n sep">${sum('dentro')}</td><td class="n">${sum('fuera')}</td><td class="n">${sum('pend')}</td><td class="n">${sum('venc')}</td></tr>`:''}</tbody>`;
  if(t==='arch')tb=`<thead><tr><th>SEC_ENV</th><th>Nombre del archivo</th><th>Tipo</th><th class="n">Afiliados</th><th class="n">Importe S/</th><th>Carga</th><th>Ticket</th><th>Fecha efectiva</th><th class="n">Días</th><th>Plazo</th><th>Estado del control</th></tr></thead><tbody>
@@ -1820,7 +1885,7 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||(E.t
 const H=(t,sub,cls='',tip)=>`<th class="${cls}"${tip?` data-tip="${esc(tip)}"`:''}>${t}${sub?`<span class="hsub">${sub}</span>`:''}</th>`;
 const cp=(v,cls='')=>`<td class="cp ${cls}">${v}</td>`;
 const pend=t=>`<span class="faint">${t||'Pendiente'}</span>`;
-const band=(n,t)=>`<th colspan="${n}" class="cmpb"><span class="stk">${t}</span></th>`;
+const band=(n,t)=>`<th colspan="${n}" class="cmpb"><span class="stk">${gA(t)}</span></th>`;
 // validación de la ONP en una sola lectura
 function valTxt(l){if(!l.envio)return l.prev.pend?dot('Validación no completada','warn'):l.prev.obs.length?dot('Observado en la PAST','crit'):dash;
  if(l.res)return l.res.est==='C'?dot('Conforme','ok'):dot('Observado','crit');const pv=plazoValid(l);
@@ -2016,6 +2081,32 @@ const hit=txt=>{const ps=String(txt).split(/\s*·\s*/).map(p=>p.trim()).filter(B
   const a=ar.map(k=>ART_T[k]?`<span class="aref" ${artTip(k)}>RO art. ${k}</span>`:`RO art. ${k}`);return [...rn,...a,...ot].join(' · ')};
 const artRef=txt=>String(txt).split(/\s*·\s*/).map(p=>{const k=p.replace(/^(RO\s+)?[Aa]rt\.\s*/,'').trim();return ART_T[k]?`<span class="aref" ${artTip(k)}>${p}</span>`:p}).join(' · ');
 
+// cabeceras de grupo: «24.2», «24.4»… con tooltip (norma + texto literal del artículo); ratón, foco de teclado y toque
+function gA(t){return String(t).replace(/(?<![\w.])(\d{1,2}\.\d{1,2}(?:\.[a-z])?)(?![\w])/g,(m,k)=>`<span class="gart" tabindex="0" role="button" data-gart="${k}" aria-label="Artículo ${k} del ${NORMA}: ver el texto">${k}</span>`)}
+function gArtHtml(k){const a=k.split('.')[0],t=ART_T[k];
+ const cab=`<div class="at-n">${NORMA}</div><div class="at-r">${NORMA_RES}</div><div class="at-c">${citaArt(k)}${ART_ART[a]?' · '+ART_ART[a]:''}</div>`;
+ if(!t)return cab+`<div class="at-t at-v">Texto por verificar</div>`;
+ const ps=esc(t).split(/(?<=[.:;]) (?=[a-z]\) )/);
+ return cab+`<div class="at-t">${ps[0]}${ps.slice(1).map(x=>`<span>${x}</span>`).join('')}</div>`}
+(function(){let tip,cur=null,hid=0,touch=false;
+ const el=()=>tip||(tip=(()=>{const d=document.createElement('div');d.id='atip';d.setAttribute('role','tooltip');d.onmouseenter=()=>clearTimeout(hid);d.onmouseleave=()=>later();document.body.appendChild(d);return d})());
+ function show(n){clearTimeout(hid);const d=el();if(cur&&cur!==n)cur.removeAttribute('aria-describedby');cur=n;d.innerHTML=gArtHtml(n.dataset.gart);d.scrollTop=0;d.style.display='block';d.style.left='0px';d.style.top='0px';
+  const r=n.getBoundingClientRect(),t=d.getBoundingClientRect();let L=Math.max(10,Math.min(r.left,window.innerWidth-t.width-10));let T=r.bottom+6;
+  if(T+t.height>window.innerHeight-10){const up=r.top-t.height-6;T=up>=10?up:Math.max(10,window.innerHeight-t.height-10)}
+  d.style.left=Math.round(L)+'px';d.style.top=Math.round(T)+'px';n.setAttribute('aria-describedby','atip')}
+ function hide(){clearTimeout(hid);if(tip)tip.style.display='none';if(cur)cur.removeAttribute('aria-describedby');cur=null}
+ function later(){clearTimeout(hid);hid=setTimeout(hide,220)}
+ const G=e=>e.target.closest&&e.target.closest('.gart');
+ document.addEventListener('mouseover',e=>{const n=G(e);if(n&&!touch)show(n)});
+ document.addEventListener('mouseout',e=>{const n=G(e);if(n&&!touch&&!(e.relatedTarget&&n.contains(e.relatedTarget)))later()});
+ document.addEventListener('focusin',e=>{const n=G(e);if(n)show(n)});
+ document.addEventListener('focusout',e=>{if(G(e))later()});
+ let was=false;document.addEventListener('pointerdown',e=>{touch=e.pointerType==='touch'||e.pointerType==='pen';const g=G(e);was=!!(g&&cur===g&&tip&&tip.style.display==='block');if(tip&&tip.style.display==='block'&&!e.target.closest('.gart,#atip'))hide()},true);
+ document.addEventListener('click',e=>{const n=G(e);if(!n||!touch)return;e.preventDefault();if(was)hide();else show(n)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)hide();else if((e.key==='Enter'||e.key===' ')&&G(e)){e.preventDefault();show(G(e))}});
+ document.addEventListener('scroll',e=>{if(cur&&tip&&e.target!==tip&&tip.style.display==='block'){const r=cur.getBoundingClientRect();if(r.bottom<0||r.top>window.innerHeight||r.right<0||r.left>window.innerWidth)hide();else show(cur)}},true);
+ window.addEventListener('resize',hide)})();
+
 function mapaOff(list){const G={},O={};
  list.forEach(f=>{const k=[f.de,f.a].sort().join('|');(G[k]=G[k]||[]).push(f)});
  Object.values(G).forEach(fs=>{const A=MAPA_N[fs[0].de],B=MAPA_N[fs[0].a];
@@ -2191,10 +2282,10 @@ function docsLote(L){const d=[];const row=(icn,t,m,b)=>`<div class="doc">${ic(ic
  if(L.pago)d.push(row('bank','Pago del archivo de deuda',`${soles(L.pago.monto)} · ${fd(L.pago.dt)} · Pagado`,''));
  return `<div class="box"><div class="bh">Documentos del expediente</div>${d.join('')}</div>`}
 function obsLote(L){const rows=[...L.prev.obs.map(o=>({...o,org:'PAST',dt:L.carga})),...(L.res?L.res.obs.map(o=>({...o,rn:'24.2.a',org:'SISREC',dt:L.res.dt})):[])];return rows}
-function openLote(id,tab='seg'){const L=loteById(id);if(!L)return;const e=estL(L);
+function openLote(id,tab='seg'){const L=loteById(id);if(!L)return;if(VID.kind==='lote'&&VID.ids.includes(String(id)))state.selLote=String(id);vidaSoft();const e=estL(L);
  const obs=obsLote(L);const tabs=[['seg','Seguimiento'],['afs',`Afiliados · ${L.afs.length}`],['det',`Detalle APTD · ${fmt(L.aptd.length)}`],...(obs.length?[['obs',`Observaciones · ${obs.length}`]]:[])];
  let body=`<div class="tabs" id="ltabs">${tabs.map(([k,t])=>`<button data-t="${k}" class="${tab===k?'on':''}">${t}</button>`).join('')}</div>`;
- if(tab==='seg'){body+=`${L.alerta?`<div class="callout crit">${ic('alert')}<span><b>Alerta de supervivencia</b> · fallecimiento ${fd(L.alerta.fall)}, incorporación ${fd(L.alerta.inc)} · para revisión de la ONP</span></div>`:''}
+ if(tab==='seg'){body+=`${vidaHtmlLote(L)}${L.alerta?`<div class="callout crit">${ic('alert')}<span><b>Alerta de supervivencia</b> · fallecimiento ${fd(L.alerta.fall)}, incorporación ${fd(L.alerta.inc)} · para revisión de la ONP</span></div>`:''}
   <div class="cols2"><div><p class="sec-t">Línea de tiempo</p>${tlLote(L)}</div><div><p class="sec-t">Control de plazos</p>${plazosLote(L)}<div style="height:14px"></div>${interLote(L)}${docsLote(L)}</div></div>`}
  if(tab==='afs'){body+=`<div class="tw"><table><thead><tr class="grp"><th colspan="3">Solicitud</th><th colspan="4" class="sep">Cabecera APTC frente al RESIT-SPP</th><th colspan="2" class="sep">UdAs efectivas</th><th colspan="2" class="sep">Resultado</th></tr>
   <tr><th>N° solicitud</th><th>Afiliado</th><th>Constancia</th><th class="n sep">MON_TOT_CIC</th><th class="n">SDO_CIC</th><th class="n">Diferencia de saldo CIC</th><th class="n">REN</th><th class="n sep">APTC</th><th class="n">RESIT</th><th class="sep">Validación</th><th>Constancia de Transferencia</th></tr></thead><tbody>
@@ -2235,7 +2326,7 @@ function devCard(as){const ds=as.filter(a=>a.dev);if(!ds.length)return '';const 
   ${DEVS.map((e,k)=>`<div class="att"><span class="stp">${k+1}</span><span class="n">${n(k)}</span><div class="t">${dot(e,DEVC[k])}</div><button class="btn sm" data-go="personas:dev${k+1}">Ver detalle</button></div>`).join('')}
   <div class="att"><div class="t faint sm">Estados propuestos (pendiente de confirmación del usuario). El plazo y el procedimiento de la devolución están pendientes de definir por la ONP.</div></div></div>`}
 // ======================= Ficha del afiliado =======================
-function openAf(id,tab='res'){const a=afById(id);if(!a)return;const s=afSit(a);const c=s.cur;
+function openAf(id,tab='res'){const a=afById(id);if(!a)return;if(VID.kind==='af'&&VID.ids.includes(String(id)))state.selAf=String(id);vidaSoft();const s=afSit(a);const c=s.cur;
  const ls=s.ls;const cts=ls.flatMap(l=>l.cts[id]?[[l,l.cts[id]]]:[]);const aptd=ls.flatMap(l=>l.aptd.filter(d=>d.af===id).map(d=>({...d,l})));
  const cobPend=a.resit.cob.filter(p=>!aptd.some(d=>d.per===p.per&&d.edoc===p.edoc));
  const tabs=[['res','Resumen'],['trs',`Transferencias · ${ls.length}`],['per',`Períodos · ${aptd.length+cobPend.length}`],['cts',`Constancias · ${1+cts.length+ls.filter(l=>l.cte[id]).length}`]];
@@ -2243,7 +2334,7 @@ function openAf(id,tab='res'){const a=afById(id);if(!a)return;const s=afSit(a);c
  const kv=(k,code,v)=>`<div><div class="k">${k}${code?`<code>${code}</code>`:''}</div><div class="v">${v}</div></div>`;
  if(tab==='res'){const r=plazoRemision(a);const pv=c&&plazoValid(c),pt=c&&plazoTransf(c);const rec=ls.find(l=>l.tipo==='R');const pr=rec&&plazoRecup(rec);
   const box=(l,v,sx,cc)=>`<div><div class="l">${l}</div><div class="v" style="${cc==='crit'?'color:var(--crit)':cc==='ok'?'color:var(--ok)':''}">${v}</div><div class="s">${sx}</div></div>`;
-  body+=`${a.fall&&a.fall.fecha<a.fecIncorp?(a.fall.ident?`<div class="callout ${devEst(a)===DEVS[3]?'info':'warn'}">${ic('alert')}<span><b>Fallecimiento anterior a la incorporación identificado después de la transferencia · RN-TRA-43</b> · ${a.fall.fuente} ${fd(a.fall.fecha)} · incorporación ${fd(a.fecIncorp)} · identificado el ${fd(a.fall.ident)} · mantiene su permanencia en el SPP y la ONP gestiona la transferencia de la CIC al SPP (devolución) · RO art. 5.3 · estado: <b>${devEst(a)||'sin gestión registrada'}</b></span></div>`:`<div class="callout crit">${ic('alert')}<span><b>Fallecimiento anterior a la incorporación</b> · ${a.fall.fuente} ${fd(a.fall.fecha)} · incorporación ${fd(a.fecIncorp)} · RN-TRA-06 · RO art. 5.3</span></div>`):''}
+  body+=`${vidaHtmlAf(a)}${a.fall&&a.fall.fecha<a.fecIncorp?(a.fall.ident?`<div class="callout ${devEst(a)===DEVS[3]?'info':'warn'}">${ic('alert')}<span><b>Fallecimiento anterior a la incorporación identificado después de la transferencia · RN-TRA-43</b> · ${a.fall.fuente} ${fd(a.fall.fecha)} · incorporación ${fd(a.fecIncorp)} · identificado el ${fd(a.fall.ident)} · mantiene su permanencia en el SPP y la ONP gestiona la transferencia de la CIC al SPP (devolución) · RO art. 5.3 · estado: <b>${devEst(a)||'sin gestión registrada'}</b></span></div>`:`<div class="callout crit">${ic('alert')}<span><b>Fallecimiento anterior a la incorporación</b> · ${a.fall.fuente} ${fd(a.fall.fecha)} · incorporación ${fd(a.fecIncorp)} · RN-TRA-06 · RO art. 5.3</span></div>`):''}
   ${a.dev?devBloque(a):''}
   <p class="sec-t">Constancia de Traslado y solicitud · RN-TRA-02</p>
   <div class="card" style="box-shadow:none"><div class="kv" style="border-top:0">
@@ -2380,7 +2471,7 @@ function doAct(act,id){
 // ======================= Barra de menús =======================
 const MENUS=[
  ['Simulación SISREC',[{t:'Validar archivos en espera · conforme',fn:'simVal'},{t:'Estado de pago · archivo de pago diario de los bancos',fn:'simPago'},{t:'Emitir Constancias de Transferencia del mes',fn:'simCts'}]],
- ['Ayuda',[{t:'Cómo funciona el sistema',fn:'como',ic:'book'},{t:'Glosario',fn:'glosario',ic:'book'},{t:'Plazos del reglamento',fn:'plazos',ic:'clock'},{t:'Mapa de interoperabilidad',s:'mapa',ic:'ext'},{t:'Modelo de datos del negocio',s:'modelo',ic:'db'},{t:'Herramienta de revisión',s:'reglas',ic:'book'},{t:'PAST actual y complemento',s:'brechas',ic:'flow'},{t:'Campos: actual y nuevo',s:'campos',ic:'list'},{sep:1},{t:'Acerca del prototipo',fn:'about'},{t:'Reiniciar simulación',fn:'reset'},{t:'Cerrar sesión',fn:'logout'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1,ic:'doc'}]]];
+ ['Ayuda',[{t:'Recorrido guiado',fn:'tour',ic:'play'},{t:'Cómo funciona el sistema',fn:'como',ic:'book'},{t:'Glosario',fn:'glosario',ic:'book'},{t:'Glosario de estados',fn:'glest',ic:'book'},{t:'Plazos del reglamento',fn:'plazos',ic:'clock'},{t:'Mapa de interoperabilidad',s:'mapa',ic:'ext'},{t:'Modelo de datos del negocio',s:'modelo',ic:'db'},{t:'Herramienta de revisión',s:'reglas',ic:'book'},{t:'PAST actual y complemento',s:'brechas',ic:'flow'},{t:'Campos: actual y nuevo',s:'campos',ic:'list'},{sep:1},{t:'Acerca del prototipo',fn:'about'},{t:'Reiniciar simulación',fn:'reset'},{t:'Cerrar sesión',fn:'logout'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1,ic:'doc'}]]];
 function drawMbar(){const d=D(HOY);$('#mbar').innerHTML=`<button class="mi" style="padding:3px 6px">${ic('side')}</button>${MENUS.map(([t],k)=>`<button class="mi" data-mi="${k}">${t}</button>`).join('')}<span class="sp"></span><span class="clk">${['dom','lun','mar','mié','jue','vie','sáb'][d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}</span>`;
  $$('#mbar [data-mi]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMenu(b)})}
 function openMenu(b){closeMenu();const [,items]=MENUS[+b.dataset.mi];b.classList.add('on');const m=document.createElement('div');m.className='menu';m.id='menu';
@@ -2390,11 +2481,13 @@ function openMenu(b){closeMenu();const [,items]=MENUS[+b.dataset.mi];b.classList
 function closeMenu(){const m=$('#menu');if(m)m.remove();$$('#mbar .mi.on').forEach(b=>b.classList.remove('on'))}
 document.addEventListener('click',e=>{if(!e.target.closest('#menu'))closeMenu()});
 function menuFn(fn){
- if(fn==='logout'){closeModal();$('#app').classList.remove('on');$('#login').style.display='grid'}
+ if(fn==='logout'){closeModal();tourClose();$('#app').classList.remove('on');$('#login').style.display='grid'}
  if(fn==='reset'){start(state.modo);toast('Simulación reiniciada')}
  if(fn==='carga')openCarga();
  if(fn==='como')comoFunciona();
  if(fn==='glosario')glosario();
+ if(fn==='glest')glosarioEstados();
+ if(fn==='tour')tourOpen(0,false);
  if(fn==='plazos')guiaPlazos();
  if(fn==='about')modal('Acerca del prototipo','PAST · Transferencia de la CIC',`<div class="tw"><table><tbody>
   <tr><td class="muted">Alcance</td><td class="wrap">Registro de Transferencia CIC (bandeja del archivo), Constancias de Traslado, Solicitudes del SPP al SNP (control por persona), reportes, parámetros y auditoría.</td></tr>
@@ -2424,10 +2517,11 @@ function drawTbar(){const [t,ctx]=TITLES[state.screen];let acts='';
  if(!esEAF()&&EAF_SCREENS.has(state.screen))acts+=`<div class="seg" id="efSeg"><button data-v="" class="${state.ef?'':'on'}">Todas</button>${Object.entries(EAF).map(([k,v])=>`<button data-v="${k}" class="${state.ef===k?'on':''}">${v.replace('AFP ','')}</button>`).join('')}</div>`;
  if(state.screen==='transfer'&&esEAF())acts+=`<button class="btn p" id="bCarga">${ic('up')}Realizar carga</button>`;
  if(state.screen==='inicio')acts+=`<span class="dir">EAF → PAST → SISREC</span>`;
- $('#tbar').innerHTML=`<div><h2>${t}</h2>${ctx?`<div class="ctx">${ctx}</div>`:''}</div><span class="sp"></span><div class="acts">${acts}</div>`;
- const b=$('#bCarga');if(b)b.onclick=()=>openCarga();
+ acts+=`<button type="button" class="btn sm" id="bTour" aria-haspopup="dialog">${ic('book')}¿Cómo funciona?</button>`;
+ $('#tbar').innerHTML=`<div><h2>${t}</h2>${ctx?`<div class="ctx">${ctx}</div>`:''}${AQUI()[state.screen]?`<div class="aqui"><b>Qué hago aquí:</b> ${AQUI()[state.screen]}</div>`:''}</div><span class="sp"></span><div class="acts">${acts}</div>`;
+ const b=$('#bCarga');if(b)b.onclick=()=>openCarga();$('#bTour').onclick=()=>tourOpen(0,true);
  $$('#efSeg button').forEach(x=>x.onclick=()=>{state.ef=x.dataset.v;render()})}
-function render(){drawNav();drawTbar();const pg=$('#page');pg.innerHTML=M[state.screen]();pg.classList.remove('in');void pg.offsetWidth;pg.classList.add('in');kpiIcons(pg);marcar(pg);siglas(pg);bindTips(pg);wirePage()}
+function render(){drawNav();drawTbar();const pg=$('#page');pg.innerHTML=M[state.screen]();pg.classList.remove('in');void pg.offsetWidth;pg.classList.add('in');kpiIcons(pg);marcar(pg);siglas(pg);bindTips(pg);wirePage();vidaMount(pg);estadosHelp(pg)}
 function wirePage(){const pg=$('#page');
  $$('[data-go]',pg).forEach(el=>el.onclick=e=>{e.stopPropagation();go(el.dataset.go)});
  $$('tr[data-lote]',pg).forEach(el=>el.onclick=()=>openLote(el.dataset.lote));
@@ -2470,10 +2564,170 @@ function wirePage(){const pg=$('#page');
  $$('[data-jus]',pg).forEach(c=>c.onchange=()=>{P.codJus[+c.dataset.jus][2]=c.checked});
  on('#saveP','onclick',()=>{const v=k=>Math.max(1,parseInt($(k).value)||1);P.plzRemision=v('#pp1');P.plzValid=v('#pp2');P.plzTransf=v('#pp3');P.cierreCts=$('#pp4').value;P.cuenta=$('#pp5').value;P.secScope=$('#pp6').value;P.recepAuto=$('#pp7').value==='1';log('Parámetros guardados','Plazos',`${P.plzRemision} dh · ${P.plzValid} dh · ${P.plzTransf} dc`);render();toast('Parámetros guardados · plazos recalculados')})}
 
+// ======================= Ayuda didáctica (recorrido · «Qué hago aquí» · glosario de estados · línea de vida) =======================
+const AQUI=()=>{const e=esEAF();return {
+ inicio:'Vea qué requiere atención, en el orden del proceso, y entre al detalle de cada pendiente.',
+ mapa:'Vea quién envía qué a quién entre SBS, EAF, PAST, SISREC y el banco; elija un flujo para ver su regla.',
+ transfer:e?'Cargue el archivo CIC, siga su validación y registre la transferencia cuando tenga Ticket de pago.':'Siga cada archivo CIC: validación, Ticket de pago, transferencia y estado de pago.',
+ constancias:`Controle cada Constancia de Traslado y su plazo de ${P.plzRemision} días hábiles para remitir el archivo CIC.`,
+ personas:'Siga a cada afiliado, de la constancia a la transferencia; abra una fila para ver su ficha y sus plazos.',
+ reportes:'Elija un reporte y un rango de fechas para revisar plazos, pagos y constancias.',
+ parametros:'Ajuste plazos y feriados; los plazos se recalculan al guardar.',
+ auditoria:'Consulte quién hizo qué y cuándo.',
+ reglas:'Revise cada regla RN-TRA frente al Reglamento Operativo.',
+ brechas:'Compare lo que ya hace la PAST con lo que se complementa.',
+ campos:'Revise los campos actuales y los nuevos por pantalla.',
+ interfaz:'Vea los mensajes que se intercambian entre SISREC y la PAST.',
+ modelo:'Consulte las entidades y campos del negocio; busque por nombre.'}};
+
+// ---- Glosario de estados: significado · quién lo mueve · qué sigue ----
+const GLX=()=>{const rem=`${P.plzRemision} dh`,val=`${P.plzValid} dh`,tr=`${P.plzTransf} dc`;
+ const o={
+ 'Por remitir':['warn','Hay Constancia de Traslado, pero aún no se envía el archivo CIC','La EAF',`Remitir el archivo CIC (máx. ${rem} desde la recepción)`],
+ 'Vence hoy':['warn','Hoy vence el plazo para remitir el archivo CIC','La EAF','Cargar hoy el archivo CIC'],
+ 'Remisión vencida':['crit',`Pasó el plazo de ${rem} sin archivo CIC`,'La EAF','Remitir el archivo CIC; queda registrado fuera de plazo'],
+ 'Sin fecha de recepción':['crit','Falta la fecha de recepción de la constancia; sin ella no corre el plazo','La EAF','Registrar la recepción'],
+ 'Remitido':['ok','La EAF ya envió el archivo CIC','La EAF','Validación de la ONP'],
+ 'Remitido en plazo':['ok',`La EAF envió el archivo CIC dentro de ${rem}`,'La EAF',`Validación de la ONP (máx. ${val})`],
+ 'Remitido fuera de plazo':['crit',`La EAF envió el archivo CIC pasados los ${rem}`,'La EAF',`Validación de la ONP (máx. ${val})`],
+ 'Observado en PAST':['crit','La PAST halló errores al prevalidar; el archivo no se envía a SISREC','La EAF','Corregir y cargar un nuevo envío (subsanar)'],
+ 'Validación no completada':['warn','La consulta de supervivencia no respondió; el archivo espera para enviarse a SISREC','La EAF','Reintentar la validación de supervivencia'],
+ 'Subsanado':['','Un envío posterior corrigió este archivo','La EAF','El control sigue en el envío nuevo'],
+ 'En validación':['info',`SISREC valida el archivo (máx. ${val})`,'La ONP (SISREC)','Resultado: conforme u observado'],
+ 'Sin respuesta · vencido':['crit',`Pasó el plazo de ${val} sin resultado de SISREC`,'La ONP (SISREC)','Resultado de la validación'],
+ 'Observado por la ONP':['crit','SISREC observó el archivo; el log está disponible para la EAF','La EAF','Subsanar con un nuevo envío (SEC_ENV siguiente)'],
+ 'Observado':['crit','El archivo tiene observaciones y no avanza','La EAF','Subsanar con un nuevo envío'],
+ 'Conforme':['ok','SISREC validó sin observaciones','La ONP (SISREC)',`Ticket de pago; luego la EAF transfiere (máx. ${tr})`],
+ 'Procesando':['info','El archivo espera el resultado de SISREC','La ONP (SISREC)','Resultado: conforme u observado'],
+ 'Procesado':['ok','SISREC respondió conforme','La ONP (SISREC)','Ticket de pago y transferencia de la EAF'],
+ 'Pendiente de transferencia':['warn',`Hay Ticket de pago; corren ${tr} para transferir`,'La EAF','Registrar la transferencia'],
+ 'Dentro de plazo':['warn',`La EAF transfirió dentro de ${tr}`,'La EAF','Pago del archivo de deuda'],
+ 'Fuera de plazo':['crit',`La EAF transfirió pasados los ${tr}`,'La EAF','Pago del archivo de deuda'],
+ 'Vencido':['crit',`Pasaron ${tr} desde el Ticket de pago sin transferir`,'La EAF','Registrar la transferencia'],
+ 'No pagado':['crit','Archivo de deuda sin pagar por el monto exacto (todo o nada)','La EAF paga; el banco informa y SISREC lo comunica a la PAST','Pagar el archivo de deuda; hasta entonces no hay Constancia de Transferencia'],
+ 'Pagado':['ok','Archivo de deuda pagado por el monto total','El banco informa; SISREC lo comunica a la PAST','La ONP emite la Constancia de Transferencia en el registro mensual'],
+ 'Emitida':['ok','La ONP emitió la Constancia de Transferencia','La ONP','Comunicación al afiliado'],
+ 'Enviada':['ok','La constancia se comunicó al afiliado por correo y SMS','Servicio del Kit de Bienvenida','Nada más: proceso cerrado'],
+ 'No entregada':['crit','La constancia no llegó al afiliado','Servicio del Kit de Bienvenida','Reenviar la constancia'],
+ [DEVS[0]]:['warn','Fallecimiento anterior al alta, identificado después de transferir la CIC (propuesto)','La ONP','Solicitar la devolución'],
+ [DEVS[1]]:['warn','La ONP solicitó la devolución de la CIC (propuesto)','La ONP','Registrar la CIC devuelta'],
+ [DEVS[2]]:['info','La CIC ya fue devuelta (propuesto)','La ONP','Cerrar la devolución'],
+ [DEVS[3]]:['ok','La devolución quedó cerrada (propuesto)','La ONP','Nada más']};
+ o['Enviado en plazo']=o['Remitido en plazo'];o['Enviado fuera de plazo']=o['Remitido fuera de plazo'];o['Observado en la PAST']=o['Observado en PAST'];return o};
+const glKey=t=>{t=String(t||'').replace(/\s+/g,' ').trim();const g=GLX();if(g[t])return t;const t0=t.split(' · ')[0];return g[t0]?t0:null};
+const glHtml=k=>{const g=GLX()[k];if(!g)return '';return `<b>${esc(k)}</b> · ${esc(g[1])}<div class="g-m"><b>Lo mueve:</b> ${esc(g[2])} · <b>Sigue:</b> ${esc(g[3])}</div>`};
+
+// "?" junto a cada pastilla de estado. En tablas solo en la primera aparición de cada estado, para no recargar.
+function estadosHelp(root){if(!root||!root.querySelectorAll)return;const seen=new Map();
+ root.querySelectorAll('.st,.dot').forEach(el=>{
+  if(el.dataset.gl||el.closest('.gl-skip,#gltip,.mbar,#tip'))return;
+  const k=glKey(el.textContent);if(!k)return;
+  const tb=el.closest('table'),td=el.closest('td');
+  if(tb&&tb.dataset.wide&&el.closest('tr[data-af]')&&td&&!td.classList.contains('cp'))return; // columnas fijas de la grilla actual (RESIT, decisión)
+  if(tb){let s=seen.get(tb);if(!s){s=new Set();seen.set(tb,s)}if(s.has(k))return;s.add(k)}
+  el.dataset.gl='1';
+  let anchor=el;const p=el.parentElement;if(p&&p.matches('[data-tip]')&&p.children.length===1&&p.textContent.trim()===el.textContent.trim())anchor=p;
+  const b=document.createElement('button');b.type='button';b.className='gl-q';b.dataset.glk=k;b.textContent='?';b.setAttribute('aria-label',`Qué significa «${k}»`);
+  b.onclick=e=>e.stopPropagation();b.onkeydown=e=>e.stopPropagation();
+  anchor.after(b)})}
+(function(){let tip,cur=null,hid=0,touch=false;
+ const el=()=>tip||(tip=(()=>{const d=document.createElement('div');d.id='gltip';d.setAttribute('role','tooltip');d.onmouseenter=()=>clearTimeout(hid);d.onmouseleave=()=>later();document.body.appendChild(d);return d})());
+ function show(n){clearTimeout(hid);const d=el();if(cur&&cur!==n)cur.removeAttribute('aria-describedby');cur=n;d.innerHTML=glHtml(n.dataset.glk);d.style.display='block';d.style.left='0px';d.style.top='0px';
+  const r=n.getBoundingClientRect(),t=d.getBoundingClientRect();let L=Math.max(10,Math.min(r.left,window.innerWidth-t.width-10));let T=r.bottom+6;
+  if(T+t.height>window.innerHeight-10)T=Math.max(10,r.top-t.height-6);
+  d.style.left=Math.round(L)+'px';d.style.top=Math.round(T)+'px';n.setAttribute('aria-describedby','gltip')}
+ function hide(){clearTimeout(hid);if(tip)tip.style.display='none';if(cur)cur.removeAttribute('aria-describedby');cur=null}
+ function later(){clearTimeout(hid);hid=setTimeout(hide,200)}
+ const G=e=>e.target.closest&&e.target.closest('.gl-q');
+ document.addEventListener('mouseover',e=>{const n=G(e);if(n&&!touch)show(n)});
+ document.addEventListener('mouseout',e=>{const n=G(e);if(n&&!touch&&!(e.relatedTarget&&n.contains(e.relatedTarget)))later()});
+ document.addEventListener('focusin',e=>{const n=G(e);if(n)show(n);else if(cur&&!e.target.closest('#gltip'))hide()});
+ document.addEventListener('focusout',e=>{if(G(e))later()});
+ document.addEventListener('pointerdown',e=>{touch=e.pointerType==='touch'||e.pointerType==='pen'},true);
+ document.addEventListener('click',e=>{const n=G(e);if(n&&touch){if(cur===n&&tip&&tip.style.display==='block')hide();else show(n)}else if(!n&&cur&&!e.target.closest('#gltip'))hide()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur){hide();e.stopImmediatePropagation()}},true);
+ document.addEventListener('scroll',e=>{if(cur&&tip&&e.target!==tip&&tip.style.display==='block')hide()},true);
+ window.addEventListener('resize',hide)})();
+function glosarioEstados(){const g=GLX();const ks=Object.keys(g).filter(k=>!['Enviado en plazo','Enviado fuera de plazo','Observado en la PAST'].includes(k));
+ modal('Glosario de estados','Qué significa cada estado, quién lo mueve y qué sigue',`<div class="tw gl-skip"><table><thead><tr><th>Estado</th><th>Qué significa</th><th>Quién lo mueve</th><th>Qué sigue</th></tr></thead><tbody>${ks.map(k=>`<tr><td>${dot(esc(k),g[k][0])}</td><td class="wrap" style="min-width:240px">${esc(g[k][1])}</td><td class="wrap" style="min-width:140px">${esc(g[k][2])}</td><td class="wrap" style="min-width:220px">${esc(g[k][3])}</td></tr>`).join('')}</tbody></table></div>`,`<span class="faint sm">dh = días hábiles · dc = días calendario</span><span class="sp"></span><button class="btn p" id="mcan">Cerrar</button>`,{wide:true})}
+
+// ---- Línea de vida de la solicitud (6 etapas) ----
+const VI_E=['Constancia de Traslado','Archivo CIC','Validación de la ONP','Transferencia','Pago','Constancia de Transferencia'];
+const tono=c=>c==='ok'||c==='warn'||c==='crit'?c:'info';
+function vidaDatos(name,c,k,r){ // c: archivo vigente (o null) · k: estKey · r: plazoRemision si no hay archivo
+ const pv=c&&c.envio?plazoValid(c):null,pt=c&&c.tk?plazoTransf(c):null;const o={name,subs:[],pill:'',tone:'info',cur:2,sigue:''};
+ const e=c?estL(c):null;
+ o.subs[1]=c?`Remitido ${fd(c.carga)}`:(r&&r.vence?`Vence ${fd(r.vence)}`:'');
+ o.subs[2]=c&&c.res?`${c.res.est==='C'?'Conforme':'Observado'} ${fd(c.res.dt)}`:(pv?`Vence ${fd(pv.vence)}`:'');
+ o.subs[3]=c&&c.tr?`Transferido ${fd(c.tr.fecha)}`:(pt?`${pt.st[0]==='Vencido'?'Venció':'Vence'} ${fd(pt.vence)}`:'');
+ o.subs[4]=c&&c.pago?`Pagado ${fd(c.pago.dt)}`:(c&&c.tr?'No pagado':'');
+ o.cur={obsP:2,noval:2,subs:2,val:3,obsS:3,porT:4,venc:4,nopag:5,pag:6,cul:7}[k]||2;
+ if(!c)o.pill=st(r.st[0],r.st[1]),o.tone=tono(r.st[1]);
+ else{o.pill=st(e.t,e.c);o.tone=tono(e.c);if(k==='nopag')o.tone='crit';if(k==='pag'){o.pill=st('Pagado','ok');o.tone='info'}if(k==='cul')o.pill='';}
+ const kg=c?{obsP:'Observado en PAST',noval:'Validación no completada',subs:'Subsanado',val:'En validación',obsS:'Observado por la ONP',porT:'Pendiente de transferencia',venc:'Vencido',nopag:'No pagado',pag:'Pagado'}[k]:r.st[0];
+ const g=kg&&GLX()[kg];o.sigue=k==='cul'?'Proceso cerrado: Constancia de Transferencia emitida':(g?g[3]:'');
+ return o}
+function vidaAfDatos(a){const s=afSit(a);const c=s.cur;const o=vidaDatos(nomAf(a),c,c?s.k:null,c?null:plazoRemision(a));
+ o.subs[0]=`Emitida ${fd(a.fecCon)}`;const cts=c&&c.cts[a.id];o.subs[5]=cts?cts.num:(s.k==='pag'?'En el cierre del mes':'');
+ if(c&&['porT','venc'].includes(s.k)){o.pill=st(s.t,s.c);o.tone=tono(s.c)} return o}
+function vidaLoteDatos(L){const k=estKey(L);const o=vidaDatos(L.cab,L,k,null);o.subs[0]=`${L.afs.length} afiliado(s)`;const n=Object.keys(L.cts).length;o.subs[5]=n?`${n} de ${L.afs.length}`:(k==='pag'?'En el cierre del mes':'');
+ if(k==='subs'){const N=loteById(L.subsanadoPor);o.subs[1]=`Subsanado con el lote ${N?N.id:''}`}return o}
+function vidaHtml(o){const fb=['','máx. '+P.plzRemision+' dh','máx. '+P.plzValid+' dh',P.plzTransf+' dc','Pagado / No pagado','Mensual'];
+ const li=VI_E.map((t,i)=>{const n=i+1,done=o.cur>n,cur=o.cur===n;return `<li class="${done?'done':cur?'cur '+o.tone:'pend'}"${cur?' aria-current="step"':''}><div class="vm">${done?ic('check'):n}</div><div class="vt">${t}<span class="sr"> · ${done?'completada':cur?'etapa actual':'pendiente'}</span></div><div class="vs">${o.subs[i]||(done?'':fb[i])||'&nbsp;'}</div>${cur&&o.pill?`<div class="vst">${o.pill}</div>`:''}</li>`}).join('');
+ return `<ol class="vsteps" aria-label="Etapas de ${esc(o.name)}">${li}</ol><div class="vnext">${o.cur>6?'<b>Cerrada</b>':`<span>Etapa actual: <b>${VI_E[o.cur-1]}</b></span>`}${o.sigue?` · <span>Sigue: ${esc(o.sigue)}</span>`:''}</div>`}
+const vidaBox=(tit,o)=>`<div class="box"><div class="bh">${tit}<span class="sp"></span><span class="faint" style="font-weight:400">${esc(o.name)}</span></div><div>${vidaHtml(o)}</div></div>`;
+const vidaHtmlAf=a=>vidaBox('Línea de vida de la solicitud',vidaAfDatos(a));
+const vidaHtmlLote=L=>vidaBox('Línea de vida del archivo',vidaLoteDatos(L));
+const VID={kind:'',ids:[]};
+const shortCab=n=>n.replace('TRA_TRX_CIC_','').replace(/_(CAB|DET)_/,'_').replace(/\.CIA$/i,'');
+function vidaPaint(){const body=$('#vidaBody');if(!body)return;const key=VID.kind==='af'?'selAf':'selLote';
+ if(!VID.ids.includes(String(state[key])))state[key]=VID.ids[0];const id=String(state[key]);
+ const sel=$('#vSel');if(sel&&sel.value!==id)sel.value=id;
+ const o=VID.kind==='af'?vidaAfDatos(afById(id)):vidaLoteDatos(loteById(id));
+ body.innerHTML=vidaHtml(o);estadosHelp(body);
+ $$('#page tr.sel-row').forEach(t=>t.classList.remove('sel-row'));
+ const row=$(`#page tr[data-${VID.kind==='af'?'af':'lote'}="${id}"]`);if(row)row.classList.add('sel-row')}
+const vidaSoft=()=>{if($('#vidaBody'))vidaPaint()};
+function vidaMount(pg){$$('.vida',pg).forEach(x=>x.remove());VID.kind='';VID.ids=[];
+ const kind={personas:'af',constancias:'af',transfer:'lote'}[state.screen];if(!kind)return;
+ const rows=$$(kind==='af'?'tbody tr[data-af]':'tbody tr[data-lote]',pg);if(!rows.length)return;
+ VID.kind=kind;VID.ids=rows.map(r=>kind==='af'?r.dataset.af:r.dataset.lote);
+ rows.forEach(r=>{r.tabIndex=0;r.onkeydown=e=>{if((e.key==='Enter')&&e.target===r){e.preventDefault();r.click()}}});
+ const opts=VID.ids.map(id=>{if(kind==='af'){const a=afById(id);return `<option value="${id}">${esc(a.numSol)} · ${esc(nomAf(a))}</option>`}const L=loteById(id);return `<option value="${id}">Lote ${L.id} · ${esc(shortCab(L.cab))}</option>`}).join('');
+ const card=document.createElement('div');card.className='card vida';card.setAttribute('role','group');card.setAttribute('aria-label','Línea de vida de la solicitud seleccionada');
+ card.innerHTML=`<div class="hd"><h3>Línea de vida</h3><span class="s">${kind==='af'?'solicitud':'archivo'} seleccionad${kind==='af'?'a':'o'}</span><span class="sp"></span><div class="vsel"><label for="vSel">${kind==='af'?'Solicitud':'Archivo'}</label><select class="in" id="vSel" style="width:${kind==='af'?330:300}px">${opts}</select><button type="button" class="btn sm" id="vEst">Glosario de estados</button></div></div><div id="vidaBody" aria-live="polite"></div>`;
+ const host=$('.card',pg);if(host)host.before(card);else pg.prepend(card);
+ $('#vSel',card).onchange=e=>{state[kind==='af'?'selAf':'selLote']=e.target.value;vidaPaint();const r=$(`#page tr.sel-row`);if(r&&r.scrollIntoView)r.scrollIntoView({block:'nearest'})};
+ $('#vEst',card).onclick=glosarioEstados;vidaPaint()}
+
+// ---- Recorrido guiado ----
+const TOUR_K='past_v2_recorrido_omitido';let _tourOmit=false,_tourI=0,_tourBtn=false;
+const tourOmitido=()=>{if(_tourOmit)return true;try{return sessionStorage.getItem(TOUR_K)==='1'}catch(e){return false}};
+const tourMarcar=()=>{_tourOmit=true;try{sessionStorage.setItem(TOUR_K,'1')}catch(e){}};
+const TOUR_S=()=>[
+ {t:'Llega la Constancia de Traslado',d:'La SBS la emite; la PAST la registra y la envía a SISREC. Desde ahí empieza el control de cada afiliado.',f:'SBS → PAST → SISREC',rn:'RN-TRA-01 · RN-TRA-02',go:'personas',gl:'Solicitudes del SPP al SNP'},
+ {t:`La EAF remite el archivo CIC · máx. ${P.plzRemision} días hábiles`,d:`El plazo corre desde la recepción de la constancia. SISREC valida en ${P.plzValid} día hábil; si es conforme, hay Ticket de pago y la EAF transfiere en ${P.plzTransf} días calendario.`,f:'EAF → PAST → SISREC',rn:'24.2 · 24.3 · 24.4',go:'transfer',gl:'Registrar Transferencia CIC'},
+ {t:'El banco informa el pago',d:'Cada archivo de deuda queda solo <b>Pagado</b> o <b>No pagado</b>, por monto exacto (todo o nada). El estado llega a la PAST desde SISREC, con el archivo de pago diario de los bancos.',f:'Banco → SISREC → PAST',rn:'RN-TRA-18 · RN-TRA-41',go:'inicio',gl:'Inicio · conciliación de pago'},
+ {t:'Constancia de Transferencia y cierre',d:'Con el archivo <b>Pagado</b>, la ONP emite la Constancia de Transferencia en el registro mensual y la EAF comunica la suya al afiliado. Si está <b>No pagado</b>, no se habilita.',f:'SISREC → PAST → afiliado',rn:'24.5 · 24.6 · RN-TRA-24',go:'personas',gl:'Solicitudes del SPP al SNP'}];
+function tourNavHl(i){$$('#nav a.tour-hl').forEach(a=>a.classList.remove('tour-hl'));const s=TOUR_S()[i];const a=s&&$(`#nav a[data-s="${s.go}"]`);if(a)a.classList.add('tour-hl')}
+function tourDraw(){const S=TOUR_S(),s=S[_tourI],last=_tourI===S.length-1;let t=$('#tour');if(!t){t=document.createElement('div');t.id='tour';t.setAttribute('role','dialog');t.setAttribute('aria-modal','false');t.setAttribute('aria-labelledby','trT');t.setAttribute('aria-describedby','trD');document.body.appendChild(t)}
+ t.innerHTML=`<div class="tr-hd"><span>Paso ${_tourI+1} de ${S.length}</span><button type="button" class="lnk" id="trSkip">Omitir</button></div>
+ <div aria-live="polite"><h3 id="trT">${s.t}</h3><p id="trD">${s.d}</p></div>
+ <div class="tr-flow"><span class="dir">${s.f}</span> <span class="ro">${s.rn}</span></div>
+ <div class="tr-ft"><button type="button" class="btn sm" id="trPrev" ${_tourI?'':'style="visibility:hidden" tabindex="-1" aria-hidden="true"'}>Anterior</button><div class="tr-dots" aria-hidden="true">${S.map((_,k)=>`<i class="${k===_tourI?'on':''}"></i>`).join('')}</div><button type="button" class="btn sm p" id="trNext">${last?'Entendido':'Siguiente'}</button></div>
+ <div class="tr-sub"><button type="button" class="lnk" id="trGo">Ir a ${s.gl}</button></div>`;
+ $('#trSkip').onclick=()=>tourClose(true);$('#trNext').onclick=()=>last?tourClose(true):(_tourI++,tourDraw(),$('#trNext').focus());
+ const pv=$('#trPrev');if(pv)pv.onclick=()=>{_tourI--;tourDraw();$('#trNext').focus()};
+ $('#trGo').onclick=()=>go(s.go);tourNavHl(_tourI)}
+function tourOpen(i,fromBtn){_tourI=i||0;_tourBtn=!!fromBtn;tourDraw();$('#trNext').focus()}
+function tourClose(marcar){const t=$('#tour');if(t)t.remove();$$('#nav a.tour-hl').forEach(a=>a.classList.remove('tour-hl'));if(marcar)tourMarcar();if(t&&_tourBtn){const b=$('#bTour');if(b)b.focus()}}
+const tourAuto=()=>{if(!tourOmitido())tourOpen(0,false)};
+document.addEventListener('keydown',e=>{const t=$('#tour');if(e.key==='Escape'&&t&&t.contains(document.activeElement)){e.stopImmediatePropagation();tourClose(true)}},true);
+
 // ======================= Inicio de sesión =======================
 function start(modo){state.modo=modo;P=P_DEF();if(modo==='cero')seedCero();else seedHistory();state.screen='inicio';state.ef='';state.fT={q:'',est:'',tipo:''};state.fP={tdoc:'',ndoc:'',lote:'',sol:'',sit:''};state.fC='todas';state.rep={tipo:'eaf',desde:'',hasta:''};render()}
 $('#loginForm').onsubmit=e=>{e.preventDefault();const v=$('#lPerfil').value;if(v==='ONP'){user.perfil='ONP';user.eaf=null;user.nombre=ONPUSR}else{user.perfil='EAF';user.eaf=v.split(':')[1];user.nombre=USR[user.eaf]}
- $('#login').style.display='none';$('#app').classList.add('on');drawMbar();start($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP')};
+ $('#login').style.display='none';$('#app').classList.add('on');drawMbar();start($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP');tourAuto()};
 $('#login .foot').textContent=`Datos ficticios · sin valor oficial · fecha del prototipo ${fd(HOY)}`;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!DP.el)closeModal()});
 
