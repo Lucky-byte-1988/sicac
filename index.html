@@ -915,6 +915,39 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mn.off{opacity:.3}
 .mf.dim path:first-child{opacity:.1}
 .mf.dim .hit{display:none}
+
+/* ---- Cese y saldo de la cuenta ---- */
+.cs-dec td,.cs-int td{vertical-align:top;padding-top:11px;padding-bottom:11px}
+.cs-dec td.nw{white-space:nowrap}
+.cs-int td{white-space:normal;color:var(--ink-2)}
+.cs-int td:first-child{color:var(--ink)}
+.cs-st{list-style:none;margin:2px 0 18px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);position:relative}
+.cs-st li{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:0 6px}
+.cs-st li:before{content:"";position:absolute;top:9px;left:calc(-50% + 12px);right:calc(50% + 12px);height:2px;background:var(--surface-3)}
+.cs-st li:first-child:before{display:none}
+.cs-st li.ok:before{background:var(--ok)}
+.cs-st i{width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--surface-3);margin-bottom:5px;box-sizing:border-box;z-index:1}
+.cs-st li.ok i{background:var(--ok);border-color:var(--ok)}
+.cs-st li.cur i{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.cs-st li.blq i{background:var(--warn);border-color:var(--warn)}
+.cs-st b{font-size:12.5px;font-weight:600;color:var(--ink)}
+.cs-st li.no b{color:var(--ink-3);font-weight:500}
+.cs-st span{font-size:11.5px;color:var(--ink-3)}
+.cs-st li.blq span{color:var(--warn)}
+.cs-av{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r2);background:var(--warn-soft);color:var(--warn);font-size:13px;margin-bottom:16px}
+.cs-av svg{width:16px;height:16px;flex:none}
+.cs-av span{flex:1}
+.cs-g{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.cs-g section{padding:14px 16px}
+.cs-g section+section{border-left:1px solid var(--border)}
+.cs-g h4{margin:0 0 10px;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.cs-g dl{display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;margin:0;font-size:13px}
+.cs-g dt{color:var(--ink-2)}
+.cs-g dt[data-tip]{text-decoration:underline dotted var(--ink-3);text-underline-offset:3px;cursor:help}
+.cs-g dd{margin:0;color:var(--ink);text-align:right}
+
+table.ft td,table.ft th{padding-left:9px;padding-right:9px}
+table.ft .fnc{display:inline-block;max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
 </style>
 <div class="login" id="login">
   <div class="lgcard">
@@ -1111,7 +1144,7 @@ const user={nombre:U.esp,rol:'Especialista de Recaudación'};const puede=(...r)=
 const NAV=[['General',[['tablero','Tablero','grid'],['mapa','Mapa de interoperabilidad','ext']]],['Procesos',[['extraccion','Ejecutar envío (PUA → SBS)','db'],['historico','Cargar envíos anteriores','up'],['padron','Envíos a la SBS','file'],['respuestas','Respuestas de la SBS','inbox'],['anuales','Envíos anuales','cal'],['eaf','Actualización de EAF','refresh'],['eafx','Intercambio anual de EAF','updown'],['calculo','Cálculo del aporte (1 %)','calc'],['pago','Gestión del pago','doc'],['cese','Cese y saldo de la cuenta','shield']]],['Consultas',[['afiliados','Padrón de cuentas','users'],['abonos','Abonos y pendientes (EAF)','calc'],['intercambios','Archivos enviados y recibidos','updown'],['documentos','Documentos y casos','clip'],['avisos','Avisos','bell'],['reporteAf','Reporte de Aportes por Consumo','doc']]],['Análisis',[['reportes','Reportes','chart']]],['Administración',[['parametros','Parámetros','sliders'],['presupuesto','Presupuesto del MEF','cal'],['usuarios','Usuarios y perfiles','shield'],['auditoria','Auditoría','list'],['modelo','Modelo de datos','db'],['reglas','Reglas del requerimiento','book']]]];
 const M={};
 // Icono del indicador según lo que mide · mismo criterio en todos los módulos
-const KPI_IC=[[/sin cuenta|pendiente|espera|plazo/,'clock'],[/observad|error|bloque/,'alert'],[/con cuenta|cuenta abierta|activa|acreditad|conciliad/,'check'],[/informad|persona|afiliad|padr[oó]n|cuentas/,'users'],[/abonad|pagad|aporte|monto|presupuesto|estimad|autorizad|prorrata|acumulad/,'calc'],[/ejercicio|a[nñ]o|periodo/,'cal'],[/orden|documento|expediente|archivo/,'doc'],[/env[ií]o|enviad|dep[oó]sito/,'up'],[/respuesta|recib/,'down'],[/eaf|entidad/,'users'],[/caso|gesti[oó]n/,'clip']];
+const KPI_IC=[[/transferid/,'check'],[/sin cuenta|pendiente|espera|plazo/,'clock'],[/observad|error|bloque/,'alert'],[/con cuenta|cuenta abierta|activa|acreditad|conciliad/,'check'],[/informad|persona|afiliad|padr[oó]n|cuentas/,'users'],[/abonad|pagad|aporte|monto|presupuesto|estimad|autorizad|prorrata|acumulad/,'calc'],[/ejercicio|a[nñ]o|periodo/,'cal'],[/orden|documento|expediente|archivo/,'doc'],[/env[ií]o|enviad|dep[oó]sito/,'up'],[/respuesta|recib/,'down'],[/eaf|entidad/,'users'],[/caso|gesti[oó]n/,'clip']];
 const kpiIcon=t=>{const x=(t||'').toLowerCase();for(const [re,k] of KPI_IC)if(re.test(x))return k;return 'chart'};
 function kpiIcons(root){$$('.kpi .l, .eco-mon-l',root).forEach(el=>{if(el.querySelector('svg'))return;el.insertAdjacentHTML('afterbegin',ic(kpiIcon(el.textContent),'i ki'))})}
 // Módulos donde hay montos: solo ahí tiene sentido el selector de formato
@@ -1733,7 +1766,7 @@ M.documentos=()=>{const f=state.df||(state.df={anio:'',mes:'',ges:'',tipo:'',cas
  <div class="grid32"><div class="card"><div class="ch"><h3>Documentos por gestión${f.anio?' · '+f.anio:''}</h3><span class="sm faint">${fmt(docs.length)} en total</span></div><div class="cb"><div class="chips">${porGes.length?porGes.map(([g,n])=>`<button class="chip ${f.ges===g?'on':''}" data-dges="${g}">${g} <b>${n}</b></button>`).join(''):'<span class="faint sm">Sin documentos.</span>'}</div></div></div>
  <div class="card"><div class="ch"><h3>Casos abiertos</h3><span class="sm faint">${abiertos.length}${casos.length-abiertos.length?' · '+(casos.length-abiertos.length)+' cerrados':''}</span></div><div class="cb">${abiertos.length?`<ul class="tl">${abiertos.map(c=>`<li><div class="d" style="background:var(--surface-3);color:var(--ink-2)">${ic('alert')}</div><div><a href="#" data-caso="${c.id}"><b>${c.id}</b> · ${c.titulo}</a><div class="s">${c.gestion} · abierto el ${c.abierto} · ${docs.filter(d=>d.caso===c.id).length} documentos · ${c.estado}</div></div></li>`).join('')}</ul>`:emptyBox('Sin casos abiertos','')}</div></div></div>
  <div class="card"><div class="filters"><div class="f"><label>Año</label><select class="in" id="dfanio"><option value="">Todos</option>${anios.map(a=>`<option ${f.anio===a?'selected':''}>${a}</option>`).join('')}</select></div><div class="f"><label>Mes</label><select class="in" id="dfmes"><option value="">Todos</option>${MESES.map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${f.mes===v?'selected':''}>${m}</option>`}).join('')}</select></div><div class="f"><label>Gestión</label><select class="in" id="dfges"><option value="">Todas</option>${GESTIONES.map(g=>`<option ${f.ges===g?'selected':''}>${g}</option>`).join('')}</select></div><div class="f"><label>Tipo</label><select class="in" id="dftipo"><option value="">Todos</option>${DTIPOS.map(t=>`<option ${f.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div><div class="f"><label>Caso</label><select class="in" id="dfcaso"><option value="">Todos</option>${casos.map(c=>`<option value="${c.id}" ${f.caso===c.id?'selected':''}>${c.id}</option>`).join('')}</select></div><div class="f"><label>Buscar</label><input class="in" id="dfq" placeholder="Número, asunto, entidad o archivo" value="${f.q}"></div><button class="btn" id="dfclr">Limpiar</button></div>
- <div class="xtw tall"><table class="ft"><thead><tr>${thS(XS3,'data-xs3','ts','Fecha')}<th data-tip="Recibido o emitido por la ONP">Dir.</th>${thS(XS3,'data-xs3','num','Documento')}<th>Asunto</th><th>De → Para</th>${thS(XS3,'data-xs3','gestion','Gestión')}${thS(XS3,'data-xs3','periodo','Periodo')}<th>Caso</th><th>Adjunto</th><th>Estado</th><th></th></tr></thead><tbody>${sorted.map(d=>`<tr><td class="muted" style="white-space:nowrap">${d.fecha}</td><td><span class="avatar" style="width:24px;height:24px;${d.dir==='in'?'background:var(--ok-soft);color:var(--ok)':''}" data-tip="${d.dir==='in'?'Recibido':'Emitido por la ONP'}">${ic(d.dir==='in'?'down':'up')}</span></td><td style="min-width:200px">${docLine(d)}</td><td style="min-width:260px">${d.asunto}</td><td class="muted" style="white-space:nowrap">${d.de.replace('ONP · ','')} → ${d.para.replace('ONP · ','')}</td><td>${d.gestion}</td><td style="white-space:nowrap">${perLabel(d.periodo)}</td><td style="white-space:nowrap">${d.caso?`<a href="#" data-caso="${d.caso}" class="mono">${d.caso}</a>`:'<span class="faint">—</span>'}</td><td>${d.archivo?`<span class="fn fnx" style="font-weight:500" title="${d.archivo.name}">${ic('file')}<span>${d.archivo.name}</span></span>`:'<span class="faint">—</span>'}${(d.anexos||[]).length?` <span class="faint sm">+${d.anexos.length} anexo${d.anexos.length>1?'s':''}</span>`:''}</td><td>${st(d.estado==='Emitido'?'Depositado':d.estado==='Recibido'?'Procesado':d.estado==='Respondido'?'Con cuenta':d.estado==='Archivado'?'Procesado':'Pendiente').replace('Depositado','Emitido').replace('Procesado',d.estado==='Archivado'?'Archivado':'Recibido').replace('Con cuenta','Respondido').replace('Pendiente','Pendiente de respuesta')}</td><td><span class="ra"><button class="ib" data-doc="${d.id}" data-tip="Ver">${ic('search')}</button>${d.archivo?`<button class="ib" data-dldoc="${d.id}" data-tip="Descargar adjunto">${ic('down')}</button>`:''}</span></td></tr>`).join('')||`<tr><td colspan="11" class="muted" style="text-align:center;padding:18px">${docs.length?'Sin documentos para el filtro elegido':'Aún no hay documentos registrados'}</td></tr>`}</tbody></table></div><div class="pager"><span>${fmt(sorted.length)} de ${fmt(docs.length)} documentos</span></div></div>`};
+ <div class="xtw tall"><table class="ft"><thead><tr>${thS(XS3,'data-xs3','ts','Fecha')}<th data-tip="Recibido o emitido por la ONP">Dir.</th>${thS(XS3,'data-xs3','num','Documento')}<th>Asunto</th><th>De → Para</th>${thS(XS3,'data-xs3','gestion','Gestión')}${thS(XS3,'data-xs3','periodo','Periodo')}<th>Caso</th><th>Adjunto</th><th>Estado</th><th></th></tr></thead><tbody>${sorted.map(d=>`<tr><td class="muted" style="white-space:nowrap">${d.fecha}</td><td><span class="avatar" style="width:24px;height:24px;${d.dir==='in'?'background:var(--ok-soft);color:var(--ok)':''}" data-tip="${d.dir==='in'?'Recibido':'Emitido por la ONP'}">${ic(d.dir==='in'?'down':'up')}</span></td><td style="min-width:160px">${docLine(d)}</td><td style="min-width:168px">${d.asunto}</td><td class="muted" style="min-width:96px">${d.de.replace('ONP · ','')} → ${d.para.replace('ONP · ','')}</td><td>${d.gestion}</td><td style="white-space:nowrap">${perLabel(d.periodo)}</td><td style="white-space:nowrap">${d.caso?`<a href="#" data-caso="${d.caso}" class="mono">${d.caso}</a>`:'<span class="faint">—</span>'}</td><td>${d.archivo?`<span class="fn fnx" style="font-weight:500" data-tip="${d.archivo.name}">${ic('file')}<span class="fnc">${d.archivo.name}</span></span>`:'<span class="faint">—</span>'}${(d.anexos||[]).length?` <span class="faint sm">+${d.anexos.length} anexo${d.anexos.length>1?'s':''}</span>`:''}</td><td>${st(d.estado==='Emitido'?'Depositado':d.estado==='Recibido'?'Procesado':d.estado==='Respondido'?'Con cuenta':d.estado==='Archivado'?'Procesado':'Pendiente').replace('Depositado','Emitido').replace('Procesado',d.estado==='Archivado'?'Archivado':'Recibido').replace('Con cuenta','Respondido').replace('Pendiente','Pendiente de respuesta')}</td><td><span class="ra"><button class="ib" data-doc="${d.id}" data-tip="Ver">${ic('search')}</button>${d.archivo?`<button class="ib" data-dldoc="${d.id}" data-tip="Descargar adjunto">${ic('down')}</button>`:''}</span></td></tr>`).join('')||`<tr><td colspan="11" class="muted" style="text-align:center;padding:18px">${docs.length?'Sin documentos para el filtro elegido':'Aún no hay documentos registrados'}</td></tr>`}</tbody></table></div><div class="pager"><span>${fmt(sorted.length)} de ${fmt(docs.length)} documentos</span></div></div>`};
 
 // ======================= Intercambios / Bitácora =======================
 M.intercambios=()=>{const base=modo==='cero'?[]:[['up','ISN12701','Padrón de enero 2027','18 760','04/02/2027 10:22','Depositado'],['up','ISNT2701','Stock transitorio al 31/01/2027','2 801 397','04/02/2027 09:58','Depositado'],['down','OSN12612','Respuesta a diciembre 2026','17 905','26/02/2027 07:30','Procesado'],['down','OSN12611','Respuesta a noviembre 2026','18 412','29/01/2027 07:31','Procesado'],['down','OSN12610','Respuesta al stock','2 746 320','29/01/2027 07:30','Procesado'],['up','ISN12612','Padrón de diciembre 2026','17 905','07/01/2027 09:05','Depositado'],['up','ISN12611','Padrón de noviembre 2026','18 412','07/12/2026 08:40','Depositado'],['up','ISN12610','Padrón stock al 31/10/2026','2 746 320','06/11/2026 09:12','Depositado']];
@@ -1857,55 +1890,56 @@ let CESOS=[
 const CESE_ART={'01':'72.4','02':'79.3','03':'79.4','04':'80.2'};
 function verCese(dni){const c=CESOS.find(x=>x.dni===dni);if(!c)return;
  const mot=(CESE_MOT.find(x=>x[0]===c.mot)||['','—'])[1];
- const crono=[['Cese detectado',c.fec,'Se identifica el motivo contra el PUA, pensiones y RENIEC'],
-  c.of?['Oficio a la EAF',c.of,'Se solicita la transferencia del saldo de la cuenta especial']:null,
-  c.ftr?['Transferencia confirmada',c.ftr,'La EAF transfiere el saldo a '+CESE_DEST[c.dest]]:null].filter(Boolean);
- modal(c.nom,'',`
-  <div class="afg">
-   <div><span>DNI</span><b class="mono">${c.dni}</b></div>
-   <div><span>Régimen</span><b>${c.reg}</b></div>
-   <div><span>Motivo de cese</span><b>${c.mot} · ${mot}</b></div>
-   <div><span>Fecha de cese</span><b>${c.fec}</b></div>
-   <div><span>EAF de la cuenta</span><b>${EAF[c.eaf]}</b></div>
-   <div><span>Aporte acreditado</span><b>${money(c.apo)}</b></div>
-   <div><span>Saldo informado por la EAF</span><b>${c.saldo?money(c.saldo)+' · al '+c.fsal:'no informado'}</b></div>
-   <div><span>Destino del saldo</span><b>${CESE_DEST[c.dest]}</b></div>
-   <div><span>Quién actúa</span><b>${CESE_VIA[c.via]}</b></div>
-   <div><span>Oficio a la EAF</span><b class="mono">${c.of||'por generar'}</b></div>
-   <div><span>Sustento</span><b><button class="art-b" ${artTip(c.art)}>art. ${c.art}</button></b></div>
-  </div>
-  <div class="callout">${ic('alert')}<span>El saldo crece con la rentabilidad del fondo tipo 2 y baja con la comisión: ese dato lo informa la EAF, la ONP solo controla el aporte acreditado.</span></div>
-  ${c.pend>0?`<div class="callout warn">${ic('alert')}<span><b>${money(c.pend)} pendientes de pago</b> · la cuenta no se cierra hasta recibir el total del aporte</span></div>`:''}
-  <div class="card" style="margin:14px 0 0"><div class="ch"><h3>Cronología</h3></div><div class="cb"><ul class="tl">${crono.map((x,i)=>`<li><div class="d">${i+1}</div><div><b>${x[0]}</b><div class="s">${x[1]} · ${x[2]}</div></div></li>`).join('')}</ul></div></div>`,
-  `<button class="btn" id="mcan">Cerrar</button>${c.est==='Por solicitar'?'<button class="btn p">Generar oficio a la EAF</button>':''}`,{wide:1})}
+ const ofi=c.of&&c.of!=='—';
+ // recorrido del caso: hecho, en curso o bloqueado
+ const pasos=[
+  ['Cese detectado',c.fec,'ok'],
+  c.via==='ent'?['Transferencia entre EAF','sin intervención de la ONP','ok']
+   :['Oficio a la EAF',ofi?c.of:'por generar',ofi?'ok':'cur'],
+  ['Transferencia confirmada',c.ftr||'pendiente',c.ftr?'ok':(ofi||c.via==='ent'?'cur':'no')],
+  ['Cuenta cerrada',c.pend>0?'bloqueada':(c.ftr||'pendiente'),c.pend>0?'blq':(c.ftr?'ok':'no')]];
+ const dl=r=>`<dl>${r.map(([t,v,tip])=>`<dt ${tip?`data-tip="${tip}"`:''}>${t}</dt><dd>${v}</dd>`).join('')}</dl>`;
+ modal(c.nom,`DNI ${c.dni} · ${c.reg} · ${mot}`,`
+  <ol class="cs-st">${pasos.map(([t,v,e])=>`<li class="${e}"><i></i><b>${t}</b><span>${v}</span></li>`).join('')}</ol>
+  ${c.pend>0?`<div class="cs-av">${ic('alert')}<span><b>${money(c.pend)} pendientes de pago</b> · la cuenta no se cierra hasta recibir el total del aporte</span><button class="art-b" ${artTip('81.2')}>81.2</button></div>`:''}
+  <div class="cs-g">
+   <section><h4>Cese</h4>${dl([['Motivo',`${c.mot} · ${mot}`],['Fecha',c.fec]])}</section>
+   <section><h4>Cuenta especial</h4>${dl([['EAF',EAF[c.eaf]],['Aporte acreditado',money(c.apo),'Lo que la ONP pagó y la EAF acreditó · sin rentabilidad'],
+     ['Saldo informado',c.saldo?money(c.saldo):'<span class="faint">no informado</span>','Incluye la rentabilidad del fondo tipo 2 y descuenta la comisión · lo informa la EAF (78.7)'],
+     ...(c.fsal?[['Fecha del saldo',c.fsal]]:[])])}</section>
+   <section><h4>Transferencia</h4>${dl([['Destino',CESE_DEST[c.dest]],['Quién actúa',CESE_VIA[c.via]],['Sustento',`<button class="art-b" ${artTip(c.art)}>${c.art}</button>`]])}</section>
+  </div>`,
+  `<button class="btn" id="mcan">Cerrar</button>${c.est==='Por solicitar'?`<button class="btn p">${ic('doc')}Generar oficio a la EAF</button>`:''}`,{wide:1})}
 M.cese=()=>{const f=state.cf||'';const L=CESOS.filter(c=>!f||c.mot===f);
  const sum=k=>L.reduce((a,c)=>a+(k(c)||0),0);
+ const ab=L.filter(c=>c.est!=='Transferido');
  const porTr=sum(c=>c.est!=='Transferido'?c.apo:0), tr=sum(c=>c.est==='Transferido'?c.apo:0);
  const bloq=L.filter(c=>c.pend>0).length;
+ const pl=(n,a,b)=>n===1?a:b;
  const mot=m=>(CESE_MOT.find(x=>x[0]===m)||['','—'])[1];
  const stEst=e=>e==='Transferido'?'<span class="st ok">Transferido</span>':e==='En espera de la EAF'?'<span class="st info">En espera</span>':e==='Con aporte pendiente'?'<span class="st warn">Aporte pendiente</span>':'<span class="st">Por solicitar</span>';
- return `${ph('Cese y saldo de la cuenta','',rules('31','32','33','34','35'),`<div class="seg">${[['','Todos'],...CESE_MOT.map(m=>[m[0],m[1]])].map(([k,t])=>`<button class="${f===k?'on':''}" data-cf="${k}">${t}</button>`).join('')}</div><button class="btn">${ic('down')}Exportar</button>`)}
+ const sec=(rg,nom)=>`<tr class="rsec"><td colspan="4"><b>${rg}</b> <span class="muted">· ${nom}</span></td></tr>`+
+   CESE_REGLA.filter(r=>r[0]===rg).map(r=>`<tr><td style="white-space:normal">${r[1]}</td><td>${CESE_DEST[r[2]]}</td><td class="${['sol','ofi'].includes(r[3])?'':'faint'}">${CESE_VIA[r[3]]}</td><td class="nw">${r[4].map(k=>`<button class="art-b" ${artTip(k)}>${k}</button>`).join('')}</td></tr>`).join('');
+ return `${ph('Cese y saldo de la cuenta','',rules('31','32','33','34','35','37','38'),`<button class="btn">${ic('down')}Exportar</button>`)}
  <div class="kpis">
-  <div class="kpi"><div><div class="l">Casos del ejercicio</div><div class="v">${L.length}</div><div class="s">con saldo en la cuenta especial</div></div></div>
-  <div class="kpi"><div><div class="l">Aporte por transferir</div><div class="v">${money(porTr)}</div><div class="s">${L.filter(c=>c.est!=='Transferido').length} caso(s) abiertos · sin rentabilidad</div></div></div>
+  <div class="kpi"><div><div class="l">Afiliados con cese</div><div class="v">${L.length}</div><div class="s">con aporte en la cuenta especial</div></div></div>
+  <div class="kpi"><div><div class="l">Pendiente de transferir</div><div class="v">${money(porTr)}</div><div class="s">${ab.length} ${pl(ab.length,'caso abierto','casos abiertos')}</div></div></div>
   <div class="kpi"><div><div class="l">Transferido</div><div class="v">${money(tr)}</div><div class="s">al FCR y a la EAF del pensionista</div></div></div>
-  <div class="kpi"><div><div class="l">Cuentas que no se pueden cerrar</div><div class="v">${bloq}</div><div class="s">con aporte pendiente de pago</div></div></div>
+  <div class="kpi"><div><div class="l">Cuentas bloqueadas</div><div class="v">${bloq}</div><div class="s">con aporte pendiente de pago</div></div></div>
  </div>
- <div class="card"><div class="ch"><h3>Casos de cese</h3><span class="ctx">una fila por afiliado</span></div><div class="tw"><table class="money dense zb"><thead>
+ <div class="card"><div class="ch"><h3>Casos de cese</h3><div class="seg">${[['','Todos'],...CESE_MOT.map(m=>[m[0],m[1]])].map(([k,t])=>`<button class="${f===k?'on':''}" data-cf="${k}">${t}</button>`).join('')}</div></div><div class="tw"><table class="money dense"><thead>
   <tr class="grp"><th colspan="4">Afiliado</th><th colspan="4" class="sep">Cuenta especial</th><th colspan="3" class="sep">Transferencia del saldo</th></tr>
   <tr><th>DNI</th><th>Afiliado</th><th>Motivo</th><th>Fecha</th><th class="sep">Régimen</th><th>EAF</th><th class="n" data-tip="Lo que la ONP pagó y la EAF acreditó · no incluye rentabilidad">Acreditado</th><th class="n" data-tip="Saldo del fondo que informa la EAF, con rentabilidad y menos comisión · dato de la EAF a la fecha de corte (78.7)">Saldo EAF</th><th class="sep">Destino</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>
   ${L.map(c=>`<tr class="click" data-cese="${c.dni}"><td class="mono">${c.dni}</td><td><b style="font-weight:500">${c.nom}</b></td><td class="muted">${mot(c.mot)}</td><td class="muted">${c.fec}</td><td class="sep muted">${c.reg}</td><td class="muted">${EAF[c.eaf]}</td><td class="n">${money(c.apo)}</td><td class="n muted" ${c.fsal?`data-tip="Informado por la EAF al ${c.fsal}"`:''}>${c.saldo?money(c.saldo):'—'}</td><td class="sep muted">${CESE_DEST[c.dest]}</td><td>${stEst(c.est)}</td><td class="muted">${c.ftr||'—'}</td></tr>`).join('')}
  </tbody></table></div></div>
- <div class="card"><div class="ch"><div><h3>Cómo se decide el destino del saldo</h3><div class="sub">según el régimen y el motivo del cese</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:70px">Régimen</th><th>Situación</th><th style="width:190px">Destino del saldo</th><th style="width:230px">Quién actúa</th><th style="width:110px">Artículo</th></tr></thead><tbody>
- ${CESE_REGLA.map(r=>`<tr><td><b style="font-weight:500">${r[0]}</b></td><td class="muted" style="white-space:normal">${r[1]}</td><td>${CESE_DEST[r[2]]}</td><td class="muted">${CESE_VIA[r[3]]}</td><td>${r[4].map(k=>`<button class="art-b" ${artTip(k)}>${k}</button>`).join('')}</td></tr>`).join('')}
+ <div class="card"><div class="ch"><div><h3>Cómo se decide el destino del saldo</h3><div class="sub">por régimen y motivo</div></div></div><div class="tw"><table class="dense cs-dec"><thead><tr><th>Situación</th><th style="width:210px">Destino del saldo</th><th style="width:260px">Quién actúa</th><th style="width:170px">Artículos</th></tr></thead><tbody>
+  ${sec('SNP','Sistema Nacional de Pensiones')}${sec('SPP','Sistema Privado de Pensiones')}
  </tbody></table></div></div>
- <div class="card"><div class="ch"><div><h3>Con qué sistemas se conecta</h3><div class="sub">este sistema informa y controla; no custodia el fondo</div></div></div><div class="tw"><table class="dense"><thead><tr><th style="width:250px">Sistema</th><th style="width:130px">Sentido</th><th>Qué viaja</th></tr></thead><tbody>
-  <tr><td><b style="font-weight:500">Prestaciones de la ONP</b></td><td><span class="pill i">recibe</span></td><td class="muted" style="white-space:normal">El aviso del cese y del trámite de pensión, con su motivo y fecha.</td></tr>
-  <tr><td><b style="font-weight:500">Prestaciones de la ONP</b></td><td><span class="pill o">entrega</span></td><td class="muted" style="white-space:normal">El saldo acumulado de la cuenta especial, para el conteo de aportes del expediente (79.3).</td></tr>
-  <tr><td><b style="font-weight:500">EAF</b></td><td><span class="pill o">entrega</span></td><td class="muted" style="white-space:normal">El oficio que solicita la transferencia del saldo y el seguimiento de su respuesta (79.4).</td></tr>
-  <tr><td><b style="font-weight:500">FCR · DL 19990</b></td><td><span class="pill i">recibe</span></td><td class="muted" style="white-space:normal">La confirmación del ingreso del saldo transferido, que cierra el caso (80.2).</td></tr>
+ <div class="card"><div class="ch"><div><h3>Con qué sistemas se conecta</h3><div class="sub">informa y controla · no custodia el fondo</div></div></div><div class="tw"><table class="dense cs-int"><thead><tr><th style="width:220px">Sistema</th><th>Este sistema recibe</th><th>Este sistema entrega</th></tr></thead><tbody>
+  <tr><td><b style="font-weight:500">Prestaciones de la ONP</b></td><td>El aviso del cese y del trámite de pensión, con motivo y fecha</td><td>El aporte acreditado y, si la EAF lo informó, el saldo a la fecha, para el conteo de aportes (79.3)</td></tr>
+  <tr><td><b style="font-weight:500">EAF</b></td><td>El saldo del fondo a la fecha de corte y la confirmación de la transferencia</td><td>El oficio que solicita la transferencia del saldo (79.4)</td></tr>
+  <tr><td><b style="font-weight:500">FCR · DL 19990</b></td><td>La confirmación del ingreso del saldo transferido (80.2)</td><td class="faint">—</td></tr>
  </tbody></table></div></div>`};
-
 // ======================= Mapa de interoperabilidad (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
