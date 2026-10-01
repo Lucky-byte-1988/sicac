@@ -279,7 +279,8 @@ th[data-tip]{text-decoration:underline dotted var(--ink-3);text-underline-offset
 #toast .i{color:var(--ok)}
 #toast.bad .i{color:var(--crit)}
 #tip{position:fixed;display:none;z-index:95;max-width:360px;background:rgba(255,255,255,.97);border:1px solid rgba(0,0,0,.1);border-radius:9px;box-shadow:var(--sh3);padding:8px 10px;font-size:12px;line-height:1.45;pointer-events:none}
-#tip.norma{border-left:3px solid var(--vio)}
+#tip.norma{border-left:3px solid var(--vio);max-width:460px}
+th.rob{cursor:help}th.rob .stk{text-decoration:underline dotted;text-underline-offset:3px}
 .empty{display:flex;flex-direction:column;align-items:center;gap:4px;padding:36px 16px;color:var(--ink-2);font-size:12.5px;text-align:center}
 .empty .i{width:26px;height:26px;color:var(--ink-3);margin-bottom:4px}
 .empty b{color:var(--ink)}
@@ -1746,7 +1747,9 @@ M.modelo=()=>{const q=(state.dmq||'').trim().toLowerCase();const hit=E=>!q||(E.t
 const H=(t,sub,cls='',tip)=>`<th class="${cls}"${tip?` data-tip="${esc(tip)}"`:''}>${t}${sub?`<span class="hsub">${sub}</span>`:''}</th>`;
 const cp=(v,cls='')=>`<td class="cp ${cls}">${v}</td>`;
 const pend=t=>`<span class="faint">${t||'Pendiente'}</span>`;
-const band=(n,t)=>`<th colspan="${n}" class="cmpb"><span class="stk">${t}</span></th>`;
+// al pasar el mouse por la banda se lee el texto del RO; al hacer clic se abre el primer numeral
+const artTips=ks=>`data-tip="<span class='faint'>${NORMA} · ${NORMA_RES}</span>${ks.filter(k=>ART_T[k]).map(k=>`<br><b>${citaArt(k)}</b> · ${ART_ART[k.split('.')[0]]||''}<br>${esc(ART_T[k])}`).join('<br>')}" data-art="${ks[0]}"`;
+const band=(n,t,ks)=>`<th colspan="${n}" class="cmpb${ks?' rob':''}"${ks?' '+artTips(ks):''}><span class="stk">${t}</span></th>`;
 // validación de la ONP en una sola lectura
 function valTxt(l){if(!l.envio)return l.prev.pend?dot('Validación no completada','warn'):l.prev.obs.length?dot('Observado en la PAST','crit'):dash;
  if(l.res)return l.res.est==='C'?dot('Conforme','ok'):dot('Observado','crit');const pv=plazoValid(l);
@@ -1771,7 +1774,7 @@ M.transfer=()=>{
   if(f.est){const g={obsS:['obsS','obsP','noval'],val:['val'],porT:['porT','venc'],venc:['venc'],sindep:['sindep','depobs'],depver:['depver'],verif:['verif'],cul:['cul']}[f.est]||[f.est];if(!g.includes(k))return false}
   return true}).sort((a,b)=>a.carga<b.carga?1:-1);
  const estOpts=[['','Todos'],['obsS','Por subsanar'],['val','En validación'],['porT','Por transferir'],['venc','Plazo de transferencia vencido'],['sindep','Falta o se observó el depósito'],['depver','Depósito por verificar'],['verif','Constancia ONP por emitir'],['cul','Culminado']];
- const head=`<tr class="grp"><th colspan="10" class="actb"><span class="stk">PAST actual · Registro de Transferencia CIC</span></th>${band(2,'Envío · RN-TRA-04')}${band(1,'Validación · 24.2.a')}${band(1,'Ticket · 24.3')}${band(2,'Transferencia · 24.4')}${band(1,'Depósito · 24.6')}${band(1,'Constancia · 24.6')}${band(1,'EAF')}</tr>
+ const head=`<tr class="grp"><th colspan="10" class="actb"><span class="stk">PAST actual · Registro de Transferencia CIC</span></th>${band(2,'Envío · 24.2',['24.2','25.1'])}${band(1,'Validación · 24.2.a',['24.2.a','24.2.b'])}${band(1,'Ticket · 24.3',['24.3'])}${band(2,'Transferencia · 24.4',['24.4'])}${band(1,'Depósito · 24.6',['24.6'])}${band(1,'Constancia · 24.6',['24.6','24.7'])}${band(1,'EAF · 24.5',['24.5'])}</tr>
  <tr>${H('Ítem','','fz1')}${H('Nombre del archivo','','fz2')}${H('Código lote','','n')}${H('Fecha de carga')}${H('Total de registros','','n')}${H('Cant. válidas','','n')}${H('Cant. obs.','','n')}${H('Estado')}${H('Fecha de envío')}${H('Usuario')}
   ${H('SEC_ENV','','sep')}${H('Tipo','','','Inicial (24.2) o aportes recuperados (25.1)')}${H('Validación de la ONP','máx. '+P.plzValid+' día hábil','sep')}${H('N° ticket','conformidad','sep','La fecha del ticket es la conformidad de la ONP: desde ese día corren '+P.plzTransf+' días calendario')}${H('Fecha de transferencia','','sep')}${H('Plazo','máx. '+P.plzTransf+' días calendario')}${H('Constancia de depósito','verificación','sep')}${H('Constancia de Transferencia','de la ONP','sep')}${H('Siguiente paso','','sep')}</tr>`;
  const rows=ls.map((l,k)=>{const [ta,ca]=estActual(l);const nObs=new Set([...l.prev.obs,...(l.res?l.res.obs:[])].map(o=>o.af)).size;const val=l.res&&l.res.est==='C'?l.afs.length:(nObs?l.afs.length-nObs:0);
@@ -1795,7 +1798,7 @@ M.personas=()=>{
   if(f.tdoc&&a.tdoc!==f.tdoc)return false;if(f.ndoc&&!a.ndoc.includes(f.ndoc))return false;if(f.sol&&!a.numSol.toLowerCase().includes(f.sol.toLowerCase()))return false;
   if(f.onp&&!a.numSolOnp.toLowerCase().includes(f.onp.toLowerCase()))return false;
   if(f.lote&&!s.ls.some(l=>String(l.id)===f.lote.trim()))return false;if(f.sit&&s.t!==f.sit)return false;return true}).sort((x,y)=>x[0].fecCon<y[0].fecCon?1:-1);
- const head=`<tr class="grp"><th colspan="20" class="actb"><span class="stk">PAST actual · Gestión de solicitudes de Traslado: Solicitudes del SPP al SNP</span></th>${band(2,'Constancia de traslado · 24.2')}${band(3,'Transferencia de la CIC · 24.4')}${band(2,'Constancia de Transferencia · 24.6 y 24.8')}</tr>
+ const head=`<tr class="grp"><th colspan="20" class="actb"><span class="stk">PAST actual · Gestión de solicitudes de Traslado: Solicitudes del SPP al SNP</span></th>${band(2,'Constancia de traslado · 24.2',['24.2','23.1'])}${band(3,'Transferencia de la CIC · 24.4',['24.4','24.3'])}${band(2,'Constancia de Transferencia · 24.6 y 24.8',['24.6','24.8'])}</tr>
  <tr>${H('Ítem','','fz1')}${H('N° solicitud EAF','','fz2')}${H('Fecha solicitud EAF')}${H('N° solicitud ONP')}${H('Fecha solicitud ONP')}${H('Tipo de documento')}${H('Número de documento')}${H('Solicitud pdf','','c')}${H('RESIT-SPP')}${H('RESIT-SNP')}${H('Decisión del afiliado')}${H('Fecha decisión afiliado')}${H('Constancia de traslado')}${H('Régimen previsional','','c')}${H('Transf. CIC')}${H('Ticket transf. CIC')}${H('Constancia de depósito','','','Con el requerimiento se carga una vez por lote, en Registro de Transferencia CIC (RN-TRA-18)')}${H('Constancia de transferencia','','','Con el requerimiento la recibe la PAST de SISREC después de verificar el depósito (RN-TRA-24)')}${H('Días transcurridos solicitud','','n')}${H('Estado solicitud')}
   ${H(P.recepAuto?'Recepción de la constancia':'Recepción por la EAF',P.recepAuto?'automática · RN-TRA-02':'','sep')}${H('Envío del archivo CIC','máx. '+P.plzRemision+' días hábiles')}
   ${H('Situación','','sep')}${H('Monto transferido S/','','n')}${H('Fecha de transferencia')}
