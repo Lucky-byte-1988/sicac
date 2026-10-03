@@ -18,4 +18,8 @@ python3 -m http.server 8000
 # luego abre http://localhost:8000/
 ```
 
-Las preferencias de vista (menú lateral, formato de montos) se guardan en el `localStorage` del navegador.
+## Simulación guardada
+
+Cuentas por consumo y PAST (v1 y v2) guardan el avance de la simulación en el `localStorage` del navegador. Si recargas la página o la cierras, al volver a entrar la opción **Continuar la simulación guardada** aparece seleccionada en *Datos*; elige *Desde cero* o *Historial de ejemplo* para empezar de nuevo. Cada navegador guarda su propia simulación.
+
+Las preferencias de vista (menú lateral, formato de montos) también se guardan ahí.

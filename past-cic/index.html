@@ -2391,10 +2391,21 @@ function wirePage(){const pg=$('#page');
 // ======================= Inicio de sesión =======================
 function start(modo){state.modo=modo;P=P_DEF();if(modo==='cero')seedCero();else seedHistory();state.screen='inicio';state.ef='';state.fT={q:'',est:'',tipo:''};state.fP={tdoc:'',ndoc:'',lote:'',sol:'',sit:''};state.fC='todas';state.rep={tipo:'eaf',desde:'',hasta:''};render()}
 $('#loginForm').onsubmit=e=>{e.preventDefault();const v=$('#lPerfil').value;if(v==='ONP'){user.perfil='ONP';user.eaf=null;user.nombre=ONPUSR}else{user.perfil='EAF';user.eaf=v.split(':')[1];user.nombre=USR[user.eaf]}
- $('#login').style.display='none';$('#app').classList.add('on');drawMbar();start($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP')};
+ $('#login').style.display='none';$('#app').classList.add('on');drawMbar();simIniciar($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP')};
 $('#login .foot').textContent=`Datos ficticios · sin valor oficial · fecha del prototipo ${fd(HOY)}`;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!DP.el)closeModal()});
 
+// ======================= Simulación guardada =======================
+// El avance de la simulación se guarda en este navegador; al volver a entrar se puede continuar donde se dejó.
+const SIM_K='past.v1.sim';
+function simGuardar(){if(!$('#app').classList.contains('on')||!DB)return;try{localStorage.setItem(SIM_K,JSON.stringify({t:Date.now(),modo:state.modo,screen:state.screen,seed:_seed,P,DB}))}catch(e){}}
+function simLeer(){try{const o=JSON.parse(localStorage.getItem(SIM_K));return o&&o.DB&&Array.isArray(o.DB.afs)?o:null}catch(e){return null}}
+function simIniciar(v){const o=v==='guardada'?simLeer():null;if(!o){start(v==='guardada'?'hist':v);return}
+ start(o.modo);DB=o.DB;P=Object.assign(P_DEF(),o.P);_seed=o.seed;if(o.screen&&M[o.screen])state.screen=o.screen;render();toast('Simulación recuperada')}
+let _simT=null;const simPronto=()=>{clearTimeout(_simT);_simT=setTimeout(simGuardar,500)};
+{const r0=render;render=function(){const r=r0.apply(this,arguments);simPronto();return r}}
+addEventListener('pagehide',simGuardar);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')simGuardar()});
+{const o=simLeer(),sel=$('#modo');if(o&&sel){const f=new Date(o.t);const op=document.createElement('option');op.value='guardada';op.textContent='Continuar la simulación guardada · '+f.toLocaleDateString('es-PE',{day:'2-digit',month:'short'})+' '+f.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});sel.prepend(op);sel.value='guardada'}}
 // ======================= Teclado =======================
 // Lo que se puede pulsar con el ratón (tarjetas, filas, pasos) también se alcanza con Tab y se activa con Enter o Espacio.
 (()=>{const SEL='[data-go],.click,[data-art],[data-lote],[data-rg]',NAT='a[href],button,input,select,textarea,summary,[tabindex],[contenteditable]';

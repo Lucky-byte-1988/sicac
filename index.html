@@ -2333,7 +2333,7 @@ function render(){renderNav();const title=NAV.flatMap(g=>g[1]).find(i=>i[0]===st
  on('#saveMedio',()=>{medio=$('#selMedio').value;bitacora.unshift([now(),user.nombre,'Parámetros','Cambió el medio de intercambio a '+medio]);toast('Parámetros guardados · medio '+medio);render()});
  bindTips(m);if(document.body.classList.contains('rail'))bindTips($('#navItems'));
  const MA=$('#modActs');MA.innerHTML='';const phx=m.querySelector('.ph');let subT='';if(phx){const ac=phx.querySelector('.acts');if(ac){MA.appendChild(ac)}const sh=phx.querySelector('h1.modsub');if(sh){subT=sh.textContent.trim();sh.remove()}if(!phx.querySelector('h1')&&!phx.querySelector('p.ctx'))phx.remove()}$('#modSub').textContent=[subT,'Entorno de prueba',modo==='cero'?'Simulación desde cero':'Historial de ejemplo'].filter(Boolean).join(' · ')}
-$('#loginForm').onsubmit=(ev)=>{ev.preventDefault();resetDatos($('#modo').value);user.rol=$('#rol').value;user.nombre={'Especialista de Recaudación':U.esp,'Analista de Afiliación':U.afi,'Analista de Recaudación':U.ana,'Consulta':U.con}[user.rol];$('#navUser').textContent=user.nombre;$('#navRol').textContent=user.rol;$('#avatar').textContent='UP';$('#login').style.display='none';$('#app').classList.add('on');state.screen='tablero';bitacora.unshift([now(),user.nombre,'Acceso','Inició sesión · perfil '+user.rol]);render()};
+$('#loginForm').onsubmit=(ev)=>{ev.preventDefault();const sv=$('#modo').value==='guardada'?simLeer():null;resetDatos(sv?sv.d.modo:$('#modo').value);user.rol=$('#rol').value;user.nombre={'Especialista de Recaudación':U.esp,'Analista de Afiliación':U.afi,'Analista de Recaudación':U.ana,'Consulta':U.con}[user.rol];$('#navUser').textContent=user.nombre;$('#navRol').textContent=user.rol;$('#avatar').textContent='UP';$('#login').style.display='none';$('#app').classList.add('on');state.screen='tablero';const ini=()=>{bitacora.unshift([now(),user.nombre,'Acceso','Inició sesión · perfil '+user.rol]);render()};if(sv)setTimeout(()=>{simAplicar(sv);ini();toast('Simulación recuperada')},0);else ini()};
 $('#logout').onclick=()=>{$('#app').classList.remove('on');$('#login').style.display='grid'};
 try{state.nav=localStorage.getItem('sicac.nav')||'left'}catch(e){state.nav='left'}
 try{MF.fmt=localStorage.getItem('sicac.mfmt')||'M'}catch(e){}
@@ -2348,6 +2348,22 @@ $('#bell').onclick=()=>{state.screen='avisos';render()};
 let sesS=1799;setInterval(()=>{sesS=Math.max(0,sesS-1);const e=$('#ses');if(e)e.textContent=String(Math.floor(sesS/60)).padStart(2,'0')+':'+String(sesS%60).padStart(2,'0')},1000);
 const KEYS={'1':'extraccion','2':'padron','3':'respuestas','4':'anuales','5':'eaf','6':'calculo','7':'afiliados','8':'intercambios','9':'documentos','0':'tablero'};
 document.addEventListener('keydown',e=>{const md=e.metaKey||e.ctrlKey;if(md&&!e.shiftKey&&KEYS[e.key]&&$('#app').classList.contains('on')){e.preventDefault();state.screen=KEYS[e.key];closeModal();render()}if(md&&e.key===','){e.preventDefault();state.screen='parametros';render()}if(md&&e.key==='Enter'&&$('#app').classList.contains('on')){e.preventDefault();MFN.auto()}if(e.key==='Escape'&&state.menuOpen!=null){state.menuOpen=null;renderMenubar()}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();buscarAfiliado()}if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();$('#railToggle').click()}if(e.key==='Escape')closeModal()});
+// ======================= Simulación guardada =======================
+// El avance de la simulación se guarda en este navegador; al volver a entrar se puede continuar donde se dejó.
+const SIM_K='sicac.sim.v1';
+const SIM_N=['modo','hist','histCargas','CALC','EJERCICIOS','APORTES','presupuestos','CS','avisos','docs','casos','envios','respuestas','afiliados','porEAF','CESES','bitacora','SPARK','P','EAFD','OPSEQ','medio','REGLAS_AVISO','CESOS','TOT','EAF','EAFCOL'];
+const simVal=n=>eval(n);
+function simGuardar(){if(!$('#app').classList.contains('on'))return;try{const d={};SIM_N.forEach(n=>d[n]=simVal(n));localStorage.setItem(SIM_K,JSON.stringify({t:Date.now(),screen:state.screen,d}))}catch(e){}}
+function simLeer(){try{const o=JSON.parse(localStorage.getItem(SIM_K));return o&&o.d&&o.d.envios?o:null}catch(e){return null}}
+function simAplicar(o){const d=o.d,obj=(t,v)=>{if(v&&typeof v==='object'&&!Array.isArray(v)){Object.keys(t).forEach(k=>delete t[k]);Object.assign(t,v)}};
+ modo=d.modo;hist=d.hist;histCargas=d.histCargas;EJERCICIOS=d.EJERCICIOS;APORTES=d.APORTES;presupuestos=d.presupuestos;avisos=d.avisos;docs=d.docs;casos=d.casos;envios=d.envios;respuestas=d.respuestas;afiliados=d.afiliados;bitacora=d.bitacora;EAFD=d.EAFD;OPSEQ=d.OPSEQ;medio=d.medio;REGLAS_AVISO=d.REGLAS_AVISO;CESOS=d.CESOS;EAF=d.EAF;
+ [['CALC',CALC],['CS',CS],['porEAF',porEAF],['CESES',CESES],['SPARK',SPARK],['P',P],['TOT',TOT],['EAFCOL',EAFCOL]].forEach(([n,t])=>obj(t,d[n]));
+ Object.assign(P,{running:false,auto:false});Object.assign(CS,{auto:false});syncPresu();
+ if(o.screen&&NAV.some(g=>g[1].some(i=>i[0]===o.screen)))state.screen=o.screen}
+let _simT=null;const simPronto=()=>{clearTimeout(_simT);_simT=setTimeout(simGuardar,400)};
+{const r0=render;render=function(){const r=r0.apply(this,arguments);simPronto();return r}}
+addEventListener('pagehide',simGuardar);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')simGuardar()});
+{const o=simLeer(),sel=$('#modo');if(o&&sel){const f=new Date(o.t);const op=document.createElement('option');op.value='guardada';op.textContent='Continuar la simulación guardada · '+f.toLocaleDateString('es-PE',{day:'2-digit',month:'short'})+' '+f.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});sel.prepend(op);sel.value='guardada'}}
 // ======================= Teclado =======================
 // Lo que se puede pulsar con el ratón (tarjetas, filas, pasos) también se alcanza con Tab y se activa con Enter o Espacio.
 (()=>{const SEL='[data-go],.click,[data-art],[data-lote],[data-rg]',NAT='a[href],button,input,select,textarea,summary,[tabindex],[contenteditable]';
