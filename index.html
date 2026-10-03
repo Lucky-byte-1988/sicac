@@ -3,9 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aportes por consumo · prototipo</title>
-</head>
-<body>
+<meta name="description" content="Prototipo del sistema de Cuentas por consumo: control e intercambio con la SBS. Datos ficticios, sin valor oficial.">
 <title>Cuentas por consumo · prototipo</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
@@ -948,7 +946,11 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 
 table.ft td,table.ft th{padding-left:9px;padding-right:9px}
 table.ft .fnc{display:inline-block;max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+[data-kb]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+tbody tr[data-kb]:focus-visible{outline-offset:-2px}
 </style>
+</head>
+<body>
 <div class="login" id="login">
   <div class="lgcard">
     <div class="lghd"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="7" y1="15" x2="11" y2="15"/></svg></i><b>Cuentas por consumo</b><span>Control e intercambio con la SBS · prototipo</span></div>
@@ -2346,6 +2348,13 @@ $('#bell').onclick=()=>{state.screen='avisos';render()};
 let sesS=1799;setInterval(()=>{sesS=Math.max(0,sesS-1);const e=$('#ses');if(e)e.textContent=String(Math.floor(sesS/60)).padStart(2,'0')+':'+String(sesS%60).padStart(2,'0')},1000);
 const KEYS={'1':'extraccion','2':'padron','3':'respuestas','4':'anuales','5':'eaf','6':'calculo','7':'afiliados','8':'intercambios','9':'documentos','0':'tablero'};
 document.addEventListener('keydown',e=>{const md=e.metaKey||e.ctrlKey;if(md&&!e.shiftKey&&KEYS[e.key]&&$('#app').classList.contains('on')){e.preventDefault();state.screen=KEYS[e.key];closeModal();render()}if(md&&e.key===','){e.preventDefault();state.screen='parametros';render()}if(md&&e.key==='Enter'&&$('#app').classList.contains('on')){e.preventDefault();MFN.auto()}if(e.key==='Escape'&&state.menuOpen!=null){state.menuOpen=null;renderMenubar()}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();buscarAfiliado()}if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();$('#railToggle').click()}if(e.key==='Escape')closeModal()});
+// ======================= Teclado =======================
+// Lo que se puede pulsar con el ratón (tarjetas, filas, pasos) también se alcanza con Tab y se activa con Enter o Espacio.
+(()=>{const SEL='[data-go],.click,[data-art],[data-lote],[data-rg]',NAT='a[href],button,input,select,textarea,summary,[tabindex],[contenteditable]';
+ const mark=el=>{if(el.matches(NAT)||el.closest('button,a[href]')||getComputedStyle(el).cursor!=='pointer')return;el.tabIndex=0;el.dataset.kb='1';if(el.tagName!=='TR')el.setAttribute('role','button')};
+ const scan=n=>{if(n.nodeType!==1)return;if(n.matches(SEL))mark(n);n.querySelectorAll(SEL).forEach(mark)};
+ new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(scan))).observe(document.body,{childList:true,subtree:true});scan(document.body);
+ document.addEventListener('keydown',e=>{const t=e.target;if(e.defaultPrevented||!t.dataset||t.dataset.kb!=='1'||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();t.click()})})();
 </script>
 </body>
 </html>
