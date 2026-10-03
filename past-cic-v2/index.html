@@ -555,12 +555,15 @@ tbody tr.click:focus-visible{outline:2px solid var(--accent);outline-offset:-2px
 @media (max-width:760px){.vsteps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}.vsteps li::after{display:none}#tour{left:10px;right:10px;width:auto}}
 @media (prefers-reduced-motion:reduce){#tour{animation:none}}
 @media print{#tour,#gltip,.vida{display:none!important}}
+[data-kb]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+tbody tr[data-kb]:focus-visible{outline-offset:-2px}
+@media (min-width:761px){body.noside #app{grid-template-columns:0 1fr}body.noside .side{visibility:hidden;overflow:hidden;border:0}}
 </style>
 <div id="login"><form class="box" id="loginForm">
  <div class="brand"><span class="past">PAST</span><span class="pastsub">Plataforma de<br>Afiliación Segura<br>y Transparente</span></div>
  <h1>Transferencia de la CIC</h1><p>Prototipo · control desde la Constancia de Traslado hasta la Constancia de Transferencia</p>
- <label>Perfil</label><select class="in" id="lPerfil"><option value="EAF:HAB">Representante EAF · AFP Habitat</option><option value="EAF:PRO">Representante EAF · AFP Profuturo</option><option value="EAF:INT">Representante EAF · AFP Integra</option><option value="EAF:RIM">Representante EAF · AFP Prima</option><option value="ONP">ONP · Subdirección de Recaudación</option></select>
- <label>Datos</label><select class="in" id="modo"><option value="hist">Historial de ejemplo · julio a setiembre 2026</option><option value="cero">Desde cero · solo constancias recibidas</option></select>
+ <label for="lPerfil">Perfil</label><select class="in" id="lPerfil"><option value="EAF:HAB">Representante EAF · AFP Habitat</option><option value="EAF:PRO">Representante EAF · AFP Profuturo</option><option value="EAF:INT">Representante EAF · AFP Integra</option><option value="EAF:RIM">Representante EAF · AFP Prima</option><option value="ONP">ONP · Subdirección de Recaudación</option></select>
+ <label for="modo">Datos</label><select class="in" id="modo"><option value="hist">Historial de ejemplo · julio a setiembre 2026</option><option value="cero">Desde cero · solo constancias recibidas</option></select>
  <button class="btn p" style="width:100%;justify-content:center;margin-top:18px" type="submit">Ingresar</button>
  <div class="foot">Datos ficticios · sin valor oficial · fecha del prototipo ${HOY}</div>
 </form></div>
@@ -2472,8 +2475,10 @@ function doAct(act,id){
 const MENUS=[
  ['Simulación SISREC',[{t:'Validar archivos en espera · conforme',fn:'simVal'},{t:'Estado de pago · archivo de pago diario de los bancos',fn:'simPago'},{t:'Emitir Constancias de Transferencia del mes',fn:'simCts'}]],
  ['Ayuda',[{t:'Recorrido guiado',fn:'tour',ic:'play'},{t:'Cómo funciona el sistema',fn:'como',ic:'book'},{t:'Glosario',fn:'glosario',ic:'book'},{t:'Glosario de estados',fn:'glest',ic:'book'},{t:'Plazos del reglamento',fn:'plazos',ic:'clock'},{t:'Mapa de interoperabilidad',s:'mapa',ic:'ext'},{t:'Modelo de datos del negocio',s:'modelo',ic:'db'},{t:'Herramienta de revisión',s:'reglas',ic:'book'},{t:'PAST actual y complemento',s:'brechas',ic:'flow'},{t:'Campos: actual y nuevo',s:'campos',ic:'list'},{sep:1},{t:'Acerca del prototipo',fn:'about'},{t:'Reiniciar simulación',fn:'reset'},{t:'Cerrar sesión',fn:'logout'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1,ic:'doc'}]]];
-function drawMbar(){const d=D(HOY);$('#mbar').innerHTML=`<button class="mi" style="padding:3px 6px">${ic('side')}</button>${MENUS.map(([t],k)=>`<button class="mi" data-mi="${k}">${t}</button>`).join('')}<span class="sp"></span><span class="clk">${['dom','lun','mar','mié','jue','vie','sáb'][d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}</span>`;
- $$('#mbar [data-mi]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMenu(b)})}
+function drawMbar(){const d=D(HOY);$('#mbar').innerHTML=`<button class="mi" id="sideTg" style="padding:3px 6px" aria-label="Mostrar u ocultar el menú lateral" aria-pressed="${document.body.classList.contains('noside')}">${ic('side')}</button>${MENUS.map(([t],k)=>`<button class="mi" data-mi="${k}">${t}</button>`).join('')}<span class="sp"></span><span class="clk">${['dom','lun','mar','mié','jue','vie','sáb'][d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()].slice(0,3)}</span>`;
+ $$('#mbar [data-mi]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMenu(b)});
+ $('#sideTg').onclick=e=>{e.stopPropagation();const on=document.body.classList.toggle('noside');e.currentTarget.setAttribute('aria-pressed',on);try{localStorage.setItem('past.noside',on?'1':'0')}catch(_){}}}
+try{if(localStorage.getItem('past.noside')==='1')document.body.classList.add('noside')}catch(_){}
 function openMenu(b){closeMenu();const [,items]=MENUS[+b.dataset.mi];b.classList.add('on');const m=document.createElement('div');m.className='menu';m.id='menu';
  m.innerHTML=items.filter(x=>!x.eaf||esEAF()).map((x,i)=>x.sep?'<hr>':`<button data-i="${i}" class="${x.dis?'dis':''}"><span class="mic">${x.ic?ic(x.ic):''}${x.t}</span><span class="k"></span></button>`).join('');
  m.style.left=b.offsetLeft+'px';$('#mbar').appendChild(m);
@@ -2511,7 +2516,7 @@ function glosario(){const T=[['CIC','Cuenta Individual de Capitalización. En es
 function go(s){const [scr,est]=s.split(':');state.screen=scr;if(scr==='transfer'){state.tabT='arch';const v=est==='act'||est==='rec';state.fT={q:'',est:v?'':(est||''),tipo:''};if(est)state.vista=v?est:'seg'}if(scr==='personas'){state.fP.dev=/^dev/.test(est||'')?(est==='dev'?'Abiertas':DEVS[+est.slice(3)-1]):'';if(est&&!/^dev/.test(est))state.vP=est==='act'?'act':'comp'}closeModal();render();$('#page').scrollTop=0}
 function drawNav(){$('#nav').innerHTML=NAV.map(([g,items])=>`<div class="g">${g}</div>${items.map(([k,t,icn,tag])=>`<a data-s="${k}" class="${state.screen===k?'on':''}">${ic(icn)}<span>${t}</span>${tag?`<span class="tg">${tag}</span>`:''}</a>`).join('')}`).join('');
  $$('#nav a').forEach(a=>a.onclick=()=>go(a.dataset.s));
- $('#me').innerHTML=`<div class="av">${user.nombre.slice(0,1)}${user.nombre.split('.')[1].slice(0,1)}</div><div><div class="n">${user.nombre}</div><div class="r">${esEAF()?'Representante '+EAF[user.eaf]:'ONP · Recaudación'}</div></div><button class="ib" id="bye" data-tip="Cerrar sesión">${ic('logout')}</button>`;
+ $('#me').innerHTML=`<div class="av">${user.nombre.slice(0,1)}${user.nombre.split('.')[1].slice(0,1)}</div><div><div class="n">${user.nombre}</div><div class="r">${esEAF()?'Representante '+EAF[user.eaf]:'ONP · Recaudación'}</div></div><button class="ib" id="bye" data-tip="Cerrar sesión" aria-label="Cerrar sesión">${ic('logout')}</button>`;
  $('#bye').onclick=()=>menuFn('logout');$('#fGlos').onclick=()=>glosario()}
 function drawTbar(){const [t,ctx]=TITLES[state.screen];let acts='';
  if(!esEAF()&&EAF_SCREENS.has(state.screen))acts+=`<div class="seg" id="efSeg"><button data-v="" class="${state.ef?'':'on'}">Todas</button>${Object.entries(EAF).map(([k,v])=>`<button data-v="${k}" class="${state.ef===k?'on':''}">${v.replace('AFP ','')}</button>`).join('')}</div>`;
@@ -2727,10 +2732,28 @@ document.addEventListener('keydown',e=>{const t=$('#tour');if(e.key==='Escape'&&
 // ======================= Inicio de sesión =======================
 function start(modo){state.modo=modo;P=P_DEF();if(modo==='cero')seedCero();else seedHistory();state.screen='inicio';state.ef='';state.fT={q:'',est:'',tipo:''};state.fP={tdoc:'',ndoc:'',lote:'',sol:'',sit:''};state.fC='todas';state.rep={tipo:'eaf',desde:'',hasta:''};render()}
 $('#loginForm').onsubmit=e=>{e.preventDefault();const v=$('#lPerfil').value;if(v==='ONP'){user.perfil='ONP';user.eaf=null;user.nombre=ONPUSR}else{user.perfil='EAF';user.eaf=v.split(':')[1];user.nombre=USR[user.eaf]}
- $('#login').style.display='none';$('#app').classList.add('on');drawMbar();start($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP');tourAuto()};
+ $('#login').style.display='none';$('#app').classList.add('on');drawMbar();simIniciar($('#modo').value);log('Inicio de sesión','PAST',esEAF()?EAF[user.eaf]:'ONP');tourAuto()};
 $('#login .foot').textContent=`Datos ficticios · sin valor oficial · fecha del prototipo ${fd(HOY)}`;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!DP.el)closeModal()});
 
+// ======================= Simulación guardada =======================
+// El avance de la simulación se guarda en este navegador; al volver a entrar se puede continuar donde se dejó.
+const SIM_K='past.v2.sim';
+function simGuardar(){if(!$('#app').classList.contains('on')||!DB)return;try{localStorage.setItem(SIM_K,JSON.stringify({t:Date.now(),modo:state.modo,screen:state.screen,seed:_seed,P,DB}))}catch(e){}}
+function simLeer(){try{const o=JSON.parse(localStorage.getItem(SIM_K));return o&&o.DB&&Array.isArray(o.DB.afs)?o:null}catch(e){return null}}
+function simIniciar(v){const o=v==='guardada'?simLeer():null;if(!o){start(v==='guardada'?'hist':v);return}
+ start(o.modo);DB=o.DB;P=Object.assign(P_DEF(),o.P);_seed=o.seed;if(o.screen&&M[o.screen])state.screen=o.screen;render();toast('Simulación recuperada')}
+let _simT=null;const simPronto=()=>{clearTimeout(_simT);_simT=setTimeout(simGuardar,500)};
+{const r0=render;render=function(){const r=r0.apply(this,arguments);simPronto();return r}}
+addEventListener('pagehide',simGuardar);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')simGuardar()});
+{const o=simLeer(),sel=$('#modo');if(o&&sel){const f=new Date(o.t);const op=document.createElement('option');op.value='guardada';op.textContent='Continuar la simulación guardada · '+f.toLocaleDateString('es-PE',{day:'2-digit',month:'short'})+' '+f.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});sel.prepend(op);sel.value='guardada'}}
+// ======================= Teclado =======================
+// Lo que se puede pulsar con el ratón (tarjetas, filas, pasos) también se alcanza con Tab y se activa con Enter o Espacio.
+(()=>{const SEL='[data-go],.click,[data-art],[data-lote],[data-rg]',NAT='a[href],button,input,select,textarea,summary,[tabindex],[contenteditable]';
+ const mark=el=>{if(el.matches(NAT)||el.closest('button,a[href]')||getComputedStyle(el).cursor!=='pointer')return;el.tabIndex=0;el.dataset.kb='1';if(el.tagName!=='TR')el.setAttribute('role','button')};
+ const scan=n=>{if(n.nodeType!==1)return;if(n.matches(SEL))mark(n);n.querySelectorAll(SEL).forEach(mark)};
+ new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(scan))).observe(document.body,{childList:true,subtree:true});scan(document.body);
+ document.addEventListener('keydown',e=>{const t=e.target;if(e.defaultPrevented||!t.dataset||t.dataset.kb!=='1'||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();t.click()})})();
 </script>
 </body>
 </html>
