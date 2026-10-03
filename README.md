@@ -11,6 +11,10 @@ Datos y usuarios ficticios, sin valor oficial.
 | [`past-cic-v2/`](past-cic-v2/index.html) | PAST · Transferencia de la CIC (v2), con guía, glosario y línea de vida por solicitud. |
 | [`ley-32123/`](ley-32123/index.html) | Mapa de interoperabilidad de la Ley 32123: procesos, intercambios entre entidades y citas de la norma. |
 
+## Reglas del requerimiento
+
+En Cuentas por consumo, la pantalla **Administración → Reglas del requerimiento** explica cada una de las 38 reglas (RN-APC-01 a 38) en palabras simples: qué hace el sistema, cuándo, con qué datos y qué resultado deja, con su base en el reglamento (D.S. 189-2025-EF) y el texto del artículo. Cada regla tiene una revisión contra el reglamento (*Conforme*, *Por precisar* u *Observada*). El botón **Descargar para la OTI** baja todo en un CSV que se abre en Excel.
+
 ## Uso local
 
 ```sh
