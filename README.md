@@ -27,3 +27,7 @@ python3 -m http.server 8000
 Cuentas por consumo y PAST (v1 y v2) guardan el avance de la simulación en el `localStorage` del navegador. Si recargas la página o la cierras, al volver a entrar la opción **Continuar la simulación guardada** aparece seleccionada en *Datos*; elige *Desde cero* o *Historial de ejemplo* para empezar de nuevo. Cada navegador guarda su propia simulación.
 
 Las preferencias de vista (menú lateral, formato de montos) también se guardan ahí.
+
+## Vistas simplificadas
+
+En Cuentas por consumo cada pantalla empieza con una línea que dice para qué sirve. El menú lateral muestra abierto solo el grupo en el que estás (los demás se abren al tocarlos) y Procesos se ordena por frecuencia: cada mes, cada año, pago del 1 %, cuando ocurre y una sola vez. Las pantallas largas (Cálculo del aporte, Abonos y pendientes, Cese y saldo, Avisos, Reportes, Parámetros y Modelo de datos) se dividen en pestañas, y los bloques que todavía no tienen datos muestran una sola línea en vez de una grilla de guiones. Las capturas de antes y después están en [`docs/ux/`](docs/ux).
