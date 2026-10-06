@@ -31,3 +31,7 @@ Las preferencias de vista (menú lateral, formato de montos) también se guardan
 ## Vistas simplificadas
 
 En Cuentas por consumo cada pantalla empieza con una línea que dice para qué sirve. En el menú lateral todos los grupos están abiertos; cada uno se puede cerrar tocando su título, y el de la pantalla actual siempre se ve. Procesos se ordena por frecuencia: cada mes, cada año, pago del 1 %, cuando ocurre y una sola vez. Las pantallas largas (Cálculo del aporte, Abonos y pendientes, Cese y saldo, Avisos, Reportes, Parámetros y Modelo de datos) se dividen en pestañas, y los bloques que todavía no tienen datos muestran una sola línea en vez de una grilla de guiones. Las capturas de antes y después están en [`docs/ux/`](docs/ux).
+
+## Inicio, Tablero y Reportes
+
+Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. El **Tablero** se divide en pestañas: *Pendientes* (lo que hay que hacer, procesos en curso y envíos recientes), *Afiliados y cuentas* (situación del padrón y etapas del proceso), *Aporte a las EAF* y *Conciliación*. **Reportes** tiene una pestaña por tema: *Del mes*, *Envíos*, *Respuestas de la SBS*, *Plazos*, *Aporte por ejercicio* y *Por afiliado*.
