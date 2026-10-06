@@ -38,4 +38,4 @@ Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. 
 
 **Envío automático (PUA → SBS)** (antes «Ejecutar envío») avisa arriba que ese proceso lo hace el sistema según las reglas RN-01 a RN-08, y enlaza a donde se revisa el resultado: *Envíos a la SBS*, *Respuestas de la SBS* y *Avisos*. Sus botones dicen «Simular» porque solo sirven para la prueba.
 
-**Padrón de cuentas** abre en *Buscar afiliado*; las cifras generales pasan a la pestaña *Resumen del padrón*. En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
+**Padrón de cuentas** muestra solo el resumen del padrón: al tocar una cifra (personas informadas, envíos realizados, con cuenta, pendientes, observados, cese…) aparece debajo su detalle, que se descarga en Excel. Para buscar a una persona está el módulo aparte **Buscar afiliado** (⌘K). En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
