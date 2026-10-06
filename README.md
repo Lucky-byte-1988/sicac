@@ -37,3 +37,5 @@ En Cuentas por consumo cada pantalla empieza con una línea que dice para qué s
 Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. El **Tablero** se divide en pestañas: *Pendientes* (lo que hay que hacer, procesos en curso y envíos recientes), *Afiliados y cuentas* (situación del padrón y etapas del proceso), *Aporte a las EAF* y *Conciliación*. **Reportes** tiene una pestaña por tema: *Del mes*, *Envíos*, *Respuestas de la SBS*, *Plazos*, *Aporte por ejercicio* y *Por afiliado*.
 
 **Envío automático (PUA → SBS)** (antes «Ejecutar envío») avisa arriba que ese proceso lo hace el sistema según las reglas RN-01 a RN-08, y enlaza a donde se revisa el resultado: *Envíos a la SBS*, *Respuestas de la SBS* y *Avisos*. Sus botones dicen «Simular» porque solo sirven para la prueba.
+
+**Padrón de cuentas** abre en *Buscar afiliado*; las cifras generales pasan a la pestaña *Resumen del padrón*. En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
