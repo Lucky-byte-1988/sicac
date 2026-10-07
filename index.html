@@ -968,7 +968,7 @@ body.rail .side .sgrp{display:none}
 .spot.on{display:flex;animation:spDim .3s ease both}.spot.out{animation:spDimOut .2s ease both}
 @keyframes spDim{from{background:rgba(0,0,0,0)}}@keyframes spDimOut{to{background:rgba(0,0,0,0)}}
 .sp-stage{display:flex;align-items:flex-start;gap:12px;width:min(100%,900px);justify-content:center}
-.sp-glass{background:radial-gradient(120% 60% at 15% 0%,rgba(255,255,255,.16),transparent 60%),linear-gradient(180deg,rgba(44,44,50,.20),rgba(30,30,36,.30));backdrop-filter:blur(14px) saturate(170%) brightness(.72) contrast(1.05);-webkit-backdrop-filter:blur(14px) saturate(170%) brightness(.72) contrast(1.05);text-shadow:0 1px 3px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 1px 0 0 rgba(255,255,255,.12),inset -1px 0 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(255,255,255,.08),0 0 0 .5px rgba(0,0,0,.35),0 24px 70px rgba(0,0,0,.32);color:#fff}
+.sp-glass{background:radial-gradient(120% 60% at 15% 0%,rgba(255,255,255,.16),transparent 60%),linear-gradient(180deg,rgba(40,40,46,.10),rgba(28,28,34,.18));backdrop-filter:blur(9px) saturate(180%) brightness(.8);-webkit-backdrop-filter:blur(9px) saturate(180%) brightness(.8);text-shadow:0 1px 4px rgba(0,0,0,.55),0 0 1px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 1px 0 0 rgba(255,255,255,.12),inset -1px 0 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(255,255,255,.08),0 0 0 .5px rgba(0,0,0,.35),0 24px 70px rgba(0,0,0,.32);color:#fff}
 .sp-box{width:560px;max-width:100%;border-radius:32px;overflow:hidden;transform-origin:50% 28px;transition:width .46s cubic-bezier(.32,.72,0,1),border-radius .46s cubic-bezier(.32,.72,0,1);animation:spPop .5s cubic-bezier(.22,1.25,.36,1) both}
 .spot.open .sp-box{width:760px;border-radius:30px}
 .spot.out .sp-box{animation:spGone .2s cubic-bezier(.4,0,1,1) both}
@@ -1031,7 +1031,7 @@ body.rail .side .sgrp{display:none}
 .sp-hint .sp-app{width:52px;height:52px;border-radius:13px;flex:none}.sp-hint .sp-app svg{width:26px;height:26px}
 .sp-hint b{display:block;font-size:17px;font-weight:600;margin-bottom:8px}.sp-hint p{margin:0;font-size:16px;color:rgba(255,255,255,.88)}
 .sp-keys{display:grid;grid-template-columns:repeat(2,auto);gap:10px 26px;justify-content:start}
-.sp-keys span{display:flex;align-items:center;gap:6px;font-size:16px}
+.sp-keys span{cursor:pointer;border-radius:9px;padding:2px 6px;margin:-2px -6px;transition:background .12s}.sp-keys span:hover{background:rgba(255,255,255,.12)}.sp-keys span{display:flex;align-items:center;gap:6px;font-size:16px}
 .sp-keys kbd,.sp-hint kbd{font:inherit;font-size:13px;min-width:26px;height:26px;display:inline-grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.14);color:#fff;padding:0 6px}
 .sp-legal{font-size:13px;color:rgba(255,255,255,.75);text-align:center;margin:14px 0 4px}
 .sp-cont{display:flex;justify-content:flex-end;margin-top:14px}
@@ -2806,7 +2806,7 @@ function spTile(x,i){const vis=`<span class="sp-app">${ic(x.tile==='app'?(x.ic||
 function spPintar(){const el=$('#spot'),box=$('#spRes');if(!box)return;const q=SP.q;el.classList.toggle('hasq',!!q.trim());el.classList.toggle('incat',!!SP.cat);
  const C=SP_CATS.find(c=>c.k===SP.cat);$('#spLead').innerHTML=ic(C?C.ic:'search');$('#spIn').placeholder=C?C.t:'Búsqueda en el sistema';
  const open=SP.hint||!!SP.cat||!!q.trim();el.classList.toggle('open',open);let h='';SP.items=[];
- if(SP.hint&&!SP.cat&&!q.trim()){h=`<div class="sp-hint"><span class="sp-app">${ic('grid')}</span><div><b>Explora más ubicaciones</b><div class="sp-keys">${SP_CATS.map((c,n)=>`<span><kbd>⌘</kbd><kbd>${n+1}</kbd>para ${c.t.toLowerCase()}</span>`).join('')}</div></div></div><div class="sp-hint"><span class="sp-app">${ic('book')}</span><div><b>Pregunta al reglamento</b><p>Escribe una pregunta y recibe la respuesta con su artículo.</p></div></div><div class="sp-hint"><span class="sp-app">${ic('search')}</span><div><b>Muévete con el teclado</b><p><kbd>↑</kbd> <kbd>↓</kbd> para elegir · <kbd>↵</kbd> para abrir · <kbd>esc</kbd> para volver</p></div></div>`}
+ if(SP.hint&&!SP.cat&&!q.trim()){h=`<div class="sp-hint"><span class="sp-app">${ic('grid')}</span><div><b>Explora más ubicaciones</b><div class="sp-keys">${SP_CATS.map((c,n)=>`<span data-spcat="${c.k}"><kbd>⌃</kbd><kbd>${n+1}</kbd>para ${c.t.toLowerCase()}</span>`).join('')}</div></div></div><div class="sp-hint"><span class="sp-app">${ic('book')}</span><div><b>Pregunta al reglamento</b><p>Escribe una pregunta y recibe la respuesta con su artículo.</p></div></div><div class="sp-hint"><span class="sp-app">${ic('search')}</span><div><b>Muévete con el teclado</b><p><kbd>↑</kbd> <kbd>↓</kbd> para elegir · <kbd>↵</kbd> para abrir · <kbd>esc</kbd> para volver</p></div></div>`}
  else if(SP.cat){const D=spCatData(SP.cat);const nq=spN(q).trim();const fil=x=>(!SP.f||x.grp===SP.f)&&(!nq||spN(x.t+' '+(x.sub||'')).includes(nq));
   h=D.chips.length?`<div class="sp-chips">${D.chips.map(c=>`<button class="sp-chip ${SP.f===c?'on':''}" data-spf="${spEsc(c)}">${spEsc(c)}</button>`).join('')}</div>`:'';
   const secs=(nq||SP.f)?[['Resultados',[...new Map((D.all||D.secs.flatMap(s=>s[1])).map(x=>[x.t,x])).values()].filter(fil).slice(0,10)]]:D.secs.filter(s=>s[1].length);
@@ -2818,7 +2818,7 @@ function spPintar(){const el=$('#spot'),box=$('#spRes');if(!box)return;const q=S
  const key=(SP.hint?'h':'')+(SP.cat||'')+'|'+(SP.f||'');box.innerHTML=`<div class="${box.dataset.k!==key?'sp-swap':''}">${h}</div>`;box.dataset.k=key;
  box.onclick=ev=>{const b=ev.target.closest('[data-sprep]');if(b){ev.stopPropagation();spRep(b.dataset.sprep,b.dataset.dni)}};$$('[data-spi]',box).forEach(r=>{r.onmouseenter=()=>{SP.i=+r.dataset.spi;$$('[data-spi]',box).forEach(z=>z.classList.toggle('on',z===r));const pe=$('#spPrev',box);if(pe&&SP.items[SP.i]&&SP.items[SP.i].dni)pe.innerHTML=spPrev(SP.items[SP.i])};r.onclick=()=>spIr(+r.dataset.spi)});
  $$('[data-spf]',box).forEach(b=>b.onclick=()=>{SP.f=SP.f===b.dataset.spf?'':b.dataset.spf;SP.i=0;spPintar();$('#spIn').focus()});
- const ok=$('#spOk',box);if(ok)ok.onclick=()=>{SP.hint=false;spPintar();$('#spIn').focus()};
+ $$('[data-spcat]',box).forEach(b=>b.onclick=()=>spCat(b.dataset.spcat));const ok=$('#spOk',box);if(ok)ok.onclick=()=>{SP.hint=false;spPintar();$('#spIn').focus()};
  const on=$('[data-spi].on',box);if(on)on.scrollIntoView({block:'nearest'})}
 function spCat(k){SP.cat=SP.cat===k?null:k;SP.f='';SP.q='';SP.i=0;SP.hint=!SP.cat;const inp=$('#spIn');inp.value='';spPintar();inp.focus()}
 function spIr(i){const x=SP.items[i];if(!x)return;spCerrar();(x.k==='resp'?(x.orig.s?()=>{state.screen=x.orig.s;render()}:x.orig.go):x.go)()}
@@ -2828,7 +2828,7 @@ function spAbrir(){if(!$('#app').classList.contains('on'))return;try{tipHide()}c
   $('#spX').onclick=()=>{if(SP.q){SP.q='';$('#spIn').value=''}else{SP.cat=null;SP.f=''}SP.i=0;spPintar();$('#spIn').focus()};
   const inp=$('#spIn');inp.oninput=()=>{SP.q=inp.value;SP.i=0;SP.hint=!SP.q&&!SP.cat;spPintar()};
   inp.onkeydown=e=>{const md=e.metaKey||e.ctrlKey;const n=SP.items.length;const grid=!!SP.cat;
-   if(md&&/^[1-4]$/.test(e.key)){e.preventDefault();e.stopPropagation();spCat(SP_CATS[+e.key-1].k);return}
+   
    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(SP.q){SP.q='';inp.value='';SP.hint=!SP.cat;spPintar()}else if(SP.cat){SP.cat=null;SP.f='';SP.hint=true;spPintar()}else spCerrar();return}
    if(e.key==='Backspace'&&!inp.value&&SP.cat){e.preventDefault();SP.cat=null;SP.f='';spPintar();return}
    if(!n)return;const mv=d=>{e.preventDefault();SP.i=(SP.i+d+n)%n;spPintar()};
@@ -2836,6 +2836,7 @@ function spAbrir(){if(!$('#app').classList.contains('on'))return;try{tipHide()}c
  SP.cat=null;SP.f='';SP.i=0;SP.hint=true
  el.classList.remove('out','open');void el.offsetWidth;el.classList.add('on');$$('.sp-box,.sp-cat',el).forEach(b=>{b.style.animation='none';void b.offsetWidth;b.style.animation=''});
  const inp=$('#spIn');inp.value=SP.q;spPintar();inp.focus();inp.select();setTimeout(()=>inp.focus(),30)}
+document.addEventListener('keydown',e=>{const el=$('#spot');if(!el||!el.classList.contains('on'))return;const m=/^Digit([1-4])$/.exec(e.code);if(m&&(e.ctrlKey||e.metaKey)&&!e.altKey&&!e.shiftKey){e.preventDefault();e.stopPropagation();spCat(SP_CATS[+m[1]-1].k)}},true);
 function spCerrar(){const el=$('#spot');if(!el||!el.classList.contains('on'))return;el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out','open')},190)}
 // ======================= Teclado =======================
 // Lo que se puede pulsar con el ratón (tarjetas, filas, pasos) también se alcanza con Tab y se activa con Enter o Espacio.
