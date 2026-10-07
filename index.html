@@ -323,7 +323,7 @@ details.tech summary{cursor:pointer;font-size:12px;color:var(--ink-2);margin:10p
   --bg:#f5f5f7;--surface:#ffffff;--surface-2:#f5f5f7;--surface-3:#e8e8ed;--side:rgba(246,246,248,.88);
   --border:rgba(0,0,0,.08);--border-2:rgba(0,0,0,.14);--hover:rgba(0,0,0,.045);--selected:rgba(0,0,0,.07);
   --ink:#1d1d1f;--ink-2:#6e6e73;--ink-3:#86868b;
-  --accent:#141B4D;--accent-2:#0D1236;--accent-soft:rgba(20,27,77,.08);--accent-ink:#fff;--onp-am:#FFB81C;--onp-ac:#6F9BA4;--onp-co:#FF6D6A;--onp-gr:#8E9089;
+  --accent:#1d1d1f;--accent-2:#000;--accent-soft:rgba(0,0,0,.06);--accent-ink:#fff;--onp-am:#FFB81C;--onp-ac:#6F9BA4;--onp-co:#FF6D6A;--onp-gr:#8E9089;
   --ok:#1f7a3a;--ok-soft:rgba(52,199,89,.14);--warn:#9a4b00;--warn-soft:rgba(255,159,10,.16);--crit:#b3261e;--crit-soft:rgba(255,59,48,.12);--vio:#4b49c4;--vio-soft:rgba(94,92,230,.12);
   --r1:8px;--r2:12px;--r3:16px;
   --sh1:0 1px 2px rgba(0,0,0,.04);--sh2:0 4px 16px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--sh3:0 20px 60px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.06);
@@ -390,11 +390,11 @@ table tr.grp th{color:var(--ink-3);font-size:10.5px;padding:10px 14px 0}
 
 /* ---- controles ---- */
 .in{min-height:var(--ctl);padding:6px 10px;font-size:13px;border:1px solid rgba(0,0,0,.12);border-radius:8px;box-shadow:none;background:var(--surface)}
-.in:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(20,27,77,.22)}
+.in:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(29,29,31,.22)}
 select.in{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 8px center;background-size:14px}
 .btn{min-height:var(--ctl);padding:6px 12px;font-size:13px;font-weight:500;border-radius:8px;border:1px solid rgba(0,0,0,.12);background:var(--surface);color:var(--ink);box-shadow:0 1px 1px rgba(0,0,0,.04)}
 .btn:hover{background:var(--surface-2)}
-.btn.p,.btn.g{background:var(--accent);border-color:transparent;color:#fff;box-shadow:0 1px 2px rgba(20,27,77,.25)}.btn.p:hover,.btn.g:hover{background:var(--accent-2);filter:none}
+.btn.p,.btn.g{background:var(--accent);border-color:transparent;color:#fff;box-shadow:0 1px 2px rgba(29,29,31,.25)}.btn.p:hover,.btn.g:hover{background:var(--accent-2);filter:none}
 .btn.ghost{background:transparent;border-color:transparent;box-shadow:none;color:var(--ink-2)}.btn.ghost:hover{background:var(--hover);color:var(--ink)}
 .btn.sm{min-height:28px;padding:4px 10px;font-size:12.5px}
 .btn:disabled{opacity:.4}
@@ -437,7 +437,7 @@ table.dense{font-size:11.5px}table.dense th,table.dense td{padding:7px 3px}table
 .login .brand .lg i{background:#fff;color:#1d1d1f}.login .brand .pt svg{stroke:#34c759}
 .login .formwrap{background:var(--bg)}
 .login input,.login select{border:1px solid rgba(0,0,0,.12);border-radius:8px;box-shadow:none;min-height:36px}
-.login input:focus,.login select:focus{box-shadow:0 0 0 3px rgba(20,27,77,.22)}
+.login input:focus,.login select:focus{box-shadow:0 0 0 3px rgba(29,29,31,.22)}
 .login .btn.p,.login .btn{background:var(--accent);border-color:transparent;color:#fff;border-radius:8px}
 .login .proto{background:var(--warn-soft);color:var(--warn);border-radius:10px}
 
@@ -509,7 +509,7 @@ body.navtop .side{display:none}
 .guide li{grid-template-columns:24px 1fr;gap:14px;padding:9px 0;min-height:54px;align-items:start;border-top:1px solid rgba(0,0,0,.05)}
 .guide li:first-child{border-top:0}
 .guide li:before{left:11px;top:33px;bottom:-4px;width:1px;background:rgba(0,0,0,.1)}
-.guide li.done:before{background:rgba(20,27,77,.35)}
+.guide li.done:before{background:rgba(29,29,31,.35)}
 .guide .ic{width:22px;height:22px;font-size:11px;box-shadow:none;background:var(--surface-3);color:var(--ink-2)}
 .guide li.done .ic{background:var(--accent);color:#fff}.guide li.run .ic{background:var(--ink-2);color:#fff;box-shadow:none}
 .guide li.done .ic svg,.guide li.run .ic svg{width:12px;height:12px}
@@ -651,7 +651,7 @@ body.menuopen .mb-dim{display:block;opacity:1}
 .mb-row{padding:5px 12px 5px 10px;gap:10px;justify-content:flex-start;border-radius:8px;font-size:13.5px;line-height:19px}
 .mb-row .mi{width:16px;height:16px;display:inline-grid;place-items:center;color:var(--ink-2);flex:none}.mb-row .mi svg{width:15px;height:15px;stroke-width:1.7}
 .mb-row.on .mi{visibility:hidden}.mb-row .k{margin-left:auto;color:rgba(0,0,0,.45)}
-.mb-row:hover,.mb-row.hi{background:rgba(20,27,77,.85);color:#fff}.mb-row:hover .mi,.mb-row.hi .mi{color:#fff}.mb-row:hover .k,.mb-row.hi .k{color:rgba(255,255,255,.85)}
+.mb-row:hover,.mb-row.hi{background:rgba(29,29,31,.85);color:#fff}.mb-row:hover .mi,.mb-row.hi .mi{color:#fff}.mb-row:hover .k,.mb-row.hi .k{color:rgba(255,255,255,.85)}
 .mb-row.on:before{left:11px;top:5px}
 .mb-sep{height:1px;background:rgba(0,0,0,.14);margin:6px 8px}
 .mb-item.open{background:rgba(0,0,0,.12)}
@@ -663,12 +663,12 @@ body.menuopen .mb-dim{display:block;opacity:1}
 /* ---- Liquid Glass: el panel deja ver lo que hay detrás, difuminado y saturado, con brillo en el borde ---- */
 .mb-dd{background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.40));backdrop-filter:blur(22px) saturate(210%) brightness(1.04);-webkit-backdrop-filter:blur(22px) saturate(210%) brightness(1.04);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 0 0 .5px rgba(0,0,0,.14),0 24px 60px rgba(0,0,0,.22),0 2px 6px rgba(0,0,0,.06)}
 .mb-row{color:#1d1d1f}.mb-row .k{color:rgba(0,0,0,.5)}
-.mb-row:hover,.mb-row.hi{background:rgba(20,27,77,.9)}
+.mb-row:hover,.mb-row.hi{background:rgba(29,29,31,.9)}
 .tip,.toast{background:rgba(255,255,255,.62);backdrop-filter:blur(22px) saturate(200%);-webkit-backdrop-filter:blur(22px) saturate(200%);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 14px 40px rgba(0,0,0,.16),0 0 0 .5px rgba(0,0,0,.12)}
 .tip{color:var(--ink)}
 
 /* ---- fondo con luz ambiente muy tenue: da al vidrio algo que refractar (como el fondo de escritorio en macOS) ---- */
-.main{background:radial-gradient(900px 480px at 8% 0%,rgba(20,27,77,.06),transparent 60%),radial-gradient(700px 420px at 100% 100%,rgba(52,199,89,.06),transparent 60%),var(--bg)}
+.main{background:radial-gradient(900px 480px at 8% 0%,rgba(29,29,31,.06),transparent 60%),radial-gradient(700px 420px at 100% 100%,rgba(52,199,89,.06),transparent 60%),var(--bg)}
 .mb-dd{background:linear-gradient(180deg,rgba(255,255,255,.46),rgba(255,255,255,.30));backdrop-filter:blur(18px) saturate(220%) brightness(1.05);-webkit-backdrop-filter:blur(18px) saturate(220%) brightness(1.05)}
 
 /* ---- formularios compactos: bloques con cabecera, una fila por bloque, adjuntar como botón ---- */
@@ -1092,7 +1092,7 @@ details.fold[open]>summary .fold-h .a,details.fold:not([open])>summary .fold-h .
   </aside>
   <div class="main">
     <div class="onphd"><div class="wm"><b>Cuentas por consumo</b><span>Control de cuentas<br>por consumo · SNP<br>entorno de prueba</span></div><h2><span id="modTitle">Tablero</span><span class="env">ENTORNO DE PRUEBA</span></h2></div>
-        <div class="top"><div style="display:flex;align-items:center;gap:10px;min-width:0"><button class="ib railbtn" id="railToggle" title="Mostrar u ocultar la barra lateral (⌘⇧S)"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="9" y1="4" x2="9" y2="20"/></svg></button><div class="ttl"><b id="modTitle2">Tablero</b><span class="sub" id="modSub"></span></div><div class="crumb" id="crumb"></div></div><div class="r"><div class="macts" id="modActs"></div><div class="seg" id="mfeaf" title="Filtrar por EAF"></div><div class="seg" id="mfmt" title="Formato de los montos"><button data-mf="M">Millones</button><button data-mf="K">Miles</button><button data-mf="full">Completo</button></div><span class="chip-proto" id="modoChip"></span><button class="btn sm ghost" id="btnReiniciar" title="Vuelve a dejar el sistema vacío">Reiniciar simulación</button><button class="ib" id="bell" title="Avisos"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button><span class="sm muted" id="hoy"></span></div></div>
+        <div class="top"><div style="display:flex;align-items:center;gap:10px;min-width:0"><button class="ib railbtn" id="railToggle" title="Mostrar u ocultar la barra lateral (Ctrl+Mayús+S)"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="9" y1="4" x2="9" y2="20"/></svg></button><div class="ttl"><b id="modTitle2">Tablero</b><span class="sub" id="modSub"></span></div><div class="crumb" id="crumb"></div></div><div class="r"><div class="macts" id="modActs"></div><div class="seg" id="mfeaf" title="Filtrar por EAF"></div><div class="seg" id="mfmt" title="Formato de los montos"><button data-mf="M">Millones</button><button data-mf="K">Miles</button><button data-mf="full">Completo</button></div><span class="chip-proto" id="modoChip"></span><button class="btn sm ghost" id="btnReiniciar" title="Vuelve a dejar el sistema vacío">Reiniciar simulación</button><button class="ib" id="bell" title="Avisos"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button><span class="sm muted" id="hoy"></span></div></div>
     <div class="page" id="page"></div>
     <div class="foot"><span>Prototipo v0.7.3 · entorno de prueba · sesión <span id="ses">29:59</span></span><span>Datos ficticios · sin valor oficial</span></div>
   </div>
@@ -2591,12 +2591,12 @@ function bindTips(root){bindDates(root);
 
 // ======================= Barra de menús (macOS) =======================
 const MENUS=[
- ['Cuentas por consumo',[{t:'Acerca del prototipo',fn:'about'},{sep:1},{t:'Preferencias…',s:'parametros',k:'⌘,'},{sep:1},{t:'Reiniciar simulación',fn:'reset'},{sep:1},{t:'Cerrar sesión',fn:'logout',k:'⇧⌘Q'}]],
- ['Procesos',[{t:'Envío automático a la SBS',s:'extraccion',k:'⌘1'},{t:'Envíos a la SBS',s:'padron',k:'⌘2'},{t:'Respuestas de la SBS',s:'respuestas',k:'⌘3'},{t:'Cálculo del aporte (1 %)',s:'calculo',k:'⌘4'},{t:'Gestión del pago',s:'pago'},{t:'Cese y saldo de la cuenta',s:'cese'},{sep:1},{t:'Cargar envíos anteriores (antes de la puesta en marcha)',s:'historico'},{sep:1},{t:'Simular el mes completo (prueba)',fn:'auto',k:'⌘⏎'}]],
- ['Consultas',[{t:'Padrón de cuentas',s:'afiliados',k:'⌘5'},{t:'Abonos y pendientes (EAF)',s:'abonos'},{t:'Archivos intercambiados',s:'intercambios',k:'⌘6'},{t:'Documentos y casos',s:'documentos',k:'⌘7'},{t:'Avisos',s:'avisos'},{sep:1},{t:'Buscar o preguntar…',fn:'search',k:'⌘K'}]],
- ['Análisis',[{t:'Tablero',s:'tablero',k:'⌘0'},{sep:1},{t:'Reporte del mes',s:'reportes'},{t:'Envíos por mes',s:'repEnvios'},{t:'Respuestas por envío',s:'repResp'},{t:'Cumplimiento de plazos',s:'repPlazos'},{t:'Aporte por ejercicio',s:'repEj'},{t:'Reporte por afiliado',s:'reporteAf'}]],
+ ['Cuentas por consumo',[{t:'Acerca del prototipo',fn:'about'},{sep:1},{t:'Reiniciar simulación',fn:'reset'},{sep:1},{t:'Cerrar sesión',fn:'logout',k:'Ctrl+Mayús+Q'}]],
+ ['Procesos',[{t:'Envío automático a la SBS',s:'extraccion',k:'Ctrl+1'},{t:'Envíos a la SBS',s:'padron',k:'Ctrl+2'},{t:'Respuestas de la SBS',s:'respuestas',k:'Ctrl+3'},{t:'Cálculo del aporte (1 %)',s:'calculo',k:'Ctrl+4'},{t:'Gestión del pago',s:'pago'},{t:'Cese y saldo de la cuenta',s:'cese'},{sep:1},{t:'Cargar envíos anteriores (antes de la puesta en marcha)',s:'historico'},{sep:1},{t:'Simular el mes completo (prueba)',fn:'auto',k:'Ctrl+Enter'}]],
+ ['Consultas',[{t:'Padrón de cuentas',s:'afiliados',k:'Ctrl+5'},{t:'Abonos y pendientes (EAF)',s:'abonos'},{t:'Archivos intercambiados',s:'intercambios',k:'Ctrl+6'},{t:'Documentos y casos',s:'documentos',k:'Ctrl+7'},{t:'Avisos',s:'avisos'},{sep:1},{t:'Buscar o preguntar…',fn:'search',k:'Ctrl+K'}]],
+ ['Análisis',[{t:'Tablero',s:'tablero',k:'Ctrl+0'},{sep:1},{t:'Reporte del mes',s:'reportes'},{t:'Envíos por mes',s:'repEnvios'},{t:'Respuestas por envío',s:'repResp'},{t:'Cumplimiento de plazos',s:'repPlazos'},{t:'Aporte por ejercicio',s:'repEj'},{t:'Reporte por afiliado',s:'reporteAf'}]],
  ['Administración',[{t:'Parámetros',s:'parametros'},{t:'Presupuesto del MEF',s:'presupuesto'},{t:'Usuarios y perfiles',s:'usuarios'},{t:'Auditoría',s:'auditoria'},{t:'Reglas del requerimiento',s:'reglas'}]],
- ['Ver',[{t:'Barra lateral completa',fn:'sideFull',chk:()=>state.nav!=='top'&&!document.body.classList.contains('rail')},{t:'Barra lateral solo con íconos',fn:'sideRail',k:'⇧⌘S',chk:()=>state.nav!=='top'&&document.body.classList.contains('rail')},{t:'Ocultar barra lateral',fn:'sideHide',chk:()=>state.nav==='top'},{sep:1},{t:'Modo: simulación desde cero',fn:'modoCero',chk:()=>modo==='cero'},{t:'Modo: historial de ejemplo',fn:'modoEj',chk:()=>modo==='ejemplo'}]],
+ ['Ver',[{t:'Barra lateral completa',fn:'sideFull',chk:()=>state.nav!=='top'&&!document.body.classList.contains('rail')},{t:'Barra lateral solo con íconos',fn:'sideRail',k:'Ctrl+Mayús+S',chk:()=>state.nav!=='top'&&document.body.classList.contains('rail')},{t:'Ocultar barra lateral',fn:'sideHide',chk:()=>state.nav==='top'},{sep:1},{t:'Modo: simulación desde cero',fn:'modoCero',chk:()=>modo==='cero'},{t:'Modo: historial de ejemplo',fn:'modoEj',chk:()=>modo==='ejemplo'}]],
  ['Ayuda',[{t:'Ayuda del sistema y reglamento',s:'ayuda'},{t:'Cómo funciona el sistema',fn:'como'},{t:'Mapa de interoperabilidad',s:'mapa'},{t:'Modelo de datos del negocio',s:'modelo'},{t:'Reglas del requerimiento',s:'reglas'},{t:'Guía de la ruta de intercambio (SBSNet / SFTP)',s:'parametros'},{sep:1},{t:'Entorno de prueba · datos ficticios',dis:1}]]];
 const MFN_IC={como:'book',about:'grid',reset:'refresh',logout:'ext',auto:'play',search:'search',sideFull:'list',sideRail:'list',sideHide:'list',modoCero:'db',modoEj:'db'};
 const navIcon=id=>{for(const g of NAV){const it=g[1].find(x=>x[0]===id);if(it)return it[2]}return 'doc'};
@@ -2604,7 +2604,7 @@ const MFN={como:()=>modal('Cómo funciona el sistema','Tres procesos, un mismo i
  sideFull:()=>{state.nav='left';document.body.classList.remove('rail');try{localStorage.setItem('sicac.nav','left');localStorage.setItem('sicac.rail','0')}catch(e){}render()},sideRail:()=>{state.nav='left';document.body.classList.add('rail');try{localStorage.setItem('sicac.nav','left');localStorage.setItem('sicac.rail','1')}catch(e){}render();bindTips($('#navItems'))},sideHide:()=>{state.nav='top';try{localStorage.setItem('sicac.nav','top')}catch(e){}render()},
  modoCero:()=>{resetDatos('cero');closeModal();render();toast('Simulación desde cero')},modoEj:()=>{resetDatos('ejemplo');closeModal();render();toast('Historial de ejemplo')}};
 const LOGO='<svg class="mb-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="7" y1="15" x2="11" y2="15"/></svg>';
-function renderMenubar(){const o=state.menuOpen;document.body.classList.toggle('menuopen',o!=null);const nl=avisos.some(a=>!a.leido);const right=`<div class="mb-right"><button class="mb-ic" id="spBtn" title="Buscar o preguntar (⌘K)">${ic('search')}</button><button class="mb-ic ${nl?'has':''}" id="bell2" title="Avisos">${ic('bell')}<span class="dot"></span></button><span class="mb-date">${new Date().toLocaleDateString('es-PE',{weekday:'short',day:'numeric',month:'short'}).replace(/\./g,'')}</span></div>`;$('#mbar').innerHTML=right+MENUS.map(([name,items],i)=>`<div class="mb-item ${i===0?'mb-app':''} ${o===i?'open':''}" data-menu="${i}" ${i===0?'title="'+name+'"':''}>${i===0?LOGO:name}${o===i?`<div class="mb-dd">${items.map(it=>it.sep?'<div class="mb-sep"></div>':`<div class="mb-row ${it.dis?'dis':''} ${(it.s&&state.screen===it.s)||(it.chk&&it.chk())?'on':''}" ${it.s?`data-s="${it.s}"`:''} ${it.fn?`data-fn="${it.fn}"`:''}><span class="mi">${it.chk?'':ic(it.s?navIcon(it.s):(MFN_IC[it.fn]||'doc'))}</span><span>${it.t}</span>${it.k?`<span class="k">${it.k}</span>`:''}</div>`).join('')}</div>`:''}</div>`).join('');
+function renderMenubar(){const o=state.menuOpen;document.body.classList.toggle('menuopen',o!=null);const nl=avisos.some(a=>!a.leido);const right=`<div class="mb-right"><button class="mb-ic" id="spBtn" title="Buscar o preguntar (Ctrl+K)">${ic('search')}</button><button class="mb-ic ${nl?'has':''}" id="bell2" title="Avisos">${ic('bell')}<span class="dot"></span></button><span class="mb-date">${new Date().toLocaleDateString('es-PE',{weekday:'short',day:'numeric',month:'short'}).replace(/\./g,'')}</span></div>`;$('#mbar').innerHTML=right+MENUS.map(([name,items],i)=>`<div class="mb-item ${i===0?'mb-app':''} ${o===i?'open':''}" data-menu="${i}" ${i===0?'title="'+name+'"':''}>${i===0?LOGO:name}${o===i?`<div class="mb-dd">${items.map(it=>it.sep?'<div class="mb-sep"></div>':`<div class="mb-row ${it.dis?'dis':''} ${(it.s&&state.screen===it.s)||(it.chk&&it.chk())?'on':''}" ${it.s?`data-s="${it.s}"`:''} ${it.fn?`data-fn="${it.fn}"`:''}><span class="mi">${it.chk?'':ic(it.s?navIcon(it.s):(MFN_IC[it.fn]||'doc'))}</span><span>${it.t}</span>${it.k?`<span class="k">${it.k}</span>`:''}</div>`).join('')}</div>`:''}</div>`).join('');
  {const sb=$('#spBtn');if(sb)sb.onclick=ev=>{ev.stopPropagation();state.menuOpen=null;renderMenubar();spAbrir()}}const b2=$('#bell2');if(b2)b2.onclick=()=>{state.menuOpen=null;state.screen='avisos';render()};
  $$('#mbar .mb-item').forEach(el=>{el.onmousedown=ev=>{if(ev.target.closest('.mb-dd'))return;ev.preventDefault();ev.stopPropagation();const i=+el.dataset.menu;state.menuOpen=state.menuOpen===i?null:i;state.menuHi=-1;renderMenubar()};el.onclick=ev=>ev.stopPropagation();el.onmouseenter=()=>{if(state.menuOpen!=null&&state.menuOpen!==+el.dataset.menu){state.menuOpen=+el.dataset.menu;renderMenubar()}}});
  $$('#mbar .mb-row').forEach((r,idx)=>{r.onmouseenter=()=>{state.menuHi=idx;$$('#mbar .mb-row').forEach(x=>x.classList.remove('hi'));r.classList.add('hi')};r.onmouseleave=()=>r.classList.remove('hi')});$$('#mbar .mb-row').forEach(r=>r.onclick=ev=>{ev.stopPropagation();state.menuOpen=null;if(r.dataset.s){state.screen=r.dataset.s;closeModal();render()}else if(r.dataset.fn){renderMenubar();MFN[r.dataset.fn]()}else renderMenubar()})}
