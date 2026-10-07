@@ -1189,7 +1189,7 @@ function eafSeg(){const el=$('#mfeaf');if(!el)return;if(!EAF_SCREENS.has(state.s
 
 // ======================= Inicio =======================
 // Al entrar no se muestra ninguna cifra: solo el saludo y el menú
-M.inicio=()=>`<div class="inicio">${ic('home')}<h1>Hola, ${user.nombre}</h1><p>Elige una opción del menú para empezar.</p></div>`;
+M.inicio=()=>`<div class="inicio"></div>`;
 // ======================= Tablero =======================
 const mShort=n=>money(n);
 M.tablero=()=>{const TF=state.tab||{anio:'',mes:''};const scope=e=>{if(!TF.anio)return true;const [dd,mm,yy]=e.corte.split('/');return yy===TF.anio&&(!TF.mes||+mm<=+TF.mes)};const ENV=envios.filter(scope);const anios=[...new Set(envios.map(e=>e.corte.slice(6)))].sort();const excTot=ENV.reduce((a,e)=>a+e.exc,0),noEnv=ENV.filter(e=>!['Respondido','Depositado'].includes(e.estado)).reduce((a,e)=>a+e.reg,0);const RESP=respuestas.filter(r=>r.rec&&ENV.some(e=>e.per===r.orig));const env=TF.anio?ENV.filter(e=>['Respondido','Depositado'].includes(e.estado)).reduce((a,e)=>a+e.reg,0):TOT.informados,eleg=env+noEnv,pua=eleg+excTot,cc=TF.anio?RESP.reduce((a,r)=>a+r.conf,0):TOT.conCuenta,act=cc-TOT.cese;const SC={pend:TF.anio?RESP.reduce((a,r)=>a+r.pend,0):TOT.pend,obs:TF.anio?RESP.reduce((a,r)=>a+r.obs,0):TOT.obs};SC.espera=Math.max(0,env-cc-SC.pend-SC.obs);const T=calcTot();const EL=EJERCICIOS[EJERCICIOS.length-1];const pag=EL?true:CS.step>=6;const pagTot=EL?EL.total:T.pagado;const ejPag=EL?EL.ej:CALC.ej;const pagSNP=r2(pagTot*(CALC.snp-CALC.cese)/(EL?EL.procede:T.procede));const es=state.eafStep||0;const nEnv=envios.filter(e=>e.fecha).length,ult=envios.filter(e=>e.fecha).slice(-1)[0];
