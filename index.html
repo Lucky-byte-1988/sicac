@@ -2806,7 +2806,7 @@ function spTile(x,i){const vis=`<span class="sp-app">${ic(x.tile==='app'?(x.ic||
 function spPintar(){const el=$('#spot'),box=$('#spRes');if(!box)return;const q=SP.q;el.classList.toggle('hasq',!!q.trim());el.classList.toggle('incat',!!SP.cat);
  const C=SP_CATS.find(c=>c.k===SP.cat);$('#spLead').innerHTML=ic(C?C.ic:'search');$('#spIn').placeholder=C?C.t:'Búsqueda en el sistema';
  const open=SP.hint||!!SP.cat||!!q.trim();el.classList.toggle('open',open);let h='';SP.items=[];
- if(SP.hint&&!SP.cat&&!q.trim()){h=`<div class="sp-hint"><span class="sp-app">${ic('grid')}</span><div><b>Explora más ubicaciones</b><div class="sp-keys">${SP_CATS.map((c,n)=>`<span><kbd>⌘</kbd><kbd>${n+1}</kbd>para ${c.t.toLowerCase()}</span>`).join('')}</div></div></div><div class="sp-hint"><span class="sp-app">${ic('book')}</span><div><b>Pregunta al reglamento</b><p>Escribe una pregunta y recibe la respuesta con su artículo.</p></div></div><div class="sp-hint"><span class="sp-app">${ic('search')}</span><div><b>Muévete con el teclado</b><p><kbd>↑</kbd> <kbd>↓</kbd> para elegir · <kbd>↵</kbd> para abrir · <kbd>esc</kbd> para volver</p></div></div><div class="sp-cont"><button class="sp-ok" id="spOk">Continuar</button></div>`}
+ if(SP.hint&&!SP.cat&&!q.trim()){h=`<div class="sp-hint"><span class="sp-app">${ic('grid')}</span><div><b>Explora más ubicaciones</b><div class="sp-keys">${SP_CATS.map((c,n)=>`<span><kbd>⌘</kbd><kbd>${n+1}</kbd>para ${c.t.toLowerCase()}</span>`).join('')}</div></div></div><div class="sp-hint"><span class="sp-app">${ic('book')}</span><div><b>Pregunta al reglamento</b><p>Escribe una pregunta y recibe la respuesta con su artículo.</p></div></div><div class="sp-hint"><span class="sp-app">${ic('search')}</span><div><b>Muévete con el teclado</b><p><kbd>↑</kbd> <kbd>↓</kbd> para elegir · <kbd>↵</kbd> para abrir · <kbd>esc</kbd> para volver</p></div></div>`}
  else if(SP.cat){const D=spCatData(SP.cat);const nq=spN(q).trim();const fil=x=>(!SP.f||x.grp===SP.f)&&(!nq||spN(x.t+' '+(x.sub||'')).includes(nq));
   h=D.chips.length?`<div class="sp-chips">${D.chips.map(c=>`<button class="sp-chip ${SP.f===c?'on':''}" data-spf="${spEsc(c)}">${spEsc(c)}</button>`).join('')}</div>`:'';
   const secs=(nq||SP.f)?[['Resultados',[...new Map((D.all||D.secs.flatMap(s=>s[1])).map(x=>[x.t,x])).values()].filter(fil).slice(0,10)]]:D.secs.filter(s=>s[1].length);
@@ -2820,20 +2820,20 @@ function spPintar(){const el=$('#spot'),box=$('#spRes');if(!box)return;const q=S
  $$('[data-spf]',box).forEach(b=>b.onclick=()=>{SP.f=SP.f===b.dataset.spf?'':b.dataset.spf;SP.i=0;spPintar();$('#spIn').focus()});
  const ok=$('#spOk',box);if(ok)ok.onclick=()=>{SP.hint=false;spPintar();$('#spIn').focus()};
  const on=$('[data-spi].on',box);if(on)on.scrollIntoView({block:'nearest'})}
-function spCat(k){SP.cat=SP.cat===k?null:k;SP.f='';SP.q='';SP.i=0;SP.hint=false;const inp=$('#spIn');inp.value='';spPintar();inp.focus()}
+function spCat(k){SP.cat=SP.cat===k?null:k;SP.f='';SP.q='';SP.i=0;SP.hint=!SP.cat;const inp=$('#spIn');inp.value='';spPintar();inp.focus()}
 function spIr(i){const x=SP.items[i];if(!x)return;spCerrar();(x.k==='resp'?(x.orig.s?()=>{state.screen=x.orig.s;render()}:x.orig.go):x.go)()}
 function spAbrir(){if(!$('#app').classList.contains('on'))return;try{tipHide()}catch(e){}let el=$('#spot');if(el&&el.classList.contains('on')&&!el.classList.contains('out')){spCerrar();return}
  if(!el){el=document.createElement('div');el.id='spot';el.className='spot';el.innerHTML=`<div class="sp-stage"><div class="sp-box sp-glass" role="dialog" aria-label="Búsqueda en el sistema"><div class="sp-in"><span class="sp-lead" id="spLead"></span><input id="spIn" autocomplete="off" spellcheck="false"><button class="sp-x" id="spX" aria-label="Borrar">${ic('x')}</button></div><div class="sp-body"><div><div class="sp-scroll" id="spRes"></div></div></div></div><div class="sp-cats">${SP_CATS.map((c,n)=>`<div class="sp-cw"><button class="sp-cat sp-glass" data-spc="${c.k}" aria-label="${c.t}">${ic(c.ic)}</button><span class="sp-tip">${c.t} · ⌘${n+1}</span></div>`).join('')}</div></div>`;document.body.appendChild(el);
   el.onmousedown=e=>{if(!e.target.closest('.sp-box,.sp-cat'))spCerrar()};$$('[data-spc]',el).forEach(b=>b.onclick=()=>spCat(b.dataset.spc));
   $('#spX').onclick=()=>{if(SP.q){SP.q='';$('#spIn').value=''}else{SP.cat=null;SP.f=''}SP.i=0;spPintar();$('#spIn').focus()};
-  const inp=$('#spIn');inp.oninput=()=>{SP.q=inp.value;SP.i=0;if(SP.q)SP.hint=false;spPintar()};
+  const inp=$('#spIn');inp.oninput=()=>{SP.q=inp.value;SP.i=0;SP.hint=!SP.q&&!SP.cat;spPintar()};
   inp.onkeydown=e=>{const md=e.metaKey||e.ctrlKey;const n=SP.items.length;const grid=!!SP.cat;
    if(md&&/^[1-4]$/.test(e.key)){e.preventDefault();e.stopPropagation();spCat(SP_CATS[+e.key-1].k);return}
-   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(SP.q){SP.q='';inp.value='';spPintar()}else if(SP.cat||SP.hint){SP.cat=null;SP.f='';SP.hint=false;spPintar()}else spCerrar();return}
+   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(SP.q){SP.q='';inp.value='';SP.hint=!SP.cat;spPintar()}else if(SP.cat){SP.cat=null;SP.f='';SP.hint=true;spPintar()}else spCerrar();return}
    if(e.key==='Backspace'&&!inp.value&&SP.cat){e.preventDefault();SP.cat=null;SP.f='';spPintar();return}
    if(!n)return;const mv=d=>{e.preventDefault();SP.i=(SP.i+d+n)%n;spPintar()};
    if(e.key==='ArrowDown')mv(grid?Math.min(5,n-SP.i-1)||1:1);else if(e.key==='ArrowUp')mv(grid?-Math.min(5,SP.i)||-1:-1);else if(grid&&e.key==='ArrowRight'&&!inp.value)mv(1);else if(grid&&e.key==='ArrowLeft'&&!inp.value)mv(-1);else if(e.key==='Enter'){e.preventDefault();spIr(SP.i)}}}
- SP.cat=null;SP.f='';SP.i=0;if(SP.seen===undefined){SP.seen=true;SP.hint=true}
+ SP.cat=null;SP.f='';SP.i=0;SP.hint=true
  el.classList.remove('out','open');void el.offsetWidth;el.classList.add('on');$$('.sp-box,.sp-cat',el).forEach(b=>{b.style.animation='none';void b.offsetWidth;b.style.animation=''});
  const inp=$('#spIn');inp.value=SP.q;spPintar();inp.focus();inp.select();setTimeout(()=>inp.focus(),30)}
 function spCerrar(){const el=$('#spot');if(!el||!el.classList.contains('on'))return;el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out','open')},190)}
