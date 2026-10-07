@@ -40,7 +40,7 @@ Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. 
 
 **Padrón de cuentas** muestra solo el resumen del padrón: al tocar una cifra (personas informadas, envíos realizados, con cuenta, pendientes, observados, cese…) aparece debajo su detalle, que se descarga en Excel. Para buscar a una persona está el módulo aparte **Buscar afiliado** (⌘K). En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
 
-**Actualización de EAF**: no tiene módulos propios. Es otro universo, aparte del padrón del PUA: las personas del Sistema (SNP y SPP) que la SUNAT informa al MEF y el MEF traslada a la ONP (77.1, 77.2 y 78.2), cuyos DNI la ONP envía a la SBS para conocer su EAF vigente (78.3). Por eso *Envío automático a la SBS*, *Envíos a la SBS* y *Respuestas de la SBS* tienen dos pestañas, **Padrón mensual** y **Actualización de EAF**, con el mismo detalle (resumen, errores de estructura y archivo). Los enlaces antiguos (`eaf`, `eafx`, `eafResp`) abren la pestaña correspondiente.
+**Actualización de EAF**: no tiene módulos propios. Es otro universo, aparte del padrón del PUA: las personas del Sistema (SNP y SPP) que la SUNAT informa al MEF y el MEF traslada a la ONP (77.1, 77.2 y 78.2), cuyos DNI la ONP envía a la SBS para conocer su EAF vigente (78.3). Por eso *Envío automático a la SBS*, *Envíos a la SBS* y *Respuestas de la SBS* tienen las pestañas **Padrón mensual** y **Actualización de EAF** (Envíos a la SBS suma **Envíos anuales**: ceses y cambios ISN2, 76.1 e, y stock transitorio ISNT), con el mismo detalle (resumen, errores de estructura y archivo). Los enlaces antiguos (`eaf`, `eafx`, `eafResp`) abren la pestaña correspondiente.
 
 ## Buscador (⌘K)
 
