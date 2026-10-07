@@ -40,7 +40,7 @@ Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. 
 
 **Padrón de cuentas** muestra solo el resumen del padrón: al tocar una cifra (personas informadas, envíos realizados, con cuenta, pendientes, observados, cese…) aparece debajo su detalle, que se descarga en Excel. Para buscar a una persona está el módulo aparte **Buscar afiliado** (⌘K). En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
 
-**Actualización de EAF** tiene sus dos bandejas, como el envío mensual: *Solicitudes de EAF* (lo que la ONP envía cada año a la SBS con los DNI de la relación del MEF, 78.3) y *Respuestas de EAF* (lo que devuelve la SBS: misma EAF, cambiaron de EAF, sin cuenta, si cuadra y si ya se grabó en el registro). Reemplazan a «Historial de EAF por año».
+**Actualización automática de EAF** funciona como el envío mensual: un aviso dice que lo hace el sistema (78.3, RN-16 y RN-17) y los botones «Simular» son solo para la prueba. Tiene sus dos bandejas, como el envío mensual: *Solicitudes de EAF* (lo que la ONP envía cada año a la SBS con los DNI de la relación del MEF, 78.3) y *Respuestas de EAF* (lo que devuelve la SBS: misma EAF, cambiaron de EAF, sin cuenta, si cuadra y si ya se grabó en el registro). Reemplazan a «Historial de EAF por año».
 
 ## Buscador (⌘K)
 
