@@ -36,11 +36,11 @@ En Cuentas por consumo cada pantalla empieza con una línea que dice para qué s
 
 Al entrar al sistema se abre **Inicio**, sin cifras: solo el saludo y el menú. El **Tablero** tiene tres pestañas: *Afiliados y cuentas* (las etapas del proceso, del padrón del PUA al aporte, y los envíos recientes), *Aporte a las EAF* (pagado y pendiente por año fiscal, con el detalle por EAF) y *Pendientes* (lo que requiere atención y los procesos en curso). En **Análisis** cada reporte es un módulo propio, con su filtro y su descarga: *Reporte del mes*, *Envíos por mes*, *Respuestas por envío*, *Cumplimiento de plazos*, *Aporte por ejercicio* y *Reporte por afiliado*.
 
-**Envío automático (PUA → SBS)** (antes «Ejecutar envío») avisa arriba que ese proceso lo hace el sistema según las reglas RN-01 a RN-08, y enlaza a donde se revisa el resultado: *Envíos a la SBS*, *Respuestas de la SBS* y *Avisos*. Sus botones dicen «Simular» porque solo sirven para la prueba; lo mismo en Cálculo del aporte.
+**Envío automático a la SBS** (antes «Ejecutar envío») avisa arriba que ese proceso lo hace el sistema según las reglas RN-01 a RN-08, y enlaza a donde se revisa el resultado: *Envíos a la SBS*, *Respuestas de la SBS* y *Avisos*. Sus botones dicen «Simular» porque solo sirven para la prueba; lo mismo en Cálculo del aporte.
 
 **Padrón de cuentas** muestra solo el resumen del padrón: al tocar una cifra (personas informadas, envíos realizados, con cuenta, pendientes, observados, cese…) aparece debajo su detalle, que se descarga en Excel. Para buscar a una persona está el módulo aparte **Buscar afiliado** (⌘K). En todo el sistema «log» se reemplaza por «lista de errores» o «registro».
 
-**Actualización automática de EAF** funciona como el envío mensual: un aviso dice que lo hace el sistema (78.3, RN-16 y RN-17) y los botones «Simular» son solo para la prueba. Tiene sus dos bandejas, como el envío mensual: *Solicitudes de EAF* (lo que la ONP envía cada año a la SBS con los DNI de la relación del MEF, 78.3) y *Respuestas de EAF* (lo que devuelve la SBS: misma EAF, cambiaron de EAF, sin cuenta, si cuadra y si ya se grabó en el registro). Reemplazan a «Historial de EAF por año».
+**Actualización de EAF**: no tiene módulos propios. Es otro universo, aparte del padrón del PUA: las personas del Sistema (SNP y SPP) que la SUNAT informa al MEF y el MEF traslada a la ONP (77.1, 77.2 y 78.2), cuyos DNI la ONP envía a la SBS para conocer su EAF vigente (78.3). Por eso *Envío automático a la SBS*, *Envíos a la SBS* y *Respuestas de la SBS* tienen dos pestañas, **Padrón mensual** y **Actualización de EAF**, con el mismo detalle (resumen, errores de estructura y archivo). Los enlaces antiguos (`eaf`, `eafx`, `eafResp`) abren la pestaña correspondiente.
 
 ## Buscador (⌘K)
 
