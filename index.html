@@ -964,11 +964,11 @@ body.rail .side .sgrp{display:none}
 .inicio{min-height:calc(100vh - 220px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--ink-3)}.inicio .i{width:40px;height:40px;opacity:.5;margin-bottom:12px}.inicio h1{margin:0 0 6px;font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--ink)}.inicio p{margin:0;font-size:14px}
 .autoex{border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin-bottom:12px}.autoex .ax-t{display:flex;gap:12px;align-items:flex-start}.autoex .ax-t svg{flex:none;width:22px;height:22px;stroke:var(--accent);margin-top:1px}.autoex .ax-t b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}.autoex .ax-t span{font-size:13px;color:var(--ink-2);line-height:1.45}.autoex .ax-r{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 0 34px;font-size:12.5px;color:var(--ink-2)}.simlbl{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);align-self:center;margin-right:2px}
 /* ===== Spotlight · estilo macOS/iOS 27 (vidrio oscuro) ===== */
-.spot{position:fixed;inset:0;z-index:60;display:none;justify-content:center;align-items:flex-start;padding:16vh 16px 16px;background:rgba(0,0,0,.16)}
+.spot{position:fixed;inset:0;z-index:60;display:none;justify-content:center;align-items:flex-start;padding:16vh 16px 16px;background:rgba(0,0,0,.1)}
 .spot.on{display:flex;animation:spDim .3s ease both}.spot.out{animation:spDimOut .2s ease both}
 @keyframes spDim{from{background:rgba(0,0,0,0)}}@keyframes spDimOut{to{background:rgba(0,0,0,0)}}
 .sp-stage{display:flex;align-items:flex-start;gap:12px;width:min(100%,900px);justify-content:center}
-.sp-glass{background:linear-gradient(180deg,rgba(64,60,62,.84),rgba(44,41,44,.88));backdrop-filter:blur(50px) saturate(180%);-webkit-backdrop-filter:blur(50px) saturate(180%);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.18),0 0 0 .5px rgba(0,0,0,.35),0 24px 70px rgba(0,0,0,.32);color:#fff}
+.sp-glass{background:linear-gradient(180deg,rgba(60,56,60,.46),rgba(40,38,42,.52));backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);text-shadow:0 1px 2px rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.18),0 0 0 .5px rgba(0,0,0,.35),0 24px 70px rgba(0,0,0,.32);color:#fff}
 .sp-box{width:560px;max-width:100%;border-radius:32px;overflow:hidden;transform-origin:50% 28px;transition:width .46s cubic-bezier(.32,.72,0,1),border-radius .46s cubic-bezier(.32,.72,0,1);animation:spPop .5s cubic-bezier(.22,1.25,.36,1) both}
 .spot.open .sp-box{width:760px;border-radius:30px}
 .spot.out .sp-box{animation:spGone .2s cubic-bezier(.4,0,1,1) both}
@@ -2769,11 +2769,13 @@ function spIndice(){const it=[];
  Object.keys(RULES).forEach(k=>{const [t,d]=RULES[k];const D=RN_DOC[k]||{};it.push({k:'rn',t:'RN-APC-'+k+' · '+t,sub:D.s||d,ic:'shield',a:D.b,r:[k],s:RULES[k][2],go:()=>verRegla(k),txt:'rn-'+k+' rn-'+(+k)+' rn-apc-'+k+' rn'+k+' rn'+(+k)+' '+t+' '+d+' '+(D.s||'')+' '+(D.cu||'')+' '+(D.ha||'')+' '+(D.b||[]).join(' ')})});
  AY_ART.forEach(([sec,arts])=>arts.forEach(([a,s,who])=>it.push({k:'art',t:'Artículo '+a,sub:s,ic:'book',a:[a],go:()=>spIrAyuda('Artículo por artículo'),txt:'art '+a+' articulo '+a+' '+s+' '+sec+' '+who})));
  AY_GLOS.forEach(([t,d])=>it.push({k:'glos',t,sub:d,ic:'doc',go:()=>spIrAyuda('Palabras clave'),txt:t+' '+t+' '+d}));
- afiliados.forEach(a=>it.push({k:'af',t:a.nom,sub:'DNI '+a.dni+' · '+(a.estado==='Informado a SBS'?'En espera':a.estado)+(a.eaf?' · '+EAF[a.eaf]:''),ic:'user',go:()=>verAfiliado(a.dni),txt:a.nom+' '+a.dni}));
+ afiliados.forEach(a=>it.push({k:'af',t:a.nom,sub:'DNI '+a.dni+' · SNP · '+(a.estado==='Informado a SBS'?'En espera':a.estado)+(a.eaf?' · '+EAF[a.eaf]:''),ic:'user',go:()=>verAfiliado(a.dni),txt:a.nom+' '+a.dni}));
+ (typeof SPP_EJ!=='undefined'?SPP_EJ:[]).forEach(a=>it.push({k:'af',t:a.nom,sub:'DNI '+a.dni+' · SPP · '+(a.eaf?EAF[a.eaf]:''),ic:'user',go:()=>{state.tq=a.dni;state.screen='reporteAf';render()},txt:a.nom+' '+a.dni}));
+ CESOS.forEach(c=>{if(it.some(x=>x.k==='af'&&x.txt.includes(c.dni)))return;it.push({k:'af',t:c.nom,sub:'DNI '+c.dni+' · '+c.reg+' · con cese',ic:'user',go:()=>verCese(c.dni),txt:c.nom+' '+c.dni+' cese'})});
  it.forEach(x=>{x.nt=spN(x.t+(x.k==='art'||x.k==='rn'?' '+x.sub:''));x.nx=spN(x.txt)});return it}
 const SP_FECHA=/\d{1,2}\/\d{1,2}|hasta el|plazo|cada (mes|ano)|enero|febrero|marzo|abril|mayo|junio|julio|agosto|setiembre|septiembre|octubre|noviembre|diciembre/;
 const spPregunta=q=>/\?|^\s*(¿|que |qué |como |cómo |cuando |cuándo |quien |quién |donde |dónde |cuanto |cuánto |cuál |cual |por que |por qué |se |hay |puedo |debe )/i.test(q);
-function spBuscar(q){const I=spIndice();const nq=spN(q).trim();if(!nq)return [];
+function spBuscar(q){const I=spIndice();const nq=spN(q).trim();if(!nq)return [];const dq=nq.replace(/\s/g,'');if(/^\d{4,8}$/.test(dq)){const R=I.filter(x=>x.k==='af'&&x.txt.includes(dq)).slice(0,8);if(!R.length)R.push({k:'af',t:'DNI '+dq,sub:dq.length===8?'No está en el padrón de cuentas · buscar en el reporte por afiliado':'Escribe los 8 dígitos del DNI',ic:'search',go:()=>{state.tq=dq;state.screen='reporteAf';render()}});return R}
  const tk=nq.split(/[^a-z0-9.ñ-]+/).filter(w=>w&&(w.length>1||/\d/.test(w))&&!SP_STOP.has(w));if(!tk.length)return [];
  const preg=spPregunta(q);const need=preg?Math.max(1,Math.ceil(tk.length*.5)):tk.length;
  const st=w=>/\d/.test(w)||w.length<4?w:w.slice(0,w.length<=5?3:w.length-2);const W=tk.map(w=>{const t=st(w);const df=I.filter(x=>x.nx.includes(t)).length;return {t,full:w,idf:Math.log(1+I.length/(1+df))}});
