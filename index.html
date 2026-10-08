@@ -2307,11 +2307,12 @@ const MAPA_N={
  eaf:{x:1090,y:110,t:'EAF',s:'administra el fondo',d:'Administra el fondo: abre la cuenta especial, recibe el pago de la ONP, lo acredita al afiliado e informa el estado de su cuenta. Son Profuturo, Prima, Integra y Habitat.'},
  afi:{x:1090,y:450,t:'Afiliado',s:'cuenta por consumo',d:'Titular del beneficio: recibe en su cuenta especial el 1 % de su consumo del ejercicio. El saldo es intangible y se considera para su pensión.'}};
 const MAPA_F=[
- {id:'stock',de:'onp',a:'sbs',g:'mes',cod:'ISN1',art:'73.6',art2:'1.ª transitoria',t:'Envío cero · stock inicial',d:'Todos los afiliados al SNP que cumplen las cuatro condiciones al 31/10/2026. Es el primer envío: con él se abren las primeras cuentas.',per:'Una sola vez · ISN12610 · 06/11/2026 · propuesta de la SBS',len:'294 caracteres',mod:'padron'},
+ {id:'stock',de:'onp',a:'sbs',g:'ini',cod:'ISN1',art:'73.6',art2:'1.ª transitoria',t:'Envío cero · stock inicial',d:'Todos los afiliados al SNP que cumplen las cuatro condiciones al 31/10/2026. Es el primer envío: con él se abren las primeras cuentas.',per:'Una sola vez · ISN12610 · 06/11/2026 · propuesta de la SBS',len:'294 caracteres',mod:'padron'},
+ {id:'osn0',de:'sbs',a:'onp',g:'ini',cod:'OSN1',art:'73.7',t:'Respuesta consolidada del stock',d:'Cuentas abiertas del stock y de noviembre de 2026, en un solo archivo.',per:'Una sola vez · OSN12611 · cierre de enero de 2027 · propuesta de la SBS',len:'19 caracteres',mod:'respuestas'},
+ {id:'isnt',de:'onp',a:'sbs',g:'ini',cod:'ISNT',art:'1.ª transitoria',t:'Stock transitorio · 2027 y 2028',d:'Afiliados sin cese al 31 de enero, con la fecha de apertura de su cuenta. Solo en 2027 y 2028.',per:'Hasta el 05/02/2027 y el 07/02/2028 · propuesta de la SBS',len:'136 caracteres',mod:'anuales'},
  {id:'isn1',de:'onp',a:'sbs',g:'mes',cod:'ISN1',art:'73.6',t:'Padrón mensual de afiliados',d:'Afiliados al SNP que cumplen las cuatro condiciones, para que la SBS les abra la cuenta.',per:'Mensual · desde ISN12611 · 5.º día hábil',len:'294 caracteres',mod:'padron'},
  {id:'apert',de:'sbs',a:'eaf',g:'mes',art:'73.1',t:'Apertura de la cuenta especial',d:'La SBS asigna la EAF y la cuenta queda abierta a nombre del afiliado.',per:'Mensual',mod:'afiliados'},
  {id:'osn1',de:'sbs',a:'onp',g:'mes',cod:'OSN1',art:'73.7',t:'Cuentas abiertas',d:'La SBS devuelve, por cada DNI, la EAF y la fecha de apertura de la cuenta.',per:'Mensual · cierre del 2.º mes',len:'19 caracteres',mod:'respuestas'},
- {id:'isnt',de:'onp',a:'sbs',g:'anio',cod:'ISNT',art:'1.ª transitoria',t:'Stock transitorio · 2027 y 2028',d:'Afiliados sin cese al 31 de enero, con la fecha de apertura de su cuenta. Solo en 2027 y 2028.',per:'Hasta el 05/02/2027 y el 07/02/2028 · propuesta de la SBS',len:'136 caracteres',mod:'anuales'},
  {id:'isn2',de:'onp',a:'sbs',g:'anio',cod:'ISN2',art:'76.1 e',t:'Ceses y cambios del año',d:'Ceses del beneficio (fallecimiento, pensión, 65 años) y cambios de nombres o DNI del año anterior.',per:'Anual · 15 de marzo',len:'154 caracteres',mod:'anuales'},
  {id:'reniec',de:'reniec',a:'sbs',g:'anio',art:'76.1 b',t:'Cambios de nombres y DNI',d:'El RENIEC entrega a la SBS los ciudadanos que cambiaron de nombres o de número de DNI, para que valide la relación antes de remitirla (76.1 b).',per:'Continuo',mod:''},
  {id:'sbs_sunat',de:'sbs',a:'sunat',g:'anio',art:'76.1',t:'Afiliados con cuenta',d:'La SBS informa a la SUNAT quiénes tienen cuenta y desde cuándo (artículo 76).',per:'Anual · hasta el 31 de marzo (76.2)',mod:''},
@@ -2344,6 +2345,7 @@ const MAPA_MU={
  stock:[['Cabecera','ONP|SBS|ISN1|202610|…'],['NUM_DOC','90000001'],['FEC_AFILIACION','vacía si se afilió antes de julio de 1999']],
  isn1:[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_NACIMIENTO','19750213 · 13/02/1975'],['FEC_AFILIACION','20010501 · 01/05/2001']],
  apert:[['DNI','90000001'],['EAF asignada','Profuturo'],['Apertura','06/11/2026']],
+ osn0:[['Cabecera','SBS|ONP|OSN1|202611|…'],['NUM_DOC','90000001'],['COD_EAF','PRO · Profuturo'],['FEC_APERTURA','20261206 · 06/12/2026']],
  osn1:[['NUM_DOC','90000001'],['COD_EAF','PRO · Profuturo'],['FEC_APERTURA','20261106 · 06/11/2026']],
  isn2:[['NUM_DOC','90000001'],['MOT_CESE','01 · fallecimiento'],['FEC_CESE','20261122 · 22/11/2026'],['NUEVO_DNI','(en blanco)']],
  isnt:[['NUM_DOC','90000001'],['APE_PATERNO','APELLIDO'],['PRI_NOMBRE','AFILIADO'],['FEC_APE','20261106 · 06/11/2026']],
@@ -2363,6 +2365,7 @@ const MAPA_ACC={
  stock:{de:'Remite el envío cero: el padrón completo de afiliados que cumplen las cuatro condiciones al 31/10/2026.',a:'Recibe el stock inicial y dispone la apertura de las primeras cuentas, desde diciembre de 2026.'},
  isn1:{de:'Arma el padrón del mes para la SBS: afiliados al SNP con DNI válido, sin fallecimiento, sin pensión ni beneficio y menores de 65 años.',a:'Recibe el padrón del mes y valida la estructura y el contenido de cada registro.'},
  apert:{de:'Asigna la EAF que corresponde y dispone la apertura de la cuenta especial.',a:'Abre la cuenta especial a nombre del afiliado y queda lista para recibir el aporte.'},
+ osn0:{de:'Devuelve en un solo archivo las cuentas abiertas del stock y de noviembre de 2026.',a:'Concilia la respuesta contra el envío cero y el padrón de noviembre, y registra las primeras cuentas.'},
  osn1:{de:'Informa a la ONP, por cada DNI, la EAF asignada y la fecha de apertura.',a:'Concilia la respuesta contra lo enviado y actualiza su padrón de cuentas.'},
  isn2:{de:'Informa los ceses del ejercicio y los cambios de datos de sus afiliados.',a:'Registra los ceses y actualiza los datos antes de remitir la relación a la SUNAT.'},
  isnt:{de:'Remite el stock de afiliados sin cese al 31 de enero, con la fecha de apertura de su cuenta.',a:'Recibe el stock al corte de enero y actualiza su relación de cuentas.'},
@@ -2377,10 +2380,11 @@ const MAPA_ACC={
  acred:{de:'Acredita el aporte en la cuenta especial e informa al afiliado el estado de su fondo.',a:'Ve el aporte del ejercicio acreditado en su cuenta especial.'},
  pend:{de:'Informa al MEF los montos que quedaron pendientes por prorrata.',a:'Considera los montos pendientes en el presupuesto del año siguiente.'}};
 const MAPA_CTX={
- mes:{onp:'Empieza con el envío cero, el stock al 31/10/2026. Luego, cada mes arma el padrón de quienes cumplen las cuatro condiciones, lo deposita para la SBS y luego concilia la respuesta contra lo enviado.',
+ ini:{onp:'Una sola vez: remite el envío cero con el stock al 31/10/2026 y, en 2027 y 2028, el stock transitorio al 31 de enero.',sbs:'Abre las primeras cuentas desde diciembre de 2026 y devuelve el stock y noviembre en una sola respuesta, al cierre de enero de 2027.'},
+ mes:{onp:'Cada mes arma el padrón de quienes cumplen las cuatro condiciones, lo deposita para la SBS y luego concilia la respuesta contra lo enviado.',
    sbs:'Cada mes recibe el padrón, dispone la apertura de la cuenta en la EAF y devuelve por cada DNI la EAF asignada y la fecha de apertura.',
    eaf:'Cada mes abre la cuenta especial de los afiliados que la SBS le asigna.'},
- anio:{onp:'En 2027 y 2028 remite primero el stock transitorio al 31 de enero. Cada año informa los ceses y cambios de datos hasta el 15 de marzo.',
+ anio:{onp:'Cada año informa los ceses y cambios de datos hasta el 15 de marzo.',
    sbs:'Consolida el año: solicita a la ONP la condición de los afiliados, valida el DNI con el RENIEC y remite a la SUNAT quiénes tienen cuenta, hasta el 31 de marzo (76.2).',
    reniec:'Entrega a la SBS los cambios de nombres y de número de DNI ocurridos en el año.',
    sunat:'Recibe de la SBS la relación de afiliados con cuenta, para cruzarla con las boletas del ejercicio.'},
@@ -2393,6 +2397,7 @@ const MAPA_CTX={
 const MAPA_TIP={
  stock:['Envío cero: todos los afiliados que cumplen las cuatro condiciones al 31/10/2026','OSN12611 · respuesta consolidada del stock y noviembre'],
  isn1:['Afiliados al SNP con DNI válido, sin fallecimiento, sin pensión ni beneficio y menores de 65 años','OSN1 · la EAF asignada y la fecha de apertura'],
+ osn0:['Cuentas abiertas del stock y de noviembre de 2026, en un solo archivo',''],
  osn1:['Por cada DNI, la EAF asignada y la fecha en que se abrió la cuenta',''],
  apert:['La SBS asigna la EAF y la cuenta queda abierta a nombre del afiliado',''],
  isn2:['Ceses del año —fallecimiento, pensión, 65 años— y cambios de datos',''],
@@ -2407,7 +2412,7 @@ const MAPA_TIP={
  pago:['El 1 % de cada persona y el detalle para que la EAF lo acredite',''],
  acred:['El aporte queda abonado en la cuenta especial del afiliado',''],
  pend:['Lo que quedó pendiente por prorrata, para el presupuesto siguiente','']};
-const MAPA_G=[['','Todo el proceso'],['mes','Cada mes'],['anio','Cada año'],['calc','Cálculo y pago'],['norma','Quién hace qué']];
+const MAPA_G=[['','Todo el proceso'],['ini','Al inicio'],['mes','Cada mes'],['anio','Cada año'],['calc','Cálculo y pago'],['norma','Quién hace qué']];
 // Deberes de cada entidad según el D.S. 189-2025-EF · [artículo, deber, plazo, módulo]
 const ROLES={
  onp:[['73.6','Remite a la SBS los afiliados SNP que no eligieron EAF','Periódico','padron'],
@@ -2454,7 +2459,7 @@ function mapaOff(list){const G={},O={};
     O[f.id]={o, e:n===1?o:sg*(7+i*(19/(n-1)))}})};
   if(!vue.length){const n=ida.length,st=alin?21:34;
    ida.forEach((f,i)=>{const o=(i-(n-1)/2)*st;O[f.id]={o, e:n<=2?o:(i-(n-1)/2)*8}})}
-  else if(alin){const all=ida.concat(vue),m=all.length;all.forEach((f,i)=>{const o=Math.round(-22+i*44/(m-1));O[f.id]={o,e:o}})}
+  else if(alin){const all=fs,m=all.length;all.forEach((f,i)=>{const o=Math.round(-24+i*48/(m-1));O[f.id]={o,e:o}})}
   else{banda(ida,-1);banda(vue,1)}});
  return O}
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -2553,7 +2558,7 @@ M.mapa=()=>{const g=state.mapaG===undefined?'mes':state.mapaG;const act=f=>!g||f
   <div class="mp-ch">${Object.keys(ROLES).map(k=>`<button class="ch ${k===ns?'on':''}" data-mn="${k}">${MAPA_N[k].t}</button>`).join('')}</div>
   <ol class="mp-steps nm">${ROLES[ns].map(r=>`<li><button ${r[3]?`data-go="${r[3]}"`:'class="ro"'}><span class="art" ${artTip(r[0])}>${r[0]}</span><span class="st2"><b>${r[1]}</b><span>${r[2]}</span></span></button></li>`).join('')}</ol></div>`:'';
  const idx=LST.findIndex(x=>x.id===sel);
- const pasos=`<div class="mp"><div class="mp-k">${g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'Todo el proceso'}</div><div class="mp-t">${g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div>
+ const pasos=`<div class="mp"><div class="mp-k">${g==='ini'?'Al inicio · una sola vez':g==='mes'?'Cada mes':g==='anio'?'Cada año':g==='calc'?'Cálculo y pago':'Todo el proceso'}</div><div class="mp-t">${g==='ini'?'Se abren las primeras cuentas':g==='mes'?'Se abre la cuenta de cada afiliado':g==='anio'?'Se mantienen los datos al día':g==='calc'?'De la base de consumo al abono en la EAF':'De la ONP a la cuenta del afiliado'}</div>
   <div class="mp-ctl"><button class="btn sm" id="mpPrev" ${idx>0?'':'disabled'}>${ic('chev')}</button><button class="btn sm p" id="mpPlay">${MAPA_T?ic('pause')+'Detener':ic('play')+'Recorrer'}</button><button class="btn sm" id="mpNext" ${idx<LST.length-1?'':'disabled'}>${ic('chev')}</button></div>
   <ol class="mp-steps">${LST.map((x,i)=>`<li class="${x.id===sel?'on':''}"><button data-mf2="${x.id}"><span class="sn">${i+1}</span><span class="st2"><b>${x.t}</b><span>${MAPA_N[x.de].t} → ${MAPA_N[x.a].t}</span></span></button></li>`).join('')}</ol></div>`;
  return `${ph('Mapa de interoperabilidad','',rules('13','27'),`<div class="seg">${MAPA_G.map(([k,t])=>`<button class="${g===k?'on':''}" data-mg="${k}">${t}</button>`).join('')}</div>`)}
