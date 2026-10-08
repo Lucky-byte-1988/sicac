@@ -912,7 +912,7 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .est-h{background:var(--c);color:#fff;padding:6px 10px;height:44px;display:flex;flex-direction:column;justify-content:center}
 .est-h b{font-size:12.5px}.est-h span{font-size:10.5px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .est-f{display:flex;justify-content:space-between;gap:8px;height:19px;align-items:center;padding:0 10px;font-size:11px}
-.est-f .mono{font-size:11px;color:var(--ink)}.est-f .est-v{font-family:inherit;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink-2);max-width:175px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.est-f .mono{font-size:11px;color:var(--ink)}.est-f .est-v{font-family:inherit;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink-2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.est-f .est-v2{max-width:96px;flex:none;text-align:right}.est-f .est-v2:first-of-type{margin-left:auto}
 .est-cal td{vertical-align:middle}.est-q{max-width:220px;white-space:normal;line-height:1.3;margin-top:1px}
 .est-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:6px}
 .est-trk{min-width:420px;width:44%}
@@ -2330,7 +2330,7 @@ M.cese=()=>{const f=state.cf||'';const L=CESOS.filter(c=>!f||c.mot===f);
 // Personas de ejemplo (datos ficticios): las mismas en todos los archivos, para seguir qué va y qué vuelve
 const EST_P=[
  {dni:'10457732',ap:'FLORES',am:'DIAZ',n1:'MARIA',n2:'',nac:'19620410',afi:'',gen:'F',dir:'PSJE. SAN MARTIN 77 TRUJILLO',tel:'',mail:'',eaf:'RIM',ape:'20261206'},
- {dni:'40125873',ap:'QUISPE',am:'MAMANI',n1:'ROSA',n2:'ELENA',nac:'19850314',afi:'20080601',gen:'F',dir:'AV. LOS INCAS 245 SAN JUAN DE LURIGANCHO',tel:'987654321',mail:'rosa.quispe@correo.pe',eaf:'PRO',ape:'20261206'},
+ {dni:'40125873',ap:'QUISPE',am:'MAMANI',n1:'ROSA',n2:'ELENA',nac:'19850314',afi:'20080601',gen:'F',dir:'AV. LOS INCAS 245 LIMA',tel:'987654321',mail:'rosa.quispe@correo.pe',eaf:'PRO',ape:'20261206'},
  {dni:'41987265',ap:'TORRES',am:'SALAZAR',n1:'JUAN',n2:'CARLOS',nac:'19790822',afi:'20020315',gen:'M',dir:'JR. AYACUCHO 1180 CERCADO DE LIMA',tel:'',mail:'',eaf:'INT',ape:'20261206'},
  {dni:'43560218',ap:'HUAMAN',am:'',n1:'PEDRO',n2:'',nac:'19921105',afi:'20261115',gen:'M',dir:'CALLE LAS PALMAS 32 AREQUIPA',tel:'956112233',mail:'',eaf:'HAB',ape:'20270105'}];
 // Ceses y cambios del ejemplo (ISN22712): fallecimiento, pensión y una corrección de fecha de nacimiento
@@ -2427,25 +2427,25 @@ function estDiag(){const W=280,G=180,SW=130,RH=19,HH=44,FT=26;const X=[0,W+G,W+G
   {k:'isn1',p:EST_P[3],E:by('ISN1'),t:'ISN1AAMM',s:'Padrón mensual de afiliados',c:'est-onp',x:X[0],tab:'ISN1',f:['5.º día hábil del mes siguiente','cada mes · desde ISN12611']},
   {k:'isnt',p:EST_P[1],E:by('ISNT'),t:'ISNTAAMM',s:'Stock transitorio al 31 de enero',c:'est-onp',x:X[0],tab:'ISNT',f:['05/02/2027 y 07/02/2028','dos envíos']},
   {k:'isn2',p:EST_P[2],E:by('ISN2'),t:'ISN2AAMM',s:'Ceses y cambios del año',c:'est-onp',x:X[0],tab:'ISN2',f:['hasta el 15 de marzo','cada año · desde 2028']},
-  {k:'osn1',p:EST_P[1],E:by('OSN1'),t:'OSN1AAMM',s:'Cuentas abiertas: EAF y fecha',c:'est-sbs',x:X[2],tab:'OSN1'},
-  {k:'cab',p:null,E:EST_CAB,t:'Cabecera',s:'Primera línea de cada archivo · con |',c:'ink-3',x:X[2],tab:'Resumen'}];
+  {k:'osn1',p:[EST_P[1],EST_P[3]],E:by('OSN1'),t:'OSN1AAMM',s:'Cuentas abiertas: EAF y fecha de apertura',c:'est-sbs',x:X[2],tab:'OSN1'}];
  const K=k=>B.find(b=>b.k===k);B.forEach(b=>b.h=hgt(b.E.campos.length));
  const T0=34;let y=T0;['stock','isn1','isnt','isn2'].forEach(k=>{K(k).y=y;y+=K(k).h+34});const H=y-34+10;
- K('osn1').y=Math.round(T0+(H-T0)/2-K('osn1').h/2-60);K('cab').y=K('osn1').y+K('osn1').h+70;
+ K('osn1').y=Math.round(T0+(H-T0)/2-K('osn1').h/2);
  const TW=X[2]+W,sx=W+G;const hy=b=>b.y+HH/2;
  const arrow=(x1,y1,x2,y2,l1,l2)=>`<path d="M${x1} ${y1}H${x2-2}" fill="none" stroke="var(--ink-3)" stroke-width="1.3" marker-end="url(#estAr)"/><text x="${(x1+x2)/2}" y="${y1-20}" text-anchor="middle" class="est-ld">${l1}</text><text x="${(x1+x2)/2}" y="${y1-7}" text-anchor="middle" class="est-lt">${l2}</text>`;
  const L=['stock','isn1','isnt','isn2'].map(k=>{const b=K(k);return arrow(W,hy(b),sx,hy(b),b.f[0],b.f[1])}).join('')
   +arrow(sx+SW,hy(K('osn1')),X[2],hy(K('osn1')),'cierre del 2.º mes siguiente','el primero: 31/01/2027')
   +`<text x="${W/2}" y="14" text-anchor="middle" class="est-col">La ONP envía</text><text x="${sx+SW/2}" y="14" text-anchor="middle" class="est-col">SBS</text><text x="${X[2]+W/2}" y="${K('osn1').y-14}" text-anchor="middle" class="est-col">La SBS devuelve</text>`;
  const sbs=`<div class="est-sbsn" style="left:${sx}px;top:${T0}px;width:${SW}px;height:${H-T0-10}px"><b>SBS</b><span>valida cada archivo y dispone la apertura de la cuenta en la EAF</span></div>`;
- const ver=state.estVer||'ej';const box=b=>{const tot=b.E.campos.reduce((a,c)=>a+(c[5]||0),0);const val=c=>{const v=String(c[7](b.p)).trim();const d=(EST_COD[c[1]]||{})[v];return v?estE(v)+(d?` <span class="faint">· ${d}</span>`:''):'<span class="faint">en blanco</span>'};
+ const ver=state.estVer||'ej';const box=b=>{const tot=b.E.campos.reduce((a,c)=>a+(c[5]||0),0);const ps=Array.isArray(b.p)?b.p:[b.p];const val=(c,p)=>{const v=String(c[7](p)).trim();const d=(EST_COD[c[1]]||{})[v];return v?estE(v)+(d?` <span class="faint">· ${d}</span>`:''):'<span class="faint">en blanco</span>'};
   return `<div class="est-b" data-esttab="${b.tab}" style="left:${b.x}px;top:${b.y}px;width:${W}px;--c:var(--${b.c})"><div class="est-h"><b class="mono">${b.t}</b><span>${b.s}</span></div>
-  ${b.E.campos.map(c=>`<div class="est-f" data-tip="${b.k==='cab'?c[3]:c[3].toUpperCase()+' · posición '+c[4]+' · '+c[6]}"><span class="mono">${c[1]}</span>${ver==='ej'?`<span class="mono est-v">${val(c)}</span>`:`<span>${b.k==='cab'?c[3]:c[3].toUpperCase()}</span>`}</div>`).join('')}
-  <div class="est-t">${b.k==='cab'?'separado por |':`<span>Total</span><b class="mono">${tot}</b>`}</div></div>`};
+  ${b.E.campos.map(c=>`<div class="est-f" data-tip="${b.k==='cab'?c[3]:c[3].toUpperCase()+' · posición '+c[4]+' · '+c[6]}"><span class="mono">${c[1]}</span>${ver==='ej'?ps.map(p=>`<span class="mono est-v${ps.length>1?' est-v2':''}">${val(c,p)}</span>`).join(''):`<span>${b.k==='cab'?c[3]:c[3].toUpperCase()}</span>`}</div>`).join('')}
+  <div class="est-t"><span>Total</span><b class="mono">${tot}</b></div></div>`};
  return `${ph('Estructura de archivos','',rules('04','07','14','15'),`<button class="btn" data-go="mapa">${ic('ext')}Ver en el mapa</button>`)}
  <div class="card"><div class="ch"><div><h3>Archivos de la propuesta de la SBS</h3><div class="sub">02/09/2026 · un registro por persona, ordenado por DNI · datos ficticios</div></div>
  <div class="est-lg"><span style="--c:var(--est-cero)">Envío cero</span><span style="--c:var(--est-onp)">ONP → SBS</span><span style="--c:var(--est-sbs)">SBS → ONP</span></div></div>
- <div class="est-vt"><div class="seg"><button class="${ver==='ej'?'on':''}" data-estver="ej">Datos de ejemplo</button><button class="${ver==='tam'?'on':''}" data-estver="tam">Tipo y tamaño</button></div></div><div class="est-sc"><div class="est-cv" style="width:${TW}px;height:${H}px"><svg width="${TW}" height="${H}" aria-hidden="true"><defs><marker id="estAr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--ink-3)"/></marker></defs>${L}</svg>${sbs}${B.map(box).join('')}</div></div><div class="sm muted" style="padding:0 18px 16px">Sigue a Rosa Quispe (40125873): sale en el envío cero, la SBS le abre la cuenta en PRO el 06/12/2026 y lo devuelve en el OSN12611; el ISNT2701 la repite con esa FEC_APE. Pedro Huamán se afilió en noviembre y va en el padrón mensual; Juan Torres pasó a pensión y se informa en el ISN2. Fechas: propuesta de la SBS.</div></div>`}
+ <div class="est-vt"><div class="seg"><button class="${ver==='ej'?'on':''}" data-estver="ej">Datos de ejemplo</button><button class="${ver==='tam'?'on':''}" data-estver="tam">Tipo y tamaño</button></div></div><div class="est-sc"><div class="est-cv" style="width:${TW}px;height:${H}px"><svg width="${TW}" height="${H}" aria-hidden="true"><defs><marker id="estAr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--ink-3)"/></marker></defs>${L}</svg>${sbs}${B.map(box).join('')}</div></div><div class="sm muted" style="padding:0 18px 16px">Sigue a Rosa Quispe (40125873): sale en el envío cero, la SBS le abre la cuenta en PRO el 06/12/2026 y lo devuelve en el OSN12611; el ISNT2701 la repite con esa FEC_APE. Pedro Huamán (43560218) se afilió en noviembre, sale en el padrón mensual y vuelve con su cuenta en HAB. Juan Torres pasó a pensión y se informa en el ISN2. Fechas: propuesta de la SBS.</div>
+ <div class="sm muted" style="padding:0 18px 16px"><b style="color:var(--ink-2)">Cabecera.</b> Todos los archivos, los que salen y los que vuelven, empiezan con una línea ORIGEN|DESTINO|TIPO_ARCHIVO|PERIODO|N.° de registros (9 dígitos), separada por |. Por ejemplo: <span class="mono">ONP|SBS|ISN1|202610|002746320</span> o <span class="mono">SBS|ONP|OSN1|202611|002764732</span>.</div></div>`}
 M.estructuras=()=>pestanas('estructuras',['Diagrama','Línea de tiempo','Resumen',...EST.map(E=>E.cod)],[estDiag,estCal,estRes,...EST.map(E=>()=>estArch(E))]);
 // ======================= Mapa de interoperabilidad (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
