@@ -898,6 +898,22 @@ thead th.sort.on{color:var(--ink);font-weight:600}
 .mp-steps.nm button.ro{cursor:default}
 .mp-steps.nm button.ro:hover{background:none}
 
+/* ---- Estructura de archivos: diagrama ---- */
+:root{--est-onp:#2563EB;--est-sbs:#12805C;--est-cero:#6D3FD9}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--est-onp:#3B74E8;--est-sbs:#1E8F62;--est-cero:#7A52E0}}
+:root[data-theme="dark"]{--est-onp:#3B74E8;--est-sbs:#1E8F62;--est-cero:#7A52E0}
+.est-sc{overflow-x:auto;padding:18px 18px 22px}
+.est-cv{position:relative;margin:0 auto}
+.est-cv svg{position:absolute;inset:0;overflow:visible}
+.est-lt{font-size:10.5px;fill:var(--ink-2)}
+.est-b{position:absolute;background:var(--surface);border:1.5px solid var(--c);border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:var(--sh1);transition:box-shadow .15s}
+.est-b:hover{box-shadow:var(--sh2)}
+.est-h{background:var(--c);color:#fff;padding:6px 10px;height:44px;display:flex;flex-direction:column;justify-content:center}
+.est-h b{font-size:12.5px}.est-h span{font-size:10.5px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.est-f{display:flex;justify-content:space-between;gap:8px;height:19px;align-items:center;padding:0 10px;font-size:11px}
+.est-f .mono{font-size:11px;color:var(--ink)}.est-f span:last-child{color:var(--ink-2);white-space:nowrap}.est-f i{font-style:normal}
+.est-t{display:flex;justify-content:space-between;align-items:center;height:26px;margin-top:6px;padding:0 10px;border-top:1px solid var(--border);font-size:11px;color:var(--ink-2)}
+.est-lg{display:flex;gap:14px;font-size:11px;color:var(--ink-2)}.est-lg span{display:inline-flex;align-items:center;gap:6px}.est-lg span:before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
 /* ---- Mapa de interoperabilidad ---- */
 .mgr rect{fill:var(--surface);stroke:var(--border-2);stroke-width:1}
 .mgr text{font:600 10.5px var(--font-sans);fill:var(--ink-3);text-anchor:middle}
@@ -2361,7 +2377,7 @@ const estHay=v=>v?estE(v):'<span class="faint">en blanco</span>';
 function estRes(){const T=r=>r[1]+r[2]+r[3]+r[4];
  return `${ph('Estructura de archivos','',rules('04','07','14','15'),`<button class="btn" data-go="mapa">${ic('ext')}Ver en el mapa</button>`)}
  <div class="card"><div class="ch"><div><h3>Qué va y qué vuelve</h3><div class="sub">propuesta de la SBS del 02/09/2026 · texto ANSI · ancho fijo · ordenado por DNI · primera línea de cabecera</div></div></div>
- <div class="tw"><table class="money dense"><thead><tr><th>Archivo</th><th>Contenido</th><th>Flujo</th><th>Cuándo</th><th>Caracteres</th><th>Respuesta</th><th></th></tr></thead><tbody>${EST.map(E=>`<tr class="clk" data-esttab="${E.cod}"><td class="mono"><b>${E.nom}</b></td><td style="white-space:normal">${E.t}</td><td class="nw">${E.de} → ${E.a}</td><td style="white-space:normal" class="muted">${E.cuando}</td><td class="mono">${E.len}</td><td>${E.resp?`<span class="mono">${E.resp}</span>`:E.de==='SBS'?'<span class="faint">es la respuesta</span>':'<span class="st warn" data-tip="La propuesta de la SBS no define un archivo de respuesta">Por confirmar</span>'}</td><td>${ic('chev')}</td></tr>`).join('')}
+ <div class="tw"><table class="money dense"><thead><tr><th>Archivo</th><th>Contenido</th><th>Flujo</th><th>Cuándo</th><th>Caracteres</th><th>Respuesta</th><th></th></tr></thead><tbody><tr class="clk" data-esttab="ISN1"><td class="mono"><b>ISN12610</b></td><td style="white-space:normal">Envío cero: stock de afiliados al 31/10/2026 · misma estructura que el ISN1</td><td class="nw">ONP → SBS</td><td style="white-space:normal" class="muted">Una sola vez · 06/11/2026</td><td class="mono">295</td><td><span class="mono">OSN12611</span></td><td>${ic('chev')}</td></tr>${EST.map(E=>`<tr class="clk" data-esttab="${E.cod}"><td class="mono"><b>${E.nom}</b></td><td style="white-space:normal">${E.t}</td><td class="nw">${E.de} → ${E.a}</td><td style="white-space:normal" class="muted">${E.cuando}</td><td class="mono">${E.len}</td><td>${E.resp?`<span class="mono">${E.resp}</span>`:E.de==='SBS'?'<span class="faint">es la respuesta</span>':'<span class="st warn" data-tip="La propuesta de la SBS no define un archivo de respuesta">Por confirmar</span>'}</td><td>${ic('chev')}</td></tr>`).join('')}
   <tr><td class="muted">Por definir</td><td style="white-space:normal" class="muted">Consulta de la EAF vigente antes del pago (78.3)</td><td class="nw muted">ONP ⇄ SBS</td><td class="muted">Anual · noviembre</td><td class="muted">—</td><td><span class="st warn" data-tip="No está en la propuesta de la SBS; la estructura se acuerda con la SBS">Por confirmar</span></td><td></td></tr></tbody></table></div></div>
  <div class="card" style="margin-top:14px"><div class="ch"><div><h3>Cuántos archivos por año</h3><div class="sub">fechas propuestas por la SBS</div></div></div>
  <div class="tw"><table class="money dense"><thead><tr><th>Año</th><th>ISN1 · ONP → SBS</th><th>OSN1 · SBS → ONP</th><th>ISNT · ONP → SBS</th><th>ISN2 · ONP → SBS</th><th>Total</th><th>Detalle</th></tr></thead><tbody>${EST_ANIO.map(r=>`<tr><td><b>${r[0]}</b></td>${[1,2,3,4].map(i=>`<td>${r[i]||'<span class="faint">—</span>'}</td>`).join('')}<td><b>${T(r)}</b></td><td class="muted" style="white-space:normal">${r[5]}</td></tr>`).join('')}</tbody></table></div></div>`}
@@ -2373,7 +2389,35 @@ function estArch(E){const F=E.filas();const tot=E.campos.reduce((a,c)=>a+c[5],0)
  <div class="tw"><table class="money dense"><thead><tr>${E.campos.map(c=>`<th class="mono">${c[1]}</th>`).join('')}</tr></thead><tbody>${F.map(p=>`<tr>${E.campos.map(c=>`<td class="mono nw">${estHay(c[7](p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
  <div class="cb"><div class="sm muted" style="margin-bottom:6px">Así queda el archivo: cabecera ORIGEN|DESTINO|TIPO_ARCHIVO|PERIODO|N.° de registros y una línea de ${E.len} caracteres por persona</div><div class="preview">${estE(estTxt(E).trimEnd())}</div>
  <ul class="sm muted" style="margin:10px 0 0;padding-left:18px">${E.notas.map(n=>`<li>${n}</li>`).join('')}</ul></div></div>`}
-M.estructuras=()=>pestanas('estructuras',['Resumen',...EST.map(E=>E.cod)],[estRes,...EST.map(E=>()=>estArch(E))]);
+// Diagrama de archivos: una caja por archivo con todos sus campos, como un modelo de datos
+const EST_CAB={cod:'CAB',campos:[[1,'ORIGEN','','ONP o SBS'],[2,'DESTINO','','SBS u ONP'],[3,'TIPO_ARCHIVO','','ISN1 · OSN1 · ISN2 · ISNT'],[4,'PERIODO','','AAAAMM'],[5,'NNNNNNNNN','','N.° de registros · 9 dígitos']]};
+function estDiag(){const W=280,G=130,RH=19,HH=44,FT=26;const X=[0,W+G,2*(W+G)];const hgt=n=>HH+n*RH+FT+6;
+ const by=c=>EST.find(E=>E.cod===c);
+ const B=[{k:'stock',E:by('ISN1'),t:'ISN12610',s:'Envío cero · stock al 31/10/2026 · una sola vez',c:'est-cero',x:X[0],y:0,tab:'ISN1'},
+  {k:'isn1',E:by('ISN1'),t:'ISN1AAMM',s:'Padrón mensual · ONP → SBS',c:'est-onp',x:X[0],y:0,tab:'ISN1'},
+  {k:'osn1',E:by('OSN1'),t:'OSN1AAMM',s:'Cuentas abiertas · SBS → ONP',c:'est-sbs',x:X[1],y:0,tab:'OSN1'},
+  {k:'cab',E:EST_CAB,t:'Cabecera',s:'Primera línea de cada archivo · con |',c:'ink-3',x:X[1],y:0,tab:'Resumen'},
+  {k:'isnt',E:by('ISNT'),t:'ISNTAAMM',s:'Stock transitorio · 2027 y 2028 · ONP → SBS',c:'est-onp',x:X[2],y:0,tab:'ISNT'},
+  {k:'isn2',E:by('ISN2'),t:'ISN2AAMM',s:'Ceses y cambios · anual · ONP → SBS',c:'est-onp',x:X[2],y:0,tab:'ISN2'}];
+ const K=k=>B.find(b=>b.k===k);B.forEach(b=>b.h=hgt(b.E.campos.length));
+ K('isn1').y=K('stock').h+70;K('osn1').y=Math.round((K('stock').h+K('isn1').y)/2)-40;K('cab').y=K('osn1').y+K('osn1').h+90;K('isn2').y=K('isnt').h+90;
+ const H=Math.max(...B.map(b=>b.y+b.h))+10,TW=X[2]+W;
+ const fy=(b,f)=>b.y+HH+(b.E.campos.findIndex(c=>c[1]===f)+.5)*RH;
+ const L=[['stock','osn1',fy(K('stock'),'NUM_DOC'),fy(K('osn1'),'NUM_DOC'),'NUM_DOC',0],
+  ['isn1','osn1',fy(K('isn1'),'NUM_DOC'),fy(K('osn1'),'NUM_DOC'),'NUM_DOC',0],
+  ['osn1','isnt',fy(K('osn1'),'FEC_APE'),fy(K('isnt'),'FEC_APE'),'FEC_APE',18],
+  ['osn1','isn2',fy(K('osn1'),'NUM_DOC'),fy(K('isn2'),'NUM_DOC'),'NUM_DOC',-18]];
+ const path=([a,b,y1,y2,t,o])=>{const A=K(a),Bb=K(b);const x1=A.x+W,x2=Bb.x;const mx=x1+G/2+o;
+  return `<path d="M${x1} ${y1}H${mx}V${y2}H${x2-2}" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#estAr)"/><text x="${x1+8}" y="${y1-5}" class="est-lt">${t}</text>`};
+ const box=b=>{const tot=b.E.campos.reduce((a,c)=>a+(c[5]||0),0);
+  return `<div class="est-b" data-esttab="${b.tab}" style="left:${b.x}px;top:${b.y}px;width:${W}px;--c:var(--${b.c})"><div class="est-h"><b class="mono">${b.t}</b><span>${b.s}</span></div>
+  ${b.E.campos.map(c=>`<div class="est-f"><span class="mono">${c[1]}</span><span>${b.k==='cab'?c[3]:c[3].toUpperCase()}</span></div>`).join('')}
+  <div class="est-t">${b.k==='cab'?'separado por |':`<span>Total</span><b class="mono">${tot}</b>`}</div></div>`};
+ return `${ph('Estructura de archivos','',rules('04','07','14','15'),`<button class="btn" data-go="mapa">${ic('ext')}Ver en el mapa</button>`)}
+ <div class="card"><div class="ch"><div><h3>Archivos de la propuesta de la SBS</h3><div class="sub">02/09/2026 · campos y tamaño de cada archivo · un registro por persona, ordenado por DNI</div></div>
+ <div class="est-lg"><span style="--c:var(--est-cero)">Envío cero</span><span style="--c:var(--est-onp)">ONP → SBS</span><span style="--c:var(--est-sbs)">SBS → ONP</span></div></div>
+ <div class="est-sc"><div class="est-cv" style="width:${TW}px;height:${H}px"><svg width="${TW}" height="${H}" aria-hidden="true"><defs><marker id="estAr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--ink-3)"/></marker></defs>${L.map(path).join('')}</svg>${B.map(box).join('')}</div></div><div class="sm muted" style="padding:0 18px 16px">La SBS responde cada ISN1 con un OSN1 del mismo periodo, con la misma cantidad de registros; el envío cero (ISN12610) se responde junto con noviembre en el OSN12611. El ISNT lleva la FEC_APE que devolvió la SBS.</div></div>`}
+M.estructuras=()=>pestanas('estructuras',['Diagrama','Resumen',...EST.map(E=>E.cod)],[estDiag,estRes,...EST.map(E=>()=>estArch(E))]);
 // ======================= Mapa de interoperabilidad (Ayuda) =======================
 // Quién intercambia qué con quién. Los nodos son las entidades; los trazos, los archivos.
 const MAPA_N={
